@@ -1,0 +1,3 @@
+,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
+emobase > word_list > Jon > RODE__Canon,0.0,0.0,0.0,1,1,1
+emobase > word_list > Jon > Sony,1947.0,1.996923076923077,2.0,2,2,2
