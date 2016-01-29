@@ -25,7 +25,12 @@
     POSSIBILITY OF SUCH DAMAGE.
 """
 import numpy as np
-
+"""
+Here (`http://www.mathworks.com/matlabcentral/fileexchange/32111-fftnoise-
+generate-noise-with-a-specified-power-spectrum')you find matlab code from Aslak
+Grinsted, creating noise with a specified power spectrum. It can easily be
+ported to python:
+"""
 def fftnoise(f):
     f = np.array(f, dtype='complex')
     Np = (len(f) - 1) // 2
@@ -34,10 +39,20 @@ def fftnoise(f):
     f[1:Np+1] *= phases
     f[-1:-1-Np:-1] = np.conj(f[1:Np+1])
     return np.fft.ifft(f).real
-
+"""
+You can use it for your case like this:
+"""
 def band_limited_noise(min_freq, max_freq, samples=1024, samplerate=1):
     freqs = np.abs(np.fft.fftfreq(samples, 1/samplerate))
     f = np.zeros(samples)
     idx = np.where(np.logical_and(freqs>=min_freq, freqs<=max_freq))[0]
     f[idx] = 1
     return fftnoise(f)
+"""
+Seems to work as far as I see. For listening to your freshly created noise:
+"""
+from scipy.io import wavfile
+
+x = band_limited_noise(200, 2000, 44100, 44100)
+x = np.int16(x * (2**15 - 1))
+wavfile.write("test.wav", 44100, x)
