@@ -1,7 +1,7 @@
 #!/bin/bash
 #=============================================================================
 # This script provides directions for installing mhealthx and dependencies
-# (http://sage-bionetworks.github.io/mhealthx/).
+# (http://binarybottle.github.io/mhealthx/).
 # Running it requires a good Internet connection.
 # Tested on an Ubuntu 14.04 machine.
 #
@@ -14,12 +14,12 @@
 #
 # Note:
 #     Third-party software not in the GitHub repository are on Synapse:
-#     https://www.synapse.org/#!Synapse:syn5584792
+#     https://www.synapse.org/Synapse:syn5584792
 #
 # Authors:
-#     - Arno Klein, 2015-2016  (arno@sagebase.org)  http://binarybottle.com
+#     - Arno Klein, 2015-2016  (arno@childmind.org)  http://binarybottle.com
 #
-# Copyright 2016,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
+# Copyright 2016,  Child Mind Institute (childmind.org), Apache v2.0 License
 #=============================================================================
 
 #-----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ $CONDA/pip install scikit-learn
 #-----------------------------------------------------------------------------
 if [ "$MHEALTHX" -eq "1" ]; then
     cd $INSTALLS
-    git clone git@github.com:sage-bionetworks/mhealthx.git
+    git clone git@github.com:binarybottle/mhealthx.git
     cd $INSTALLS/mhealthx
     sudo python setup.py install
     export PATH=$INSTALLS/mhealthx/mhealthx:$PATH

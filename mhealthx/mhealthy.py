@@ -24,9 +24,9 @@ For help in using mhealthy ::
         $ mhealthy --help
 
 Authors:
-    - Arno Klein, 2016  (arno@sagebase.org)  http://binarybottle.com
+    - Arno Klein, 2016  (arno@childmind.org)  http://binarybottle.com
 
-Copyright 2016,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
+Copyright 2016, Child Mind Institute (childmind.org), Apache v2.0 License
 
 """
 

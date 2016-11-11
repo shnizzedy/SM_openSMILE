@@ -1,5 +1,5 @@
 ==============================================================================
-README for Sage Bionetwork's mhealthx feature extraction software pipeline
+README for the mhealthx feature extraction software pipeline
 ==============================================================================
 | 1. `Introduction`_
 | 2. `Inputs`_
@@ -10,10 +10,10 @@ README for Sage Bionetwork's mhealthx feature extraction software pipeline
 _`Introduction`
 ------------------------------------------------------------------------------
 This open source software pipeline automates feature extraction 
-from mobile health data saved as a Synapse project (synapse.org).
+from mobile health data (optionally saved as a synapse.org project).
 
   - For help in a terminal window:  mhealthx -h
-  - `GitHub repository <https://github.com/Sage-Bionetworks/mhealthx>`_
+  - `GitHub repository <https://github.com/binarybottle/mhealthx>`_
   - `Apache v2.0 license <http://www.apache.org/licenses/LICENSE-2.0>`_
 
 ------------------------------------------------------------------------------

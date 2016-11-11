@@ -3,9 +3,9 @@
 Utility and I/O functions to read and write data files or Synapse tables.
 
 Authors:
-    - Arno Klein, 2015  (arno@sagebase.org)  http://binarybottle.com
+    - Arno Klein, 2015-2016  (arno@childmind.org)  http://binarybottle.com
 
-Copyright 2015,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
+Copyright 2015-2016, Child Mind Institute (childmind.org), Apache v2.0 License
 
 """
 

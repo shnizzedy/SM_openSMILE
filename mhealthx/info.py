@@ -62,7 +62,7 @@ mHealthX is licensed under the terms of the Apache v2.0 license.
 # Main setup parameters
 NAME                = 'mHealthX'
 MAINTAINER          = "Arno Klein"
-MAINTAINER_EMAIL    = "arno@sagebase.org"
+MAINTAINER_EMAIL    = "arno@childmind.org"
 DESCRIPTION         = description
 LONG_DESCRIPTION    = long_description
 URL                 = "http://github.com/binarybottle/mhealthx"
@@ -70,7 +70,7 @@ DOWNLOAD_URL        = "http://github.com/binarybottle/mhealthx"
 LICENSE             = "Apache v2.0"
 CLASSIFIERS         = CLASSIFIERS
 AUTHOR              = "Arno Klein"
-AUTHOR_EMAIL        = "arno@sagebase.org"
+AUTHOR_EMAIL        = "arno@childmind.org"
 PLATFORMS           = "OS Independent"
 MAJOR               = version_major
 MINOR               = version_minor
