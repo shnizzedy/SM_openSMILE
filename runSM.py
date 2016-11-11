@@ -63,7 +63,7 @@ def runSM():
 					# include only files with waveform extension
 					if wav.endswith('.wav'):
 						# run openSMILE and send results to all_audio_files/[URSI]/[config]
-						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'../SMILExtract',
+						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'.././SMILExtract',
 										   '-I','-C','-O',
 										   ''.join(['../config/',config_file.strip('.conf')]),'',row,
 										   '',True)
