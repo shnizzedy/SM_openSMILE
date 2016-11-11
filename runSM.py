@@ -64,7 +64,7 @@ def runSM():
 					if wav.endswith('.wav'):
 						participant_home_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.join(proot,wav))))
 						if not isdir(os.path.join(participant_home_dir,config_file)):
-							os.mkdir(os.path.join(participant_home_dir,config_file))
+							os.mkdir(os.path.join(participant_home_dir,config_file),'0755')
 						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'../SMILExtract',
 										   '-I','-C','-O',
 										   ''.join(['../config/',config_file]),'',row,
