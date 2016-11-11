@@ -71,7 +71,7 @@ def runSM():
 						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'~/opensmile-2.3.0/inst/bin/SMILExtract',
 										   '-I','-C','-O',
 										   ''.join(['config/',config_file]),'',row,
-										   'os.path.join(participant_home_dir,config_file.strip('.conf'))',True)
+										   'os.path.join(participant_home_dir,config_file.strip(".conf"))',True)
 	return row, table_path
 
 # ============================================================================
