@@ -3,22 +3,11 @@
 """
 Batch process SM dataset with user-entered openSMILE configuration file.
 
-Author:
+Authors:
 	– Jon Clucas, 2016 (jon.clucas@childmind.org)
+	- Arno Klein, 2015 - 2016 
 	
-© 2016 Child Mind Institute
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+© 2016, Child Mind Institute, Apache v2.0 License
 
 This script uses functions from mhealthx
 ( http://sage-bionetworks.github.io/mhealthx/ ).
@@ -40,27 +29,48 @@ This script gets a configuration filename from the user, then
 iteratively applies that configuration to
 all wav files in "./all_audio_files/*".
 """
-def main():
+def runSM(config_file):
+	"""
+	Function to run the same openSMILE configuration file on a batch of waveform files.
+	
+	This script needs to be housed one level below the openSMILE home directory.
+	Waveforms are expected to be under openSMILE home directory in all_audio_files/[URSI]/recorded_audio_files .
+	
+	Parameters
+	----------
+	config_file : string
+	    filename only of openSMILE configuration file
+	    in config folder under openSMILE home directory
+	    
+	Returns
+	-------
+	feature_row : pandas Series
+	     row combining the original row with a row of openSMILE feature values
+        feature_table : string
+             output table file (full path)
+	"""
 	# get config filename from user.
 	config_file = raw_input('config file filename: ')
 	# get subdirectories of "./all_audio_files/*".
-	for root, dirs, files in os.walk('all_audio_files'):
+	for root, dirs, files in os.walk('../all_audio_files'):
+		# get each participant.
 		for participant in dirs:
-			# get each participant.
-			if participant.startswith('M004'):
-				# declare row to pass to
-				# ex.run_openSMILE(audio_file, command, flag1, flags, flagn,
-				#				   args, closing, row, table_stem, save_rows)
-				row = None
-				for proot, pdirs, pfiles in os.walk(os.path.join(root,participant)):
-					# get each audio file
-					for wav in pfiles:
-						# include only files with waveform extension
-						if wav.endswith('.wav'):
-							row, table_path = ex.run_openSMILE(os.path.join(proot),'SMILExtract',
-										   '-I','-C','-O',''.join(['config/',config_file]),
-										   '',row,''.join(['./',participant]),True)
+			# declare row to pass to
+			# ex.run_openSMILE(audio_file, command, flag1, flags, flagn,
+			#		   args, closing, row, table_stem, save_rows)
+			row = None
+			for proot, pdirs, pfiles in os.walk(os.path.join(root,participant)):
+				# get each audio file
+				for wav in pfiles:
+					# include only files with waveform extension
+					if wav.endswith('.wav'):
+						print wav
+						row, table_path = ex.run_openSMILE(os.path.join(proot),'SMILExtract',
+										   '-I','-C','-O',
+										   ''.join(['../config/',config_file]),
+										   '',row,'',True)
+	return row, table_path
 
-
+# ============================================================================
 if __name__ == '__main__':
-	main()
+	runSM(config_file)
