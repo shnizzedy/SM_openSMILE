@@ -50,7 +50,7 @@ def runSM():
 	# get config filename from user.
 	config_file = raw_input('config file filename: ')
 	# get subdirectories of "./all_audio_files/*".
-	for root, dirs, files in os.walk('../all_audio_files'):
+	for root, dirs, files in os.walk('all_audio_files'):
 		# get each participant.
 		for participant in dirs:
 			# declare row to pass to
@@ -63,9 +63,9 @@ def runSM():
 					# include only files with waveform extension
 					if wav.endswith('.wav'):
 						# run openSMILE and send results to all_audio_files/[URSI]/[config]
-						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'../inst/bin/SMILExtract',
+						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'SMILExtract',
 										   '-I','-C','-O',
-										   ''.join(['../config/',config_file]),'',row,
+										   ''.join(['config/',config_file]),'',row,
 										   '',True)
 	return row, table_path
 
