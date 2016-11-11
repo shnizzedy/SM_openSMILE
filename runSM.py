@@ -51,13 +51,13 @@ def main():
 				# declare row to pass to
 				# ex.run_openSMILE(audio_file, command, flag1, flags, flagn,
 				#				   args, closing, row, table_stem, save_rows)
-				## DEBUG row = None
+				row = None
 				for proot, pdirs, pfiles in os.walk(os.path.join(root,participant)):
 					# get each audio file
 					for wav in pfiles:
 						# include only files with waveform extension
 						if wav.endswith('.wav'):
-						## DEBUG	row, table_path = ex.run_openSMILE(os.path.join(proot),'SMILEextract','-I','-C','-O',''.join(['config/',config_file]),'',row,''.join(['./',participant]),True)
+						row, table_path = ex.run_openSMILE(os.path.join(proot),'SMILExtract','-I','-C','-O',''.join(['config/',config_file]),'',row,''.join(['./',participant]),True)
 
 
 if __name__ == '__main__':
