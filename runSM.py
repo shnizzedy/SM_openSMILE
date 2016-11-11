@@ -62,11 +62,16 @@ def runSM():
 				for wav in pfiles:
 					# include only files with waveform extension
 					if wav.endswith('.wav'):
+						# check if all_audio_files/[URSI]/[config] exists for participant;
+ 						# if not, create that folder.
+ 						participant_home_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.join(proot,wav))))
+ 						if not os.path.exists(os.path.join(participant_home_dir,config_file.strip('.conf'))):
+ 							os.mkdir(os.path.join(participant_home_dir,config_file.strip('.conf')),0755)
 						# run openSMILE and send results to all_audio_files/[URSI]/[config]
-						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'./SMILExtract',
+						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'~/opensmile-2.3.0/inst/bin/SMILExtract',
 										   '-I','-C','-O',
 										   ''.join(['config/',config_file]),'',row,
-										   '',True)
+										   'os.path.join(participant_home_dir,config_file.strip('.conf'))',True)
 	return row, table_path
 
 # ============================================================================
