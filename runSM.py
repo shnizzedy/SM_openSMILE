@@ -62,8 +62,7 @@ def runSM():
 				for wav in pfiles:
 					# include only files with waveform extension
 					if wav.endswith('.wav'):
-						print wav
-						row, table_path = ex.run_openSMILE(os.path.join(proot),'SMILExtract',
+						row, table_path = ex.run_openSMILE(os.path.join(proot,wav),'SMILExtract',
 										   '-I','-C','-O',
 										   ''.join(['../config/',config_file]),
 										   '',row,'',True)
