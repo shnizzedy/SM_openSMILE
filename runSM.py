@@ -29,7 +29,7 @@ This script gets a configuration filename from the user, then
 iteratively applies that configuration to
 all wav files in "./all_audio_files/*".
 """
-def runSM(config_file):
+def runSM():
 	"""
 	Function to run the same openSMILE configuration file on a batch of waveform files.
 	
@@ -38,9 +38,7 @@ def runSM(config_file):
 	
 	Parameters
 	----------
-	config_file : string
-	    filename only of openSMILE configuration file
-	    in config folder under openSMILE home directory
+	None.
 	    
 	Returns
 	-------
@@ -73,4 +71,4 @@ def runSM(config_file):
 
 # ============================================================================
 if __name__ == '__main__':
-	runSM(config_file)
+	runSM()
