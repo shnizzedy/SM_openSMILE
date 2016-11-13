@@ -15,7 +15,7 @@ machine:
     environment:
         HOME: /home/ubuntu
         CONDA_ROOT: ${HOME}/miniconda
-        ENV_NAME: mindboggle-env
+        ENV_NAME: mhealthx-env
         ENV_PREFIX: ${CONDA_ROOT}/envs/${ENV_NAME}
         python: ${ENV_PREFIX}/bin/python
         PATH: ${ENV_PREFIX}/bin:${CONDA_ROOT}/bin:${PATH}
@@ -48,7 +48,7 @@ dependencies:
         # Create a Python environment (see environment.yml file):
         #-------------------------------------------------------------------------
         - conda env create
-        - source activate mindboggle-env
+        - source activate mhealthx-env
         - conda info --envs
         #-------------------------------------------------------------------------
         # Install mhealthx:
@@ -61,6 +61,6 @@ dependencies:
 test:
     override:
        - $python -m "nose" --with-doctest ${MX}/extractors/
-       - $python -m "nose" --with-doctest ${MX}/xtras/
+       #- $python -m "nose" --with-doctest ${MX}/xtras/
        #- $python -m "nose" --with-doctest --with-coverage ${MX}/evaluate/
        #- coveralls
