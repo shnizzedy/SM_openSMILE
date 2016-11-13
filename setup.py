@@ -50,7 +50,7 @@ def main(**extra_args):
           author_email=AUTHOR_EMAIL,
           platforms=PLATFORMS,
           version=VERSION,
-          requires=REQUIRES,
+          #requires=REQUIRES,
           provides=PROVIDES,
           packages = ['mhealthx',
                       'mhealthx.extractors'],
