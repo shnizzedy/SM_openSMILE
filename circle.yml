@@ -60,7 +60,7 @@ dependencies:
 #-----------------------------------------------------------------------------
 test:
     override:
-        - $python -m "nose" --with-doctest ${MX}/
-       #- $python -m "nose" --with-doctest ${MX}/thirdparty/
+       - $python -m "nose" --with-doctest ${MX}/extractors/
+       - $python -m "nose" --with-doctest ${MX}/xtras/
        #- $python -m "nose" --with-doctest --with-coverage ${MX}/evaluate/
        #- coveralls
