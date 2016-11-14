@@ -65,12 +65,12 @@ def runSM():
 						# check if all_audio_files/[URSI]/[config] exists for participant;
  						# if not, create that folder.
  						participant_home_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.join(proot,wav))))
- 						if not os.path.exists(os.path.join(participant_home_dir,config_file.strip('.conf'))):
- 							os.mkdir(os.path.join(participant_home_dir,config_file.strip('.conf')),0755)
-						out_dir = os.path.join(participant_home_dir,config_file.strip(".conf"))
+						out_dir = os.path.join(participant_home_dir,'openSMILE_outputs',config_file.strip('.conf'))
+ 						if not os.path.exists(out_dir):
+ 							os.makedirs(out_dir,0755)
 						# run openSMILE and send results to all_audio_files/[URSI]/[config]
-						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'~/opensmile-2.3.0/inst/bin/SMILExtract',
-										   '-I','-C','-O',
+						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
+										   '-I','-C','-csvoutput',
 										   ''.join(['config/',config_file]),'',row,
 										   out_dir,True)
 	return row, table_path
