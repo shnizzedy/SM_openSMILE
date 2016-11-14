@@ -9,14 +9,8 @@ extraction from sensor data.
 and touchscreen tapping features from mobile health research apps such as
 `mPower <http://parkinsonmpower.org>`_, the Parkinson disease symptom tracking
 app built on top of Apple's ResearchKit.
-Behind the scenes, open source Python 3 and other code run within a modular
+Behind the scenes, open source Python 3 and other languages run within a modular
 Nipype pipeline framework on Linux (tested with Python 3.5 on Ubuntu 14.04).
-
-Example functions include:
-
-    - `Gait: <http://binarybottle.github.io/mhealthx/api/generated/mhealthx.extractors.pyGait.html>`_ feature extraction from accelerometer data
-    - `Tapping: <http://binarybottle.github.io/mhealthx/api/generated/mhealthx.extractors.tapping.html>`_ feature extraction from touchscreen data
-    - `Main function: <http://binarybottle.github.io/mhealthx/api/generated/mhealthx.extract.html>`_ calls all the feature extraction methods
 
 :Release: |version|
 :Date: |today|
@@ -33,6 +27,8 @@ Links:
 
 * :ref:`modindex`
 * :ref:`genindex`
+
+- In progress: `data-driven information visualizations <http://binarybottle.github.io/mhealthx/reports/index.html>`_
 
 ..
     1. Inputs
@@ -59,6 +55,4 @@ _`Outputs`
 ------------------------------------------------------------------------------
   - Tables
 
-In progress:
-`data-driven information visualizations <http://binarybottle.github.io/mhealthx/reports/index.html>`_
 
