@@ -61,7 +61,6 @@ dependencies:
 test:
     override:
        - $python -m "nose" --with-doctest ${MX}/extractors/
-       - $python -m "noes" --with-doctest ${MX}/extract.py
        #- $python -m "nose" --with-doctest ${MX}/xtras/
        #- $python -m "nose" --with-doctest --with-coverage ${MX}/evaluate/
        #- coveralls
