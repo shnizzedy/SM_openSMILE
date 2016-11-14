@@ -23,7 +23,9 @@ Links:
     FAQ <faq.rst>
     license
 
-- `GitHub <http://github.com/binarybottle/mhealthx>`_
+- `GitHub <https://github.com/binarybottle/mhealthx>`_
+
+- `CircleCI <https://circleci.com/gh/binarybottle/mhealthx/>`_
 
 * :ref:`modindex`
 * :ref:`genindex`
