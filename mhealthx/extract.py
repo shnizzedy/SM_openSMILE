@@ -130,6 +130,23 @@ def run_openSMILE(audio_file, command, flag1, flags, flagn, args, closing,
     >>> closing = '-nologfile 1'
     >>> save_rows = True
     >>>
+    >>> # Example: openSMILE sample waveform
+    >>>
+    >>>
+    >>> audio_file = '../sample-data/input.wav'
+    >>> command = 'SMILExtract'
+    >>> flag1 = '-I'
+    >>> flags = '-C'
+    >>> flagn = '-csvoutput'
+    >>> args = os.path.join('/software', 'openSMILE-2.1.0', 'config',
+    >>>                     'IS13_ComParE.conf')
+    >>> closing = '-nologfile 1'
+    >>> row = ''
+    >>> table_stem = ''
+    >>> save_rows = True
+    >>> feature_row, feature_table = run_openSMILE(audio_file, command, flag1, flags, flagn, args, closing,
+    >>>               row, table_stem, save_rows)
+    >>>
     >>> # Example: phonation data
     >>>
     >>> from mhealthx.xio import get_convert_audio
