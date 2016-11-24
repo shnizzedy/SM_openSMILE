@@ -5,15 +5,15 @@
 import os, subprocess
 
 def google_speech(in_file):
-    url = ("https://www.google.com/speech-api/v1/recognize?"
-          "xjerr=1&client=chromium&lang=en-US")
+    url = ("https://www.google.com/speech-api/v2/recognize?output=json&"
+           "lang=en-US&key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw")
     out_base = os.path.basename(in_file.strip('.flac').strip('.FLAC'))
     out_file = os.path.join(os.path.dirname(in_file), ''.join([out_base,
                '.txt']))
     out_i = 0
     while os.path.exists(out_file):
         out_file = os.path.join(os.path.dirname(in_file), ''.join([out_base,
-                   '_', str(out_i), '.txt']))
+                   '_', str(out_i), '.json']))
         out_i = out_i + 1
     if not os.path.exists(os.path.dirname(out_file)):
         os.makedirs(out_file)
