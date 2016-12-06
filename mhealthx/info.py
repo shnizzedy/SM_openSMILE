@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 """
-This file contains parameters for mHealthX to fill settings in setup.py,
-the mHealthX top-level docstring, and for building any docs.
-In setup.py we execute this file, so it cannot import mHealthX.
+This file contains parameters for mhealthx to fill settings in setup.py,
+the mhealthx top-level docstring, and for building any docs.
+In setup.py we execute this file, so it cannot import mhealthx.
 """
 
-# Mindboggle version information.  An empty version_extra corresponds to a
+# mhealthx version information.  An empty version_extra corresponds to a
 # full release.  '.dev' as a version_extra string means a development version
 version_major = 1
 version_minor = 0
@@ -33,10 +33,10 @@ description  = "feature extraction of mHealth data"
 # it only in one place and sync it correctly.
 long_description = """
 ========
-mHealthX
+mhealthx
 ========
 
-mHealthX is a package for automated feature extraction of mobile health app data.
+mhealthx is a package for automated feature extraction of mobile health app data.
 
 Code
 ====
@@ -52,7 +52,7 @@ You can find our sources and single-click downloads:
 License
 =======
 
-mHealthX is licensed under the terms of the Apache v2.0 license.
+mhealthx is licensed under the terms of the Apache v2.0 license.
 
 """
 
@@ -60,7 +60,7 @@ mHealthX is licensed under the terms of the Apache v2.0 license.
 #NUMPY_MIN_VERSION='1.2'
 
 # Main setup parameters
-NAME                = 'mHealthX'
+NAME                = 'mhealthx'
 MAINTAINER          = "Arno Klein"
 MAINTAINER_EMAIL    = "arno@childmind.org"
 DESCRIPTION         = description

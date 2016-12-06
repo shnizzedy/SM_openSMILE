@@ -14,6 +14,8 @@ Rewritten in Python by Arno Klein, November 2015
 Authors:
     - Soheil Bahrampour, August 2012
     - Arno Klein, 2015  (arno@sagebase.org)  http://binarybottle.com
+
+Copyright 2015,  Sage Bionetworks (http://sagebase.org) Apache v2.0 License
 """
 
 

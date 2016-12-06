@@ -26,6 +26,7 @@ For help in using mhealthy ::
 Authors:
     - Arno Klein, 2016  (arno@childmind.org)  http://binarybottle.com
 
+Copyright 2016, Sage Bionetworks (sagebase.org), with later modifications:
 Copyright 2016, Child Mind Institute (childmind.org), Apache v2.0 License
 
 """

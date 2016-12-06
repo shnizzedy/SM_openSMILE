@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-mhealthx is a Python package for automated feature extraction 
+mhealthx is a Python package for automated feature extraction
 of mobile health app research data.
 """
 

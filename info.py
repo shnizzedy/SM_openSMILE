@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
-This file contains parameters for Mindboggle to fill settings in setup.py,
-the Mindboggle top-level docstring, and for building the docs.
+This file contains parameters for mhealthx to fill settings in setup.py,
+the mhealthx top-level docstring, and for building the docs.
 In setup.py we execute this file, so it cannot import mindboggle.
 """
 
