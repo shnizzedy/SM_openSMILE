@@ -20,3 +20,6 @@ functions to compare openSMILE outputs for various noise replacement methods
 
 ## iterate_through()
 function to iterate through openSMILE configuration files and noise conditions
+
+## mean_absolute_deviation_rank(dataframe)
+function to calculate the number of full mean average deviations each value is across each config_file+condition.
