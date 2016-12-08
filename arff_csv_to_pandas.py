@@ -21,9 +21,38 @@ import arff, os, pandas as pd
 def main():
     pass
 
+def arff_to_pandas(arff_data,method,config_file,condition):
+    """
+    Function to convert python arff data into a pandas series
+    
+    Parameters
+    ----------
+    arff_data : string
+        arff formatted data string
+        
+    method : string
+        ["clone_all","replaced_clone","replaced_brownian","replaced_pink",
+             "replaced_stretch", "replaced_white", "silenced", "original"]
+             
+    config_file : string
+        openSMILE configuration file filename
+        
+    condition : string
+        ["ambient", "noise"]
+        
+    Returns
+    -------
+    oS_series : pandas series
+        pandas series 
+    """
+    indicies = []
+    for attribute in arff_data["attributes"]:
+        indicies.append(attribute[0])
+    return(pd.Series(arff_data["data"][0],indicies,name="_".join([config_file,condition,method])))
+
 def build_dataframe(wd,config_file,condition,methods):
     """
-    Function to pull openSMILE output csv into a pandas series
+    Function to pull openSMILE output csv into a pandas dataframe
     
     Parameters
     ----------
@@ -58,7 +87,8 @@ def build_dataframe(wd,config_file,condition,methods):
             d = d.join(s.to_frame())
         except FileNotFoundError as e404:
             pass
-    return(d)
+    # transpose dataframe and return
+    return(d.T)
                                     
 def get_oS_data(csvpath,method,config_file,condition):
     """
@@ -107,35 +137,6 @@ def get_oS_data(csvpath,method,config_file,condition):
         tof.close()
         oS_data = arff.loads(open("/Volumes/data/Research/CDB/openSMILE/Audacity/test/temp.csv"))
         return arff_to_pandas(oS_data,method,config_file,condition)
-        
-def arff_to_pandas(arff_data,method,config_file,condition):
-    """
-    Function to convert python arff data into a pandas series
-    
-    Parameters
-    ----------
-    arff_data : string
-        arff formatted data string
-        
-    method : string
-        ["clone_all","replaced_clone","replaced_brownian","replaced_pink",
-             "replaced_stretch", "replaced_white", "silenced", "original"]
-             
-    config_file : string
-        openSMILE configuration file filename
-        
-    condition : string
-        ["ambient", "noise"]
-        
-    Returns
-    -------
-    oS_series : pandas series
-        pandas series 
-    """
-    indicies = []
-    for attribute in arff_data["attributes"]:
-        indicies.append(attribute[0])
-    return(pd.Series(arff_data["data"][0],indicies,name="_".join([config_file,condition,method])))
 
 # ============================================================================
 if __name__ == '__main__':

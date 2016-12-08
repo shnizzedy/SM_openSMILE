@@ -22,7 +22,7 @@ def main():
     dataframes = iterate_through()
     for dataframe in dataframes:
         print(dataframe[0])
-        print(dataframe[1].shape)
+        mean_absolute_deviation_rank(dataframe[1])
         
 def iterate_through():
     """
@@ -55,6 +55,9 @@ def iterate_through():
                                actp.build_dataframe(wd,config_file,condition,
                                                     methods)])
     return dataframes
+    
+def mean_absolute_deviation_rank(dataframe):
+    print(dataframe.mad)
 
 # ============================================================================
 if __name__ == '__main__':
