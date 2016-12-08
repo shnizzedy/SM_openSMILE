@@ -87,8 +87,11 @@ def build_dataframe(wd,config_file,condition,methods):
             d = d.join(s.to_frame())
         except FileNotFoundError as e404:
             pass
-    # transpose dataframe and return
-    return(d.T)
+    # transpose dataframe
+    d = d.T
+    # convert numeric strings to numeric data
+    d = d.apply(pd.to_numeric, errors='ignore')
+    return(d)
                                     
 def get_oS_data(csvpath,method,config_file,condition):
     """

@@ -16,13 +16,13 @@ Created on Tue Dec  6 17:53:01 2016
 
 @author: jon.clucas
 """
-import arff_csv_to_pandas as actp, pandas as pd
+import arff_csv_to_pandas as actp, math, numpy as np, pandas as pd
 
 def main():
     dataframes = iterate_through()
     for dataframe in dataframes:
         print(dataframe[0])
-        mean_absolute_deviation_rank(dataframe[1])
+        print(mean_absolute_deviation_rank(dataframe[1]))
         
 def iterate_through():
     """
@@ -57,7 +57,33 @@ def iterate_through():
     return dataframes
     
 def mean_absolute_deviation_rank(dataframe):
-    print(dataframe.mad)
+    """
+    Function to calculate the number of full mean average deviations each
+    value is across each config_file+condition.
+    
+    Parameters
+    ----------
+    dataframe : pandas dataframe
+        dataframe containing openSMILE output data
+        
+    Returns
+    -------
+    dataframe : pandas dataframe
+        dataframe containing mean average deviation counts
+    """
+    mad_series = pd.Series(index=dataframe.columns)
+    mad_rank = pd.DataFrame(index=dataframe.index, columns=dataframe.columns)
+    dataframe = dataframe.apply(pd.to_numeric, errors='coerce')
+    for column in dataframe.columns:
+        mad_series[column] = dataframe[column].mad()
+    for index in dataframe.index:
+        for column in dataframe.columns:
+            try:
+                mad_rank.set_value(index,column,(abs(math.floor(
+                               dataframe.get_value(index,column) - mad_series[column]))))
+            except:
+                mad_rank.set_value(index,column,np.nan)
+    return mad_rank
 
 # ============================================================================
 if __name__ == '__main__':
