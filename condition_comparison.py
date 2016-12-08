@@ -16,13 +16,17 @@ Created on Tue Dec  6 17:53:01 2016
 
 @author: jon.clucas
 """
-import arff_csv_to_pandas as actp, math, numpy as np, pandas as pd
+import arff_csv_to_pandas as actp, math, numpy as np, os, pandas as pd
 
 def main():
     dataframes = iterate_through()
     for dataframe in dataframes:
+        # tell which config_file+condition is being processed
         print(dataframe[0])
-        print(mean_absolute_deviation_rank(dataframe[1]))
+        # output results to csv file
+        mean_absolute_deviation_rank(dataframe[1]).to_csv(os.path.join(
+                                    "/Volumes/data/Research/CDB/openSMILE/Audacity/test/openSMILE-preprocessing",
+                                    "".join([dataframe[0],"_mad_rank.csv"])))
         
 def iterate_through():
     """
@@ -76,11 +80,15 @@ def mean_absolute_deviation_rank(dataframe):
     dataframe = dataframe.apply(pd.to_numeric, errors='coerce')
     for column in dataframe.columns:
         mad_series[column] = dataframe[column].mad()
+    i = None
     for index in dataframe.index:
+        if i is None:
+            i = index
         for column in dataframe.columns:
             try:
                 mad_rank.set_value(index,column,(abs(math.floor(
-                               dataframe.get_value(index,column) - mad_series[column]))))
+                               (dataframe.get_value(index,column)-dataframe.get_value(
+                                i,column))/mad_series[column]))))
             except:
                 mad_rank.set_value(index,column,np.nan)
     return mad_rank
