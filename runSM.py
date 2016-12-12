@@ -72,6 +72,9 @@ def runSM():
  							os.makedirs(out_dir,0755)
 						# run openSMILE and send results to all_audio_files/[URSI]/[config]
 						try:
+							# tell which file is being processed
+							print(wav)
+							# process the file
 							row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
 										   '-I','-C','-O',
 										   ''.join(['config/',config_file]),'',row,
