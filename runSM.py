@@ -49,6 +49,8 @@ def runSM():
 	"""
 	# get config filename from user.
 	config_file = raw_input('config file filename: ')
+        while not os.path.exists(''.join(['config/',config_file])):
+                config_file = raw_input('config file filename: ')
 	# get subdirectories of "./all_audio_files/*".
 	for root, dirs, files in os.walk('all_audio_files'):
 		# get each participant.
@@ -69,10 +71,14 @@ def runSM():
  						if not os.path.exists(out_dir):
  							os.makedirs(out_dir,0755)
 						# run openSMILE and send results to all_audio_files/[URSI]/[config]
-						row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
-										   '-I','-C','-csvoutput',
+						try:
+							row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
+										   '-I','-C','-O',
 										   ''.join(['config/',config_file]),'',row,
 										   out_dir,True)
+						# keep going if openSMILE throws an error
+						except:
+							pass
 	return row, table_path
 
 # ============================================================================
