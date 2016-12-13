@@ -48,7 +48,7 @@ def arff_to_pandas(arff_data,method,config_file,condition):
     indicies = []
     for attribute in arff_data["attributes"]:
         indicies.append(attribute[0])
-    return(pd.Series(arff_data["data"][0],indicies,name="_".join([config_file,condition,method])))
+    return(pd.Series(arff_data["data"][0],indicies,name=" > ".join([config_file,condition,method])))
 
 def build_dataframe(wd,config_file,condition,methods):
     """
@@ -74,16 +74,27 @@ def build_dataframe(wd,config_file,condition,methods):
     d : pandas dataframe
         a dataframe for the relevant set of files and features
     """
-    s = get_oS_data(os.path.join(wd,config_file,"full_original.csv"),"original",
-                    config_file,"original")
+    if condition == 'only_noise':
+        s = get_oS_data(os.path.join(wd,config_file,"only_noise_original.csv"),
+                        "original",config_file,condition)
+    else:
+        s = get_oS_data(os.path.join(wd,config_file,"full_original.csv"),
+        "original", config_file,condition)
     d = s.to_frame()
     for method in methods:
         try:
-            s = get_oS_data(os.path.join(
+            if condition == 'only_noise':
+                s = get_oS_data(os.path.join(
                             wd,config_file,
-                            condition,"".join(["full_",condition,
+                            condition,"".join([condition,
                             "_",method,".csv"])),method,config_file,
                             condition)
+            else:
+                s = get_oS_data(os.path.join(
+                                wd,config_file,
+                                condition,"".join(["full_",condition,
+                                "_",method,".csv"])),method,config_file,
+                                condition)
             d = d.join(s.to_frame())
         except FileNotFoundError as e404:
             pass
@@ -110,7 +121,7 @@ def get_oS_data(csvpath,method,config_file,condition):
         openSMILE configuration file filename
         
     condition : string
-        ["ambient", "noise"]
+        ["ambient", "noise", "only_noise"]
         
     Returns
     -------

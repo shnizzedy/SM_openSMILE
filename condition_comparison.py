@@ -19,14 +19,41 @@ Created on Tue Dec  6 17:53:01 2016
 import arff_csv_to_pandas as actp, math, numpy as np, os, pandas as pd
 
 def main():
+    op_path = "/Volumes/data/Research/CDB/openSMILE/Audacity/test/openSMILE-preprocessing"
     dataframes = iterate_through()
+    list_of_dataframes = []
     for dataframe in dataframes:
         # tell which config_file+condition is being processed
         print(dataframe[0])
+        # get mean absolute deviation for each column
+        mad_ranks = mean_absolute_deviation_rank(dataframe[1])
         # output results to csv file
-        mean_absolute_deviation_rank(dataframe[1]).to_csv(os.path.join(
-                                    "/Volumes/data/Research/CDB/openSMILE/Audacity/test/openSMILE-preprocessing",
+        mad_ranks.to_csv(os.path.join(op_path,
                                     "".join([dataframe[0],"_mad_rank.csv"])))
+        # sum the rows
+        mad_ranks_summary = mad_ranks.sum(axis=1).to_frame(name="sum(MAD)")
+        # mean rows
+        mad_ranks_summary['mean(MAD)'] = mad_ranks.mean(axis=1).to_frame(
+                                      name="mean(MAD)")
+        # median rows
+        mad_ranks_summary['median(MAD)'] = mad_ranks.median(axis=1).to_frame(
+                                      name="median(MAD)")
+        # rank the summary statistics
+        mad_ranks_summary['rank(sum(MAD))'] = mad_ranks_summary['sum(MAD)'].rank(method='min',
+                                    na_option='keep', ascending=True).astype('int')
+        mad_ranks_summary['rank(mean(MAD))'] = mad_ranks_summary['mean(MAD)'].rank(method='min',
+                                    na_option='keep', ascending=True).astype('int')
+        mad_ranks_summary['rank(median(MAD))'] = mad_ranks_summary['median(MAD)'].rank(method='min',
+                                    na_option='keep', ascending=True).astype('int')
+        mad_ranks_summary = mad_ranks_summary.sort_values(by = 'rank(sum(MAD))',
+                            ascending = True)
+        # output results to csv file
+        mad_ranks_summary.to_csv(os.path.join(op_path,"".join([dataframe[0],
+                                 "_mad_rank_summary.csv"])))
+        list_of_dataframes.append(mad_ranks_summary)
+    dataframes = pd.concat(list_of_dataframes)
+    # output all results to a single csv file
+    dataframes.to_csv(os.path.join(op_path,"mad_rank_summary_all.csv"))
         
 def iterate_through():
     """
@@ -46,7 +73,7 @@ def iterate_through():
     # set working directory
     wd = "/Volumes/data/Research/CDB/openSMILE/Audacity/test"
     # set conditions
-    conditions = ["ambient", "noise"]
+    conditions = ["ambient", "noise", "only_noise"]
     # set methods
     methods = ["clone_all","replaced_clone","replaced_brownian","replaced_pink",
              "replaced_stretch", "replaced_white", "silenced"]
