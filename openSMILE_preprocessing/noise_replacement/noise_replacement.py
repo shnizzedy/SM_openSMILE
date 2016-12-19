@@ -50,7 +50,7 @@ def get_ambient_clips(path):
     threshold = 1036
     for index, point in enumerate(envelope):
         # get beginnings of ambient segments
-        if (start_flag and point < threshold):
+        if (start_flag and point < threshold and point != 0):
             start_flag = False
             starts.append(index)
         # get ends of ambient segments
