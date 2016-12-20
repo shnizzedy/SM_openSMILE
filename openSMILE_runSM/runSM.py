@@ -75,11 +75,18 @@ def runSM():
 							# tell which file is being processed
 							print(wav)
 							# process the file
-							row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
+							try:
+								row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
 										   '-I','-C','-O',
 										   ''.join(['config/',config_file]),'',row,
 										   out_dir,True)
-						# keep going if openSMILE throws an error
+							# if necessary, specify csvoutput
+							except cComponentException:
+								row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
+										   '-I','-C','-csvoutput',
+										   ''.join(['config/',config_file]),'',row,
+										   out_dir,True)
+						# keep going if openSMILE throws any other error
 						except:
 							pass
 	return row, table_path
