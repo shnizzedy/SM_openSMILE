@@ -1,0 +1,12 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+
+# not ready for prime time #
+############################
+*tinkering*
+
+# caches #
+##########
+*__psycache__*
