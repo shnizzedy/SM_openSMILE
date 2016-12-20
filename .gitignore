@@ -9,4 +9,5 @@
 
 # caches #
 ##########
-*__psycache__*
+.gitignore~
+*__pycache__*
