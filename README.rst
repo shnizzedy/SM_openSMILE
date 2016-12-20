@@ -125,7 +125,7 @@ configuration file, summary measures (sum, mean, median) are calculated to
 rank the closeness of each condition to the original (see [Klein, A., Andersson, 
  J., Ardekani, B. A., Ashburner, J., Avants, B., Chiang, M.-C., . . . Parsey,
  R. V. (2009). Evaluation of 14 nonlinear deformation algorithms applied to
- human brain MRI registration. *Neuroimage, 46*(3), 786–802.](https://mfr.osf.io/render?url=https://osf.io/7fvme/?action=download%26mode=render "Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration.") for an explanation of ranking by MADs).
+ human brain MRI registration. *Neuroimage, 46*(3), 786–802](https://mfr.osf.io/render?url=https://osf.io/7fvme/?action=download%26mode=render "Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration.") for an explanation of ranking by MADs).
  
 [`SM_openSMILE\openSMILE_preprocessing\condition_comparison.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/openSMILE_preprocessing/condition_comparison.py "condition_comparison.py")
 contains the code used to process the openSMILE output data, which are
