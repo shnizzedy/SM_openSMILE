@@ -1,0 +1,10 @@
+,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
+emobase > ambient > original,0.0,0.0,0.0,1,1,1
+emobase > ambient > replaced_clone,497.0,0.5177083333333333,0.0,2,2,1
+emobase > ambient > replaced_stretch,575.0,0.5989583333333334,0.0,3,3,1
+emobase > ambient > replaced_pink,658.0,0.6854166666666667,1.0,4,4,4
+emobase > ambient > replaced_brownian,718.0,0.7479166666666667,1.0,5,5,4
+emobase > ambient > replaced_white,802.0,0.8354166666666667,1.0,6,6,4
+emobase > ambient > replaced_timeshift,990.0,1.03125,1.0,7,7,4
+emobase > ambient > silenced,1535.0,1.5989583333333333,1.0,8,8,4
+emobase > ambient > clone_all,3029.0,3.1552083333333334,4.0,9,9,9
