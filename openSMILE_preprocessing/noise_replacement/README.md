@@ -52,7 +52,7 @@ Three blocks of comparisons were made.
 in Audacity in which a 2.5 second clip of ambient noise beginning at 25.864
 seconds was removed.
 
-This clip (`ambient_noise_silenced.wav`) was compared against `original.wav` &
+This clip `ambient_noise_silenced.wav` was compared against `original.wav` &
 the following modifications of itself:
 
 `ambient_noise_replaced_with_clone`: a clone mask was created by copying a 2.5
