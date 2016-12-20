@@ -1,0 +1,6 @@
+,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
+ComParE2016 > noise > original,0.0,0.0,0.0,1,1,1
+ComParE2016 > noise > replaced_clone,3533.0,0.5624900493551982,0.0,2,2,1
+ComParE2016 > noise > replaced_timeshift,4905.0,0.7809266040439421,1.0,3,3,3
+ComParE2016 > noise > silenced,10660.0,1.697181977392135,1.0,4,4,3
+ComParE2016 > noise > clone_all,12958.0,2.063047285464098,2.0,5,5,5
