@@ -120,31 +120,16 @@ condition.
 
 ### Summary statistics
 
-For
-:   x = original
-:   y = condition
-:   condition = {ambient noise replaced with, noise replaced with}
-:   ambient noise replaced with = {silence, clone, stretch, brownian, pink,
-:   white, clone throughout}
-:   noise replaced with = {silence, clone, clone throughout, timeshift}
-
-v ∈ normalized values : 
-∀ z ∈ w ∈ condition, z/√(Σ(x + w)²) = v
-
-n ∈ normalized distances :
-∀ v, |v - x| = n
-
-d ∈ absolute distances :
-∀ z ∈ w ∈ condition, |z - x| = d
-
-r ∈ rank absolute distances : 
-∀ d ∈ absolute distances, rank within {x, ∀ w ∈ condition}
-
-Σ(x-v)² & Σ(x-z)² were calculated and ranked
-ranks were summed and ranked and averaged (mean, median, and mode)
-
-These outputs can all be found in the workbook `condition_comparison.xlsx`
-with the final summary values on the worksheet `summary`.
+Using the number of mean absolute deviations within each trial block for each
+configuration file, summary measures (sum, mean, median) are calculated to
+rank the closeness of each condition to the original (see [Klein, A., Andersson, 
+ J., Ardekani, B. A., Ashburner, J., Avants, B., Chiang, M.-C., . . . Parsey,
+ R. V. (2009). Evaluation of 14 nonlinear deformation algorithms applied to
+ human brain MRI registration. *Neuroimage, 46*(3), 786–802.](https://mfr.osf.io/render?url=https://osf.io/7fvme/?action=download%26mode=render "Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration.") for an explanation of ranking by MADs).
+ 
+[`SM_openSMILE\openSMILE_preprocessing\condition_comparison.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/openSMILE_preprocessing/condition_comparison.py "condition_comparison.py")
+contains the code used to process the openSMILE output data, which are
+available in [`SM_openSMILE/openSMILE_preprocessing/openSMILE_outputs/`](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_preprocessing/openSMILE_outputs "openSMILE_outputs").
 
 # Removing noise again
 0:00:0.16 proved to be insufficient to remove all of the beeping noises.
