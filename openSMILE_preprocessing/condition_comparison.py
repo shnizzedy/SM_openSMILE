@@ -21,7 +21,8 @@ import arff_csv_to_pandas as actp, math, numpy as np, os, pandas as pd
 def main():
     # set path
     op_path = ("/Volumes/Jon.Clucas/openSMILE/SM_openSMILE/"
-               "openSMILE_preprocessing/replacement_test_outputs")
+               "openSMILE_preprocessing/noise_replacement/"
+               "replacement_test_outputs")
     dataframes = iterate_through()
     list_of_dataframes = []
     for dataframe in dataframes:
@@ -84,7 +85,7 @@ def iterate_through():
                "replaced_pink", "replaced_stretch", "replaced_white",
                "replaced_timeshift", "silenced"]
     # set config files
-    config_files = ["emobase", "ComParE2016"]
+    config_files = ["emobase", "ComParE_2016"]
     dataframes = []
     for config_file in config_files:
         for condition in conditions:
