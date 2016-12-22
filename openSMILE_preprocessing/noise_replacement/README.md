@@ -7,10 +7,28 @@ Matlab script written by Aslak Grinsted. Ported to Python by Frank Zalkow.
 ## band_limited_noise(min_freq, max_freq, samples=1024, samplerate=1)
 
 # generate_sample
+Script to find a 2.5 second clip of ambient noise and silence that clip.
 
-- [ ] *write this section*
+## build_sample(path, original, chosen_one, mask)
+Function to create a sample file in which the chosen clip of ambience is
+replaced with a cloned clip of ambience.
+
+## check_clip_len(options, duration)
+Function to determine the number of clips of a specified duration.
+
+## create_sample(in_file)
+Function to iterate through [top_directory]/URSI/[subdirectory]/files structure
+and perform a function on each file.
+
+## export(audio_segment, out_path)
+Function to export a pydub audio segment to a local waveform file.
+
+## out_file_path(path, method)
+Function to build an export filepath based on the original filepath and the
+method being investigated.
 
 # noise_replacement
+Script to replace silenced noises in data sound files.
 
 ## analyze_and_generate(path)
 Function to find ambient clips, get their amplitude and power spectrum, and]
