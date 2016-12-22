@@ -36,9 +36,9 @@ def i_ursi(top_in, sub_in, function, parameters = None, conditions = None):
         list of parameters to pass the function. The string "ursi_i", if
         included will be replaced with the ursi. The absolute path of the file
         to be operated on will be inserted in the front of this list.
-        
+
     conditions : list or None (optional)
-    	conditions to check before performing function.
+        conditions to check before performing function.
 
     Returns
     -------
@@ -52,31 +52,36 @@ def i_ursi(top_in, sub_in, function, parameters = None, conditions = None):
     for root, dirs, files in os.walk(top_in):
         # get each participant
         for participant in dirs:
-        	# get participant subdirectories
-            for proot, pdirs, pfiles in os.walk(os.path.join(root,participant):
+            print(os.path.basename(participant))
+            # get participant subdirectories
+            for proot, pdirs, pfiles in os.walk(os.path.join(root,
+                                                participant)):
                 # get desired subdirectory
                 if pdirs == sub_in:
                     # get files
                     for pfile in pfiles:
-                    	# if applicable, check for conditions
-                    	try:
-                    	    for condition in conditions:
-                    	    	condition = ''.join(pfile, condition)
-                    	    	if eval(condition):
-                    	    		# add filepath to parameters
-                    	    		try:
-                    	    		    parameters = [pfile, *parameters]
-                    	    		except NameError:
-                    	    		    parameters = [pfile]
-                    	    	    # run the function
-                    	    		result.append(function(*parameters))
-                    	# otherwise, just run the function
-                    	except NameError:
-                    	    # add filepath to parameters
-                    	    try:
-                    	    	parameters = [pfile, *parameters]
-                    	    except NameError:
-                    	    	parameters = [pfile]
-                    	    # run the function
-                    		result.append(function(*parameters))
+                        # if applicable, check for conditions
+                        try:
+                            for condition in conditions:
+                                condition = ''.join(pfile, condition)
+                                print(condition)
+                                if eval(condition):
+                                    # add filepath to parameters
+                                    try:
+                                        parameters = [pfile, *parameters]
+                                    except NameError:
+                                        parameters = [pfile]
+                                    # run the function
+                                    print(str(function(*parameters)))
+                                    result.append(function(*parameters))
+                        # otherwise, just run the function
+                        except NameError:
+                            # add filepath to parameters
+                            try:
+                                parameters = [pfile, *parameters]
+                            except NameError:
+                                parameters = [pfile]
+                            # run the function
+                            print(str(function(*parameters)))
+                            result.append(function(*parameters))
     return result
