@@ -1,9 +1,9 @@
 # SM_openSMILE
 Scripts to analyze waveform files with openSMILE for the study of selective mutism.
 
-## [openSMILE_preprocessing (https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_preprocessing "functions to prepare files for openSMILE analysis")]
+## [openSMILE_preprocessing](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_preprocessing "functions to prepare files for openSMILE analysis")
 
-## [openSMILE_runSM (https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_runSM "batch process SM dataset with user-entered openSMILE configuration file")]
+## [openSMILE_runSM](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_runSM "batch process SM dataset with user-entered openSMILE configuration file")
 
 ## iterate_ursis
 Script to iterate through [top_directory]/URSI/[subdirectory]/files structure
