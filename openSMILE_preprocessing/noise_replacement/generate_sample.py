@@ -73,9 +73,9 @@ def create_sample(in_file):
     # import original sound
     original = pydub.AudioSegment.from_wav(in_file)
     # create silenced sample
-    silenced_sample = create_sample_silenced(in_file, original)
+    silenced_sample = create_sample_silenced(in_file, original, chosen_one)
     # create replace silence with clone mask
-    create_sample_cloned(in_file, silenced_sample)
+    create_sample_cloned(in_file, silenced_sample, chosen_one)
 
 def create_sample_cloned(path, original, chosen_one):
     """
