@@ -14,7 +14,7 @@ Author:
 
 Created on Mon Dec 19 17:00:00 2016
 """
-import fftnoise, math, numpy as np, pydub, random
+import fftnoise, math, numpy as np, os, pydub, random
 from scipy import signal
 from scipy.io import wavfile
 
@@ -33,6 +33,7 @@ def analyze_and_generate(path):
     mask : pydub audio segment
         the generated ambient mask
     """
+    print(''.join(["Analyzing ", path]))
     input_data = wavfile.read(path)
 
     audio_l = input_data[1][:, 0]
@@ -57,8 +58,7 @@ def analyze_and_generate(path):
 
     l_sound = fftnoise.fftnoise(l_Pxx)
     r_sound = fftnoise.fftnoise(r_Pxx)
-    out_file = ("/Volumes/data/Research/CDB/openSMILE/Audacity/test/"
-                "gen_mask.wav")
+    out_file = os.path.join(os.path.dirname(path),"gen_mask.wav")
 
     wavfile.write(out_file, rate, np.transpose(np.array([l_sound, r_sound])))
 
@@ -210,13 +210,25 @@ def get_ambient_clips(path):
         a list of (start-time, stop-time) tuples of ambient segments
     """
     # read waveform file
+    if os.access(path, os.R_OK):
+        print(''.join(['    Reading ', path]))
+    else:
+        print(''.join(['    !!! ', path,
+              ' : insufficient permission to read']))
+        return []
+    # TODO: figure out why this is hanging when called from
+    # TODO: generate_sample.create_sample
     input_data = wavfile.read(path)
+    print('read')
+    print(''.join(['    ',str(len(input_data[1])),' channels']))
     # get numpy array of amplitude values
     audio = input_data[1][:, 0]
+    print(''.join(['        left channel',str(len(audio))]))
     # get rate
     # rate = input_data[0]
     # t = np.arange(len(audio)) / rate
     # calculate envelope
+    print('        calculating envelope')
     envelope = np.abs(signal.hilbert(audio))
 
     # initialize start, stop, and ambiance lists
