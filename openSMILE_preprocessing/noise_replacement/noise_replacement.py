@@ -219,11 +219,11 @@ def get_ambient_clips(path):
     # TODO: figure out why this is hanging when called from
     # TODO: generate_sample.create_sample
     input_data = wavfile.read(path)
-    print('read')
+    print('    read')
     print(''.join(['    ',str(len(input_data[1])),' channels']))
     # get numpy array of amplitude values
     audio = input_data[1][:, 0]
-    print(''.join(['        left channel',str(len(audio))]))
+    print(''.join(['        left channel: ',str(len(audio))]))
     # get rate
     # rate = input_data[0]
     # t = np.arange(len(audio)) / rate

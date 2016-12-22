@@ -67,8 +67,11 @@ def create_sample(in_file):
         remaining_options = options
         num_options = len(remaining_options)
     chosen_one = remaining_options[random.randrange(0, num_options)]
+    print(''.join(['chosen clip : ', str(chosen_one[0]), ":",
+          str(chosen_one[1])]))
     original = pydub.AudioSegment.from_wav(in_file)
-    clone = nr.grow_mask(chosen_one, len(original))
+    clone = nr.grow_mask(original.get_sample_slice(chosen_one[0],
+            chosen_one[1]), len(original))
     sample_clip = original.get_sample_slice(0, chosen_one[0])
     sample_clip.append(pydub.AudioSegment.silent(duration=(chosen_one[1] -
                        chosen_one[0])))
