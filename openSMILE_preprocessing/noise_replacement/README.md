@@ -1,6 +1,43 @@
-# Method used to determine appropriate noise masking method
+# fftnoise
 
-# Prologue
+Matlab script written by Aslak Grinsted. Ported to Python by Frank Zalkow.
+
+## fftnoise(f)
+
+## band_limited_noise(min_freq, max_freq, samples=1024, samplerate=1)
+
+# generate_sample
+
+- [ ] *write this section*
+
+# noise_replacement
+
+## analyze_and_generate(path)
+Function to find ambient clips, get their amplitude and power spectrum, and]
+generate an ambeint mask based on this information.
+
+## borders_ms_to_frames(borders, rate)
+Function to convert a list of 2-item lists or tuples from milliseconds to
+frames.
+
+## build_new_soundfile(with_silence, rate, mask, borders = None)
+Given a soundfile, an optional mask, and a list of time-pairs, concatenate the
+segments outside of the time-pairs, replacing the time-pair marked segments
+with the mask, if applicable.
+
+## fill_in(mask, duration, rate)
+Get a section of a mask of the specified duration.
+
+## get_ambient_clips(path)
+Find sections of ambient noise at least 2 seconds long.
+
+## grow_mask(mask, size)
+Function to create a clone mask from an ambient clip.
+
+## replace_silence(original, mask, rate)
+Function to create a clip in which silences are replaced by masks.
+
+# Method used to determine appropriate noise masking method
 
 ## Data
 
@@ -25,7 +62,7 @@ with 50 waveforms each) with each file lasting ~3 seconds.
 
 ## Random Trees
 
-*TODO: write this section*
+- [ ] *write this section*
 
 # Removing noise
 Each 0:00:03 waveform begins with a beep. To remove these unwanted beeps,
