@@ -15,6 +15,7 @@ Author:
 Created on Mon Dec 19 17:00:00 2016
 """
 import fftnoise, math, numpy as np, os, pydub, random
+import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.io import wavfile
 
@@ -229,7 +230,6 @@ def get_ambient_clips(path):
     # calculate envelope
     print('        calculating envelope')
     envelope = np.abs(signal.hilbert(audio))
-
     # initialize start, stop, and ambiance lists
     starts, stops, ambience = ([] for i in range(3))
     # initialize start flag
