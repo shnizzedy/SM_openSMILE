@@ -24,9 +24,49 @@ sys.path.append("/Library/Frameworks/Python.framework/Versions/2.7/lib/"
 
 import iterate_ursis as iu, noise_replacement as nr, os, pydub, random
 
+def build_sample(path, original, chosen_one, mask):
+    """
+    Function to create a sample file in which the chosen clip of ambience is
+    replaced with a cloned clip of ambience.
+
+    Parameters
+    ----------
+    path : string
+        absolute path where the new clip should be saved
+
+    original : pydub audio segment
+        the clip from which to replace the silence with a clone
+
+    chosen_one : 2-item iterable (tuple or list)
+        the start and stop times of the ambience or silence in the clip which
+        will be replaced with the mask
+
+    Returns
+    -------
+    new_clip : pydub audio segment
+        a clip that matches original except that the marked silence or ambience
+        is filled with a matching-duration segment of the specified mask
+    """
+    new_clip = nr.build_new_soundfile(original, 44.1, mask, [chosen_one])
+    return(export(new_clip, path))
+
 def check_clip_len(options, duration):
     """
-    TODO: document
+    Function to determine the number of clips of a specified duration.
+
+    Parameters
+    ----------
+    options : list of 2-item tuples or lists
+        start and stop times to evaluate
+
+    duration : numeric (int or float)
+        minimum desired clip duration
+
+    Returns
+    -------
+    remaining_options : list of 2-item tuples or lists or empty list
+        start and stop times that are at least sepcified duration, or an empty
+        list if no given clips are sufficiently long
     """
     remaining_options = []
     for pair in options:
@@ -73,39 +113,32 @@ def create_sample(in_file):
     # import original sound
     original = pydub.AudioSegment.from_wav(in_file)
     # create silenced sample
-    silenced_sample = create_sample_silenced(in_file, original, chosen_one)
+    out_file = out_file_path(in_file, "sample_silenced")
+    silence = pydub.AudioSegment.silent(duration=len(original))
+    silenced_sample = build_sample(out_file, original, chosen_one, silence)
     # create replace silence with clone mask
-    create_sample_cloned(in_file, silenced_sample, chosen_one)
-
-def create_sample_cloned(path, original, chosen_one):
-    """
-    TODO: document
-    """
-    out_file = out_file_path(path, "clone_fill")
+    out_file = out_file_path(in_file, "clone_fill")
     clone = nr.grow_mask(original.get_sample_slice(chosen_one[0],
             chosen_one[1]), len(original))
-    clone_clip = nr.replace_silence(original, clone, 44.1)
-    return(export(clone_clip, out_file))
-
-def create_sample_silenced(path, original, chosen_one):
-    """
-    TODO: document
-    """
-    out_file = out_file_path(path, "sample_silenced")
-    print(''.join(["Building silenced sample 0:", str(chosen_one[0])]))
-    sample_clip = original.get_sample_slice(0, chosen_one[0])
-    print(''.join(["adding silence ", str(chosen_one[0]), ":", str(chosen_one[
-          1])]))
-    sample_clip.append(pydub.AudioSegment.silent(duration=(chosen_one[1] -
-                       chosen_one[0])))
-    print(''.join(["building silenced sample ", str(chosen_one[1]), ":", str(
-          len(original))]))
-    sample_clip.append(original.get_sample_slice(chosen_one[1], None))
-    return(export(sample_clip, out_file))
+    build_sample(out_file, silenced_sample, chosen_one, clone)
 
 def export(audio_segment, out_path):
     """
-    TODO: document
+    Function to export a pydub audio segment to a local waveform file.
+
+    Parameters
+    ----------
+    audio_segment : pydub audio segment
+        the segment to export
+
+    out_path : string
+        absolute path of the location in which to save file
+
+    Returns
+    -------
+    audio_segment : pydub audio segment
+        the same segment (so  that this function can be called in a return
+        statement)
     """
     print(''.join(["Exporting ", os.path.basename(os.path.dirname(out_path)),
           "/", os.path.basename(out_path)]))
@@ -114,7 +147,21 @@ def export(audio_segment, out_path):
 
 def out_file_path(path, method):
     """
-    TODO: document
+    Function to build an export filepath based on the original filepath and the
+    method being investigated.
+
+    Parameters
+    ----------
+    path : string
+        absolute path of the original file
+
+    method : string
+        method of investigation (to be used as a subdirectory)
+
+    Returns
+    -------
+    out_file : string
+        absolute path of the location in which to save file
     """
     out_file = os.path.join(os.path.dirname(os.path.dirname(path)), method,
                os.path.basename(path))
