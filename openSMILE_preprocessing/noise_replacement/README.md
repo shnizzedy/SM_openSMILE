@@ -34,6 +34,10 @@ Script to replace silenced noises in data sound files.
 Function to find ambient clips, get their amplitude and power spectrum, and]
 generate an ambeint mask based on this information.
 
+## borders_frames_to_ms(borders, rate)
+Function to convert a list of 2-item lists or tuples from frames to
+milliseconds.
+
 ## borders_ms_to_frames(borders, rate)
 Function to convert a list of 2-item lists or tuples from milliseconds to
 frames.
