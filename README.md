@@ -1,11 +1,21 @@
 # SM_openSMILE
 Scripts to analyze waveform files with openSMILE for the study of selective mutism.
 
-## [openSMILE_preprocessing](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_preprocessing "functions to prepare files for openSMILE analysis")
+## [`openSMILE_preprocessing`](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_preprocessing "functions to prepare files for openSMILE analysis")
+Functions to prepare files for openSMILE analysis.
 
-## [openSMILE_runSM](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_runSM "batch process SM dataset with user-entered openSMILE configuration file")
+These functions were written to determine appropriate masking options for analyzing noise-polluted waveforms in openSMILE.
 
-## iterate_ursis
+## [`openSMILE_runSM`](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_runSM "batch process SM dataset with user-entered openSMILE configuration file")
+Batch process SM dataset with user-entered openSMILE configuration file.
+
+Load the contents of this folder into openSMILE home directory.
+
+Run runSM() to run openSMILE config file on all Waveform files with extension `*.wav` in `[openSMILE home directory]/all_audio_files/[URSI]/recorded_audio_files/`.
+
+It will ask for config_file. Just give it the filename. The file should live in `[openSMILE home directory]/config`.
+
+## [`iterate_ursis.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/iterate_ursis.py)
 Script to iterate through [top_directory]/URSI/[subdirectory]/files structure
 and return a list of included files.
 
@@ -13,7 +23,7 @@ and return a list of included files.
 Function to iterate through [top_directory]/URSI/[subdirectory]/files structure
 and return a list of included files.
 
-## make_long_soundfiles
+## [`make_long_soundfiles.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/make_long_soundfiles.py)
 Create mylist.txt and run ffmpeg -f concat for each (particpant + condition).
 
 ### make_long_wav(ursi_dir, mylist_txt)
@@ -25,7 +35,7 @@ Function to make a *.txt file for each (ursi + condtion)
 ### create_long_soundfiles()
 Function to take 3" sound files and splice them back together.
 
-## openSMILE_csv
+## [`openSMILE_csv.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/openSMILE_csv.py)
 Script to format openSMILE emobase *.csv output combined with dx data into a
 set of new [participant × file × feature × dx] *.csv files, one for each
 experimental condition.
