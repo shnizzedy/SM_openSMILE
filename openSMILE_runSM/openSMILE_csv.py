@@ -3,10 +3,9 @@
 """
 openSMILE_csv.py
 
-Script to format openSMILE emobase *.csv
-output combined with dx data into a set of new
-[participant × file × feature × dx]
-*.csv files, one for each experimental condition.
+Script to format openSMILE emobase *.csv output combined with dx data into a
+set of new [participant × file × feature × dx] *.csv files, one for each
+experimental condition.
 
 Short (segmented) and long (concatenated) outputs are handled separately.
 
@@ -20,8 +19,8 @@ import csv, os
 
 def get_features(csv_file):
     """
-    Function to get features from openSMILE
-    emobase configuration file csv outputs
+    Function to get features from openSMILE emobase configuration file csv
+    outputs.
 
     Parameters
     ----------
@@ -61,8 +60,7 @@ def get_features(csv_file):
 
 def get_dx(ursi, dx_dictionary = None):
     """
-    Function to get a participant's diagnosis
-    from a dictionary of diagnoses.
+    Function to get a participant's diagnosis from a dictionary of diagnoses.
 
     Parameters
     ----------
@@ -86,8 +84,8 @@ def get_dx(ursi, dx_dictionary = None):
 
 def get_dx_dictionary():
     """
-    Function to create a diagnosis dictionary
-    from a csv file containing diagnoses.
+    Function to create a diagnosis dictionary from a csv file containing
+    diagnoses.
 
     Parameters
     ----------
