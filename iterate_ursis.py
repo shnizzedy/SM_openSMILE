@@ -4,7 +4,7 @@
 iterate_ursis.py
 
 Script to iterate through [top_directory]/URSI/[subdirectory]/files structure
-and perform a function on each file.
+and return a list of included files.
 
 Author:
         – Jon Clucas, 2016 (jon.clucas@childmind.org)
@@ -19,7 +19,7 @@ import os
 def i_ursi(top_in, sub_in):
     """
     Function to iterate through [top_directory]/URSI/[subdirectory]/files
-    structure and perform a function on each file.
+    structure and return a list of included files.
 
     Parameters
     ----------
@@ -31,8 +31,8 @@ def i_ursi(top_in, sub_in):
 
     Returns
     -------
-    result : list or None
-        returns either a list of all files to act upon.
+    result : list
+        either a list of all files to act upon or an empty list
     """
     # initialize result
     result = []
