@@ -68,7 +68,8 @@ def make_file_list(topdir, ursi, condition):
     Returns
     -------
     ursi_dir : string
-        absolute path to *.txt file's parent directory for participant waveforms
+        absolute path to *.txt file's parent directory for participant
+        waveforms
     
     mylist_txt : string
         file list textfile filename
@@ -83,7 +84,8 @@ def make_file_list(topdir, ursi, condition):
     ursi_dir = os.path.join(topdir,ursi,'no_beeps')
     # make the file list
     for wav_file in os.listdir(ursi_dir):
-        if (condition in wav_file and wav_file.endswith('.wav') and not "long" in wav_file):
+        if (condition in wav_file and wav_file.endswith('.wav') and not "long"
+            in wav_file):
             file_list.append(wav_file)
     
     # write list to txt file, one item per line
