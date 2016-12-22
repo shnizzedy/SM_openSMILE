@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+scipy.io.wavfile.read troubleshooting
 https://github.com/scipy/scipy/issues/6700#issuecomment-255592052
 """
 
