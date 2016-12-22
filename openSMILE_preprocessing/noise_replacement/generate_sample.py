@@ -13,7 +13,7 @@ Created on Wed Dec 21 16:34:37 2016
 
 @author: jon.clucas
 """
-import noise_replacement as nr, pydub, random
+import iterate_ursis as iu, noise_replacement as nr, pydub, random
 
 def create_sample(in_file):
 	"""
@@ -49,4 +49,10 @@ def create_sample(in_file):
 	print(''.join(["Exporting ", os.path.basename(os.path.dirname(outfile)), 
 	      "/", os.path.basename(out_file)]))
 	sample_clip.export(out_file, format="wav")
-	
+
+def main():
+	iu.i_ursi("/Volumes/data/Research/CDB/openSMILE/", "no_beeps", create_sample, None, ['.contains("long")', '.ends_with(".wav")'])
+		
+# ============================================================================
+if __name__ == '__main__':
+    main()

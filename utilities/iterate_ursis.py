@@ -34,7 +34,8 @@ def i_ursi(top_in, sub_in, function, parameters = None, conditions = None):
 
     parameters : list or None (optional)
         list of parameters to pass the function. The string "ursi_i", if
-        included will be replaced with the ursi.
+        included will be replaced with the ursi. The absolute path of the file
+        to be operated on will be inserted in the front of this list.
         
     conditions : list or None (optional)
     	conditions to check before performing function.
@@ -60,10 +61,22 @@ def i_ursi(top_in, sub_in, function, parameters = None, conditions = None):
                     	# if applicable, check for conditions
                     	try:
                     	    for condition in conditions:
-                    	    	if condition:
+                    	    	condition = ''.join(pfile, condition)
+                    	    	if eval(condition):
+                    	    		# add filepath to parameters
+                    	    		try:
+                    	    		    parameters = [pfile, *parameters]
+                    	    		except NameError:
+                    	    		    parameters = [pfile]
                     	    	    # run the function
                     	    		result.append(function(*parameters))
                     	# otherwise, just run the function
                     	except NameError:
+                    	    # add filepath to parameters
+                    	    try:
+                    	    	parameters = [pfile, *parameters]
+                    	    except NameError:
+                    	    	parameters = [pfile]
+                    	    # run the function
                     		result.append(function(*parameters))
     return result
