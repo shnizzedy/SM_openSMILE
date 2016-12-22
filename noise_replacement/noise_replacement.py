@@ -15,7 +15,6 @@ Author:
 Created on Mon Dec 19 17:00:00 2016
 """
 import fftnoise, math, numpy as np, os, pydub, random
-import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.io import wavfile
 
@@ -72,6 +71,32 @@ def analyze_and_generate(path):
     mask = grow_mask(mask, len(original))
     mask.export(out_file, format="wav")
     return mask
+
+def borders_frames_to_ms(borders, rate):
+    """
+    Function to convert a list of 2-item lists or tuples from frames to
+    milliseconds.
+
+    Parameters
+    ----------
+    borders : list
+        a list of 2-item lists or tuples, each item of which is a number of
+        frames
+
+    rate : float
+        frames per millisecond (fps / 1000)
+
+    Returns
+    -------
+    frame_borders : list
+        a list of 2-item lists or tuples, each item of which is a number of
+        milliseconds
+    """
+    frame_borders = []
+    for start, stop in borders:
+        frame_borders.append((math.floor(start / rate), math.ceil(stop /
+                             rate)))
+    return frame_borders
 
 def borders_ms_to_frames(borders, rate):
     """

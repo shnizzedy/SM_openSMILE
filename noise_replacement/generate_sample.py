@@ -112,15 +112,17 @@ def create_sample(in_file):
                44100, 2)), " seconds"]))
     # import original sound
     original = pydub.AudioSegment.from_wav(in_file)
+    # get chosen_one in milliseconds for build_sample
+    ms_chosen_one = nr.borders_frames_to_ms(chosen_one)
     # create silenced sample
     out_file = out_file_path(in_file, "sample_silenced")
     silence = pydub.AudioSegment.silent(duration=len(original))
-    silenced_sample = build_sample(out_file, original, chosen_one, silence)
+    silenced_sample = build_sample(out_file, original, ms_chosen_one, silence)
     # create replace silence with clone mask
     out_file = out_file_path(in_file, "clone_fill")
     clone = nr.grow_mask(original.get_sample_slice(chosen_one[0],
             chosen_one[1]), len(original))
-    build_sample(out_file, silenced_sample, chosen_one, clone)
+    build_sample(out_file, silenced_sample, ms_chosen_one, clone)
 
 def export(audio_segment, out_path):
     """
