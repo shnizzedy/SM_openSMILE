@@ -1,0 +1,11 @@
+,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
+ComParE_2016 > ambient > original,0.0,0.0,0.0,1,1,1
+ComParE_2016 > ambient > replaced_clone,2480.0,0.3909821850859215,0.0,2,2,1
+ComParE_2016 > ambient > replaced_stretch,2557.0,0.4031215513164118,0.0,3,3,1
+ComParE_2016 > ambient > replaced_brownian,2690.0,0.4240895475327132,0.0,4,4,1
+ComParE_2016 > ambient > replaced_pink,2888.0,0.45530506069683113,0.0,5,5,1
+ComParE_2016 > ambient > replaced_white,3515.0,0.554154185716538,0.0,6,6,1
+ComParE_2016 > ambient > replaced_timeshift,3870.0,0.6101213936623049,1.0,7,7,7
+ComParE_2016 > ambient > clone_all,7884.0,1.2429449787166955,1.0,8,8,7
+ComParE_2016 > ambient > silenced,10911.0,1.7201639602711651,1.0,9,9,7
+ComParE_2016 > ambient > replaced_gen,24265.0,3.8254769036733407,4.0,10,10,10

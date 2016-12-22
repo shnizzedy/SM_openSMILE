@@ -81,9 +81,9 @@ def iterate_through():
     # set conditions
     conditions = ["ambient", "noise", "only_ambient_noise"]
     # set methods
-    methods = ["clone_all", "replaced_clone", "replaced_brownian",
-               "replaced_pink", "replaced_stretch", "replaced_white",
-               "replaced_timeshift", "silenced"]
+    methods = ["clone_all", "replaced_gen", "replaced_clone",
+               "replaced_brownian", "replaced_pink", "replaced_stretch",
+               "replaced_white", "replaced_timeshift", "silenced"]
     # set config files
     config_files = ["emobase", "ComParE_2016"]
     dataframes = []
