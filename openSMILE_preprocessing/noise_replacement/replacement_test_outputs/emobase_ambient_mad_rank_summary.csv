@@ -1,10 +1,11 @@
 ,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
 emobase > ambient > original,0.0,0.0,0.0,1,1,1
-emobase > ambient > replaced_clone,497.0,0.5177083333333333,0.0,2,2,1
-emobase > ambient > replaced_stretch,575.0,0.5989583333333334,0.0,3,3,1
-emobase > ambient > replaced_pink,658.0,0.6854166666666667,1.0,4,4,4
-emobase > ambient > replaced_brownian,718.0,0.7479166666666667,1.0,5,5,4
-emobase > ambient > replaced_white,802.0,0.8354166666666667,1.0,6,6,4
-emobase > ambient > replaced_timeshift,990.0,1.03125,1.0,7,7,4
-emobase > ambient > silenced,1535.0,1.5989583333333333,1.0,8,8,4
-emobase > ambient > clone_all,3029.0,3.1552083333333334,4.0,9,9,9
+emobase > ambient > replaced_pink,381.0,0.3940020682523268,0.0,2,2,1
+emobase > ambient > replaced_clone,386.0,0.39917269906928643,0.0,3,3,1
+emobase > ambient > replaced_brownian,398.0,0.41158221302998965,0.0,4,4,1
+emobase > ambient > replaced_stretch,424.0,0.4384694932781799,0.0,5,5,1
+emobase > ambient > replaced_timeshift,463.0,0.4788004136504654,0.0,6,6,1
+emobase > ambient > replaced_white,501.0,0.5180972078593589,0.0,7,7,1
+emobase > ambient > silenced,880.0,0.9100310237849017,1.0,8,8,8
+emobase > ambient > clone_all,1287.0,1.3309203722854188,1.0,9,9,8
+emobase > ambient > replaced_gen,4375.0,4.524301964839711,5.0,10,10,10

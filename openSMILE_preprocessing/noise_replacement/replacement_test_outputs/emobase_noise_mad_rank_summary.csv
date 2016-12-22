@@ -1,6 +1,7 @@
 ,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
 emobase > noise > original,0.0,0.0,0.0,1,1,1
-emobase > noise > replaced_clone,717.0,0.7660256410256411,1.0,2,2,2
-emobase > noise > replaced_timeshift,774.0,0.8269230769230769,1.0,3,3,2
-emobase > noise > silenced,1207.0,1.2895299145299146,1.0,4,4,2
-emobase > noise > clone_all,2359.0,2.5202991452991452,3.0,5,5,5
+emobase > noise > replaced_clone,720.0,0.768409818569904,1.0,2,2,2
+emobase > noise > replaced_gen,766.0,0.8175026680896478,1.0,3,3,2
+emobase > noise > replaced_timeshift,808.0,0.8623265741728922,1.0,4,4,2
+emobase > noise > silenced,1248.0,1.3319103521878335,1.0,5,5,2
+emobase > noise > clone_all,2498.0,2.6659551760939166,3.0,6,6,6
