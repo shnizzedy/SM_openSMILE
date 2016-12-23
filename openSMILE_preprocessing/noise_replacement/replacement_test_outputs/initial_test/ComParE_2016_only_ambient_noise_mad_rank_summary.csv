@@ -1,0 +1,6 @@
+,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
+ComParE_2016 > only_ambient_noise > original,0.0,0.0,0.0,1,1,1
+ComParE_2016 > only_ambient_noise > replaced_stretch,8411.0,1.3548646907216495,1.0,2,2,2
+ComParE_2016 > only_ambient_noise > replaced_clone,8878.0,1.430090206185567,1.0,3,3,2
+ComParE_2016 > only_ambient_noise > replaced_brownian,8964.0,1.4439432989690721,1.0,4,4,2
+ComParE_2016 > only_ambient_noise > replaced_gen,13401.0,2.158666237113402,2.0,5,5,5

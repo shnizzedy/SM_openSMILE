@@ -1,23 +1,58 @@
-# Sound Resynthesis with a Genetic Algorithm
+# SM_openSMILE
+Scripts to analyze waveform files with openSMILE for the study of selective mutism.
 
-This is my final year project from university, finished in June 2011. It
-implements a basic synthesizer that is tuned by a genetic algorithm to
-try and match a single-note wave file that it is given.
+## [`openSMILE_preprocessing`](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_preprocessing "functions to prepare files for openSMILE analysis")
+Functions to prepare files for openSMILE analysis.
 
-It's in Java, and I've lost the build scripts. However I can say it was built
-with these versions of its dependencies:
+These functions were written to determine appropriate masking options for analyzing noise-polluted waveforms in openSMILE.
 
-* [jgap](http://jgap.sourceforge.net/) version 3.5
-* [minim](https://github.com/ddf/Minim) version 2.1 beta
-* [processing](https://processing.org/) version unknown, probably the latest
-  release from around the start of 2011
-* [opencsv](http://opencsv.sourceforge.net/) version 2.3
+## [`openSMILE_runSM`](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_runSM "batch process SM dataset with user-entered openSMILE configuration file")
+Batch process SM dataset with user-entered openSMILE configuration file.
 
-The main entry point is `adj08/MainMatch.java` but there are also some other
-utilities, e.g. to play back dumped `javaobj` files containing generated
-synthesizers, in `adj08/tests/` and `adj08/utilities`.
+Load the contents of this folder into openSMILE home directory.
 
-There are some example resyntheses in `demos` - for example,
-`oboe-original.wav` is the wav file as given to the system, and
-`oboe-resynthesis.wav` is the same note played by the best matched synthesizer
-from the genetic algorithm.
+Run runSM() to run openSMILE config file on all Waveform files with extension `*.wav` in `[openSMILE home directory]/all_audio_files/[URSI]/recorded_audio_files/`.
+
+It will ask for config_file. Just give it the filename. The file should live in `[openSMILE home directory]/config`.
+
+## [`iterate_ursis.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/iterate_ursis.py)
+Script to iterate through [top_directory]/URSI/[subdirectory]/files structure
+and return a list of included files.
+
+### i_ursi(top_in, sub_in)
+Function to iterate through [top_directory]/URSI/[subdirectory]/files structure
+and return a list of included files.
+
+## [`make_long_soundfiles.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/make_long_soundfiles.py)
+Create mylist.txt and run ffmpeg -f concat for each (particpant + condition).
+
+### make_long_wav(ursi_dir, mylist_txt)
+Function to run "ffmpeg -f concat" on mylist_txt.
+
+### make_file_list(topdir, ursi, condition)
+Function to make a *.txt file for each (ursi + condtion)
+
+### create_long_soundfiles()
+Function to take 3" sound files and splice them back together.
+
+## [`openSMILE_csv.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/openSMILE_csv.py)
+Script to format openSMILE emobase *.csv output combined with dx data into a
+set of new [participant × file × feature × dx] *.csv files, one for each
+experimental condition.
+
+Short (segmented) and long (concatenated) outputs are handled separately.
+
+### get_features(csv_file)
+Function to get features from openSMILE emobase configuration file csv outputs.
+
+### get_dx(ursi, dx_dictionary = None)
+Function to get a participant's diagnosis from a dictionary of diagnoses.
+
+### get_dx_dictionary()
+Function to create a diagnosis dictionary from a csv file containing diagnoses.
+
+### create_sample_row(ursi, condition, config_file)
+Function to create a row for a training set.
+
+### create_samples(config_file)
+Function to create samples for a training set based on trial condition.
