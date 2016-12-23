@@ -254,13 +254,22 @@ def get_ambient_clips(path):
     # t = np.arange(len(audio)) / rate
     # calculate envelope
     print('        calculating envelope')
+    # hilbert is 3200 × faster on even-length arrays
+    odd_flag = False
+    if(len(audio)%2):
+        audio.append(0)
+        odd_flag = True
     envelope = np.abs(signal.hilbert(audio))
     # initialize start, stop, and ambiance lists
     starts, stops, ambience = ([] for i in range(3))
     # initialize start flag
     start_flag = True
     # set threshold
-    threshold = np.median(envelope)
+    if odd_flag:
+        threshold = np.median(envelope[:-1])
+    else:
+        threshold = np.median(envelope)
+    print('        finding ambient segments')
     for index, point in enumerate(envelope):
         # get beginnings of ambient segments
         if (start_flag and point < threshold and point != 0):
