@@ -21,7 +21,7 @@ Copyright 2015,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
 # ( http://sage-bionetworks.github.io/mhealthx/ ).
 # os is Python's operating system library.
 # pandas is Python data analysis library.
-import mhealthx.extract as ex, mhealthx.utilities, os, pandas as pd
+import mhealthx.mhealthx.extract as ex, mhealthx.mhealthx.utilities, os, pandas as pd
 
 """
 Run from openSMILE home directory.
