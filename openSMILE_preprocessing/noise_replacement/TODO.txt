@@ -1,0 +1,8 @@
+dywapitchtrack (get pitch of ambient sound)
+
+javac SM_openSMILE/openSMILE_preprocessing/sound-resynthesis/src/adj08/MainMatch.java
+
+commandline:
+java SM_openSMILE/openSMILE_preprocessing/sound-resynthesis/src/adj08/MainMatch target=string(wav path) output=string(directory path) midiNote= m = 12*log2(fm/440 Hz)+69
+
+output: best_individual
