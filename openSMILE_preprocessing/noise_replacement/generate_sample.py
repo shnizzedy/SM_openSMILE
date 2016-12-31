@@ -23,6 +23,7 @@ sys.path.append("/Library/Frameworks/Python.framework/Versions/2.7/lib/"
                 "python2.7/site-packages")
 
 import iterate_ursis as iu, noise_replacement as nr, os, pydub, random
+import subprocess
 
 def build_sample(path, original, chosen_one, mask):
     """
@@ -117,7 +118,12 @@ def create_sample(in_file):
     print(''.join(["Loading original file into pydub"]))
     original = pydub.AudioSegment.from_wav(in_file)
 
+    # save ambient clip
     clip = original.get_sample_slice(chosen_one[0], chosen_one[1])
+    out_file = out_file_path(in_file, "ambient_clip")
+    ambient_path = out_file
+    build_sample(out_file, clip, None, None
+         
     # create silenced sample
     out_file = out_file_path(in_file, "sample_silenced")
     silence = pydub.AudioSegment.silent(duration=(chosen_one[1] -
@@ -129,11 +135,22 @@ def create_sample(in_file):
     clone = nr.grow_mask(clip, len(original))
     build_sample(out_file, silenced_sample, chosen_one, clone)
 
+    # create timeshifted sample
     out_file = out_file_path(in_file, "timeshifted")
     build_sample(out_file, silenced_sample, chosen_one, None)
 
-    out_file = out_file_path(in_file, "ambient_clip")
-    build_sample(out_file, clip, None, None)
+    # create genetic replacement sample
+    # TODO: fm = get frequency of ambient clip in Hz
+    midi_note = int(round(12 * math.log(fm / 440, 2) + 69))
+    out_file = out_file_path(in_file, "genetic_clip")
+    out_dir = os.path.dirname(out_file)
+    shell_command = "".join('java MainMatch input=', ambient_path,
+                    ' midiNote=', midi_note, ' output=',
+                     out_dir)
+    subprocess.run(shell_command, shell=True)
+    genetic = pydub.AudioSegment.from_wav(os.path.join(out_dir,
+              'best_individual.wav'))
+    build_sample(out_file, silenced_sample, chosen_one, genetic)
 
 def export(audio_segment, out_path):
     """
@@ -185,6 +202,11 @@ def out_file_path(path, method):
     return out_file
 
 def main():
+    # prepare for sound-resynthesis
+    wd = os.getcwd()
+    shell_command = "".join('javac SM_openSMILE/openSMILE_preprocessing/',
+                     'sound-resynthesis/src/adj08/MainMatch.java -d ', wd)
+    subprocess.run(shell_command, shell=True)
     t_dir = "/Volumes/data/Research/CDB/openSMILE/audio_files"
     starting_files = iu.i_ursi(t_dir, "no_beeps")
     for file in starting_files:
