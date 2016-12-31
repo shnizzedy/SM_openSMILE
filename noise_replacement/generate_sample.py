@@ -47,7 +47,7 @@ def build_sample(path, original, chosen_one, mask):
         a clip that matches original except that the marked silence or ambience
         is filled with a matching-duration segment of the specified mask
     """
-    new_clip = nr.build_new_soundfile(original, 44.1, mask, [chosen_one])
+    new_clip = nr.build_new_soundfile(original, 44.1, mask, [].append(chosen_one))
     print(''.join(["Saving ", path]))
     return(export(new_clip, path))
 
