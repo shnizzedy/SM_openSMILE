@@ -124,7 +124,7 @@ def borders_ms_to_frames(borders, rate):
                              rate)))
     return frame_borders
 
-def build_new_soundfile(with_silence, rate, mask, borders = None):
+def build_new_soundfile(with_silence, rate, mask, borders):
     """
     Given a soundfile, an optional mask, and a list of time-pairs,
     concatenate the segments outside of the time-pairs, replacing
@@ -150,7 +150,8 @@ def build_new_soundfile(with_silence, rate, mask, borders = None):
     new_sound : pydub audio segment
         the reconstructed segment
     """
-    if not borders:
+    if (not borders):
+        print("No marked segments.")
         return with_silence
     borders = borders_ms_to_frames(borders, rate)
     segmented_sound = []
