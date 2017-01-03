@@ -102,7 +102,7 @@ def create_sample(in_file):
     # start by looking for clips 2.5 seconds or longer
     desired_duration = 110250
     while len(remaining_options) == 0:
-        remaining_options.append(check_clip_len(options, desired_duration))
+        remaining_options = check_clip_len(options, desired_duration)
         # reduce desired duration by .25 seconds
         desired_duration = desired_duration - 11025
     num_options = len(remaining_options)
