@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-mp3_to_wav.py
+mxf_to_wav.py
 
 Script to quickly convert an mp3 file to a waveform file.
 
@@ -14,16 +14,12 @@ Created on Fri Dec 23 12:43:40 2016
 
 @author: jon.clucas
 """
-import argparse
+import argparse, subprocess
 from os import path
-from pydub import AudioSegment
 
-
-def mp3_to_wav(in_file):
-    # get the mp3
-    to_convert = AudioSegment.from_mp3(in_file)
+def mxf_to_wav(in_file):
     # make an output filename
-    out_base = path.basename(in_file.strip('.mp3').strip('.MP3'))
+    out_base = path.basename(in_file).strip('.mxf').strip('.MXF')
     out_i = 0
     out_file = path.join(path.dirname(in_file), ''.join([out_base, '.wav']))
     while path.exists(out_file):
@@ -31,15 +27,17 @@ def mp3_to_wav(in_file):
                    str(out_i), '.wav']))
         out_i = out_i + 1
     # do the conversion verbosely
+    to_convert = ''.join(["ffmpeg -i ", in_file, " -ac 2 -acodec pcm_s32le ",
+                 out_file])
     print(''.join(["Converting ", in_file, " to ", out_file]))
-    to_convert.export(out_file, format="wav")
+    subprocess.call(to_convert, shell = True)
 
 def main():
     # script can be run from the command line
-    parser = argparse.ArgumentParser(description='get mp3')
+    parser = argparse.ArgumentParser(description='get mxf')
     parser.add_argument('in_file', metavar='in_file', type=str)
     arg = parser.parse_args()
-    mp3_to_wav(arg.in_file)
+    mxf_to_wav(arg.in_file)
 
 # ============================================================================
 if __name__ == '__main__':

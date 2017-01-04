@@ -48,7 +48,7 @@ def build_sample(path, original, chosen_one, mask):
         a clip that matches original except that the marked silence or ambience
         is filled with a matching-duration segment of the specified mask
     """
-    new_clip = nr.build_new_soundfile(original, 44.1, mask, [].append(chosen_one))
+    new_clip = nr.build_new_soundfile(original, 44.1, mask, chosen_one)
     print(''.join(["Saving ", path]))
     return(export(new_clip, path))
 
@@ -110,34 +110,40 @@ def create_sample(in_file):
     print(''.join([str(num_options), " ≥ ", str(round(desired_duration /
           44100, 2)), " seconds"]))
     # choose a clip to extract
-    chosen_one = remaining_options[random.randrange(0, num_options)]
-    print(''.join(['chosen clip : ', str(chosen_one[0]), ":",
-          str(chosen_one[1]), " (~", str(round((chosen_one[1] - chosen_one[0]) /
+    chosen_one = []
+    chosen_one.append(remaining_options[random.randrange(0, num_options)])
+    ms_chosen_one = nr.borders_frames_to_ms(chosen_one, 44.1)
+    print(chosen_one)
+    # store length of chosen_one
+    chosen_one_l = chosen_one[0][1] - chosen_one[0][0]
+    print(''.join(['chosen clip : ', str(chosen_one[0][0]), ":",
+          str(chosen_one[0][1]), " (~", str(round(chosen_one_l /
                44100, 2)), " seconds)"]))
     # import original sound
     print(''.join(["Loading original file into pydub"]))
     original = pydub.AudioSegment.from_wav(in_file)
 
-    # save ambient clip
-    clip = original.get_sample_slice(chosen_one[0], chosen_one[1])
+    # save copy of ambient clip
+    clip = original.get_sample_slice(chosen_one[0][0], chosen_one[0][1])
     out_file = out_file_path(in_file, "ambient_clip")
-    ambient_path = out_file
-    build_sample(out_file, clip, None, None
-         
+    build_sample(out_file, clip, None, None)
+
     # create silenced sample
     out_file = out_file_path(in_file, "sample_silenced")
-    silence = pydub.AudioSegment.silent(duration=(chosen_one[1] -
-              chosen_one[0]))
-    silenced_sample = build_sample(out_file, original, chosen_one, silence)
+    print("Creating silence mask")
+    silence = pydub.AudioSegment.silent(duration=int(round(chosen_one_l / 44.1,
+                                        2)))
+    print(chosen_one)
+    silenced_sample = build_sample(out_file, original, ms_chosen_one, silence)
 
     # create replace silence with clone mask
     out_file = out_file_path(in_file, "clone_fill")
     clone = nr.grow_mask(clip, len(original))
-    build_sample(out_file, silenced_sample, chosen_one, clone)
+    build_sample(out_file, silenced_sample, ms_chosen_one, clone)
 
     # create timeshifted sample
     out_file = out_file_path(in_file, "timeshifted")
-    build_sample(out_file, silenced_sample, chosen_one, None)
+    build_sample(out_file, silenced_sample, ms_chosen_one, None)
 
     # create genetic replacement sample
     # TODO: fm = get frequency of ambient clip in Hz
