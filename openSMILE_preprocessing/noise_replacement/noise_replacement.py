@@ -170,6 +170,8 @@ def build_new_soundfile(with_silence, rate, mask, borders):
                 print(''.join(["building with segment [", str(seg_start), ":",
                       str(pair[0]), "]"]))
                 if mask:
+                    print(''.join([str(math.ceil(pair[1])), ' - ',
+                          str(math.floor(pair[0]))]))
                     masked_segment = fill_in(mask, (math.ceil(pair[1]) -
                                      math.floor(pair[0])), rate)
                     segmented_sound.append(masked_segment)
@@ -216,7 +218,14 @@ def fill_in(mask, duration, rate):
         the mask clipped to specified duration
 
     """
-    start = random.randrange(0, ((math.ceil(len(mask) * rate)) - duration), 1)
+    mask_len = math.ceil(len(mask) * rate)
+    print(str(mask_len))
+    print(str(duration))
+    if (duration >= mask_len):
+        start = 0
+    else:
+        start = random.randrange(0, (mask_len - math.floor(
+            duration)), 1)
     print(''.join(["fill in ", str(start), ":", str((start + duration))]))
     mask = mask.get_sample_slice(math.floor(start), math.ceil(start +
            duration))
