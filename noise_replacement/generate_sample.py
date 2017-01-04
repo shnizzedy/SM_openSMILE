@@ -111,18 +111,19 @@ def create_sample(in_file):
     # choose a clip to extract
     chosen_one = []
     chosen_one.append(remaining_options[random.randrange(0, num_options)])
+    ms_chosen_one = nr.borders_frames_to_ms(chosen_one, 44.1)
     print(chosen_one)
     # store length of chosen_one
-    chosen_one_l = chosen_one[1] - chosen_one[0]
-    print(''.join(['chosen clip : ', str(chosen_one[0]), ":",
-          str(chosen_one[1]), " (~", str(round(chosen_one_l /
+    chosen_one_l = chosen_one[0][1] - chosen_one[0][0]
+    print(''.join(['chosen clip : ', str(chosen_one[0][0]), ":",
+          str(chosen_one[0][1]), " (~", str(round(chosen_one_l /
                44100, 2)), " seconds)"]))
     # import original sound
     print(''.join(["Loading original file into pydub"]))
     original = pydub.AudioSegment.from_wav(in_file)
 
     # save copy of ambient clip
-    clip = original.get_sample_slice(chosen_one[0], chosen_one[1])
+    clip = original.get_sample_slice(chosen_one[0][0], chosen_one[0][1])
     out_file = out_file_path(in_file, "ambient_clip")
     build_sample(out_file, clip, None, None)
 
@@ -132,16 +133,16 @@ def create_sample(in_file):
     silence = pydub.AudioSegment.silent(duration=int(round(chosen_one_l / 44.1,
                                         2)))
     print(chosen_one)
-    silenced_sample = build_sample(out_file, original, chosen_one, silence)
+    silenced_sample = build_sample(out_file, original, ms_chosen_one, silence)
 
     # create replace silence with clone mask
     out_file = out_file_path(in_file, "clone_fill")
     clone = nr.grow_mask(clip, len(original))
-    build_sample(out_file, silenced_sample, chosen_one, clone)
+    build_sample(out_file, silenced_sample, ms_chosen_one, clone)
 
     # create timeshifted sample
     out_file = out_file_path(in_file, "timeshifted")
-    build_sample(out_file, silenced_sample, chosen_one, None)
+    build_sample(out_file, silenced_sample, ms_chosen_one, None)
 
 def export(audio_segment, out_path):
     """
