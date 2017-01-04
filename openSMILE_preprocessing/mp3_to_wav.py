@@ -23,8 +23,13 @@ def mp3_to_wav(in_file):
     # get the mp3
     to_convert = AudioSegment.from_mp3(in_file)
     # make an output filename
-    out_file = path.join(path.dirname(in_file), ''.join([path.basename(
-               in_file).strip('.mp3').strip('.MP3'), '.wav']))
+    out_base = path.basename(in_file.strip('.mp3').strip('.MP3'))
+    out_i = 0
+    out_file = path.join(path.dirname(in_file), ''.join([out_base, '.wav']))
+    while path.exists(out_file):
+        out_file = path.join(path.dirname(in_file), ''.join([out_base, '_',
+                   out_i, '.wav']))
+        out_i = out_i + 1
     # do the conversion verbosely
     print(''.join(["Converting ", in_file, " to ", out_file]))
     to_convert.export(out_file, format="wav")
