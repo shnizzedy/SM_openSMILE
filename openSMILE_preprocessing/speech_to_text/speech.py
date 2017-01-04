@@ -2,11 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 """
-import os, subprocess
+import json, os, subprocess
 
 def google_speech(in_file):
-    url = ("https://www.google.com/speech-api/v2/recognize?output=json&"
-           "lang=en-US&&pfilter=2&key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw")
+    with open("/Users/jon.clucas/Documents/recorder_test/"
+              "Speech API test-16e0802b3564.json") as google_credentials:
+        cred = json.load(google_credentials)
+    url = (''.join(["https://www.google.com/speech-api/v2/recognize?output="
+            "json&lang=en-US&&pfilter=2&key=", cred["api_key"]]))
     out_base = os.path.basename(in_file.strip('.flac').strip('.FLAC'))
     out_file = os.path.join(os.path.dirname(in_file), ''.join([out_base,
                '_(Google).json']))
@@ -19,7 +22,8 @@ def google_speech(in_file):
         os.makedirs(out_file)
     command_string = ''.join(["curl -X POST --data-binary @", in_file,
                      " --user-agent 'Mozilla/5.0' --header 'Content-Type:"
-                     " audio/x-flac; rate=44100;' '", url, "' -o ", out_file])
+                     " audio/x-flac; rate=44100;' '", url, "' -o '", out_file,
+                     "'"])
     print(command_string)
     subprocess.call(command_string, shell=True)
     """
