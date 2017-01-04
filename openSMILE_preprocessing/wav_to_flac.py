@@ -28,7 +28,7 @@ def wav_to_flac(in_file):
                    str(out_i), '.flac']))
         out_i = out_i + 1
     # do the conversion verbosely
-    to_convert = ''.join(["ffmpeg -i ", in_file, " -c:a flac  ", out_file])
+    to_convert = ''.join(["ffmpeg -i ", in_file, " -c:a flac -ac 1 ", out_file])
     print(''.join(["Converting ", in_file, " to ", out_file]))
     subprocess.call(to_convert, shell = True)
 
