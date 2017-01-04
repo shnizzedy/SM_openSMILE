@@ -19,11 +19,17 @@ from os import path
 
 def mxf_to_wav(in_file):
     # make an output filename
-    out_file = path.join(path.dirname(in_file), ''.join([path.basename(
-               in_file).strip('.mxf').strip('.MXF'), '.wav']))
+    out_base = path.basename(in_file).strip('.mxf').strip('.MXF')
+    out_i = 0
+    out_file = path.join(path.dirname(in_file), ''.join([out_base, '.wav']))
+    while path.exists(out_file):
+        out_file = path.join(path.dirname(in_file), ''.join([out_base, '_',
+                   out_i, '.wav'])
+        out_i = out_i + 1
     # do the conversion verbosely
     print(''.join(["Converting ", in_file, " to ", out_file]))
-    to_convert = ''.join(["ffmpeg -i ", in_file, " -ac 2 -acodec pcm_s32le ", out_file])
+    to_convert = ''.join(["ffmpeg -i ", in_file, " -ac 2 -acodec pcm_s32le ",
+                 out_file])
     subprocess.call(to_convert, shell = True)
 
 def main():
