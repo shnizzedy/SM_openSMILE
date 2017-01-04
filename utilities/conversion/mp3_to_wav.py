@@ -28,7 +28,7 @@ def mp3_to_wav(in_file):
     out_file = path.join(path.dirname(in_file), ''.join([out_base, '.wav']))
     while path.exists(out_file):
         out_file = path.join(path.dirname(in_file), ''.join([out_base, '_',
-                   out_i, '.wav']))
+                   str(out_i), '.wav']))
         out_i = out_i + 1
     # do the conversion verbosely
     print(''.join(["Converting ", in_file, " to ", out_file]))
