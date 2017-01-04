@@ -18,13 +18,14 @@ def main():
     parser = argparse.ArgumentParser(description='get directory')
     parser.add_argument('in_dir', metavar='in_dir', type=str)
     arg = parser.parse_args()
-    for file in os.walk(arg.in_dir):
-        if file.casefold().endswith(".mp3".casefold()):
-            mp3.mp3_to_wav(file)
-        elif file.casefold().endswith(".mxf".casefold()):
-            mxf.mxf_to_wav(file)
-        else:
-            pass
+    for root, dirs, files in os.walk(arg.in_dir):
+        for file in files:
+            if file.casefold().endswith(".mp3".casefold()):
+                mp3.mp3_to_wav(os.path.join(root, file))
+            elif file.casefold().endswith(".mxf".casefold()):
+                mxf.mxf_to_wav(os.path.join(root, file))
+            else:
+                pass
 
 # ============================================================================
 if __name__ == '__main__':
