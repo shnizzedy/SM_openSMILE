@@ -25,13 +25,30 @@ def google_speech(in_file):
                      " audio/x-flac; rate=44100;' '", url, "' -o '", out_file,
                      "'"])
     print(command_string)
-    subprocess.call(command_string, shell=True)
-    """
-    f = open(out_file, 'w')
-    print(request.data.decode("utf-8", 'ignore'))
-    f.write(request.data.decode("utf-8", 'ignore'))
-    """
+    subprocess.call(command_string, shell = True)
 
+def watson_speech(in_file):
+    with open("/Users/jon.clucas/Documents/recorder_test/watson-cred.json"
+              ) as watson_credentials:
+        cred = json.load(watson_credentials)
+    out_base = os.path.basename(in_file.strip('.flac').strip('.FLAC'))
+    out_file = os.path.join(os.path.dirname(in_file), ''.join([out_base,
+               '_(Watson).json']))
+    out_i = 0
+    while os.path.exists(out_file):
+        out_file = os.path.join(os.path.dirname(in_file), ''.join([out_base,
+                   '_', str(out_i), '_(Watson).json']))
+        out_i = out_i + 1
+    if not os.path.exists(os.path.dirname(out_file)):
+        os.makedirs(out_file)
+    command_string = (''.join(["curl -u '", cred["username"], "':'",
+                      cred["password"], "' --header 'Content-Type: audio/"
+                      "flac' --data-binary '@", in_file, "' 'https://stream.",
+                      "watsonplatform.net/speech-to-text/api/v1/recognize?'",
+                      "continuous=true > '", out_file, "'"]))
+    print(command_string)
+    subprocess.call(command_string, shell = True)
+          
 def main():
     google_speech("/Users/jon.clucas/Documents/recorder_test/"
                   "12_seconds.flac")
