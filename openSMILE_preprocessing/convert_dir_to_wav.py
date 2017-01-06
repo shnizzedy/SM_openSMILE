@@ -5,8 +5,8 @@ convert_dir_to_wav.py
 Script to quickly convert all mp3 and mxf files in a directory to
 waveform files.
 Author:
-        – Jon Clucas, 2016 (jon.clucas@childmind.org)
-© 2016, Child Mind Institute, Apache v2.0 License
+        – Jon Clucas, 2017 (jon.clucas@childmind.org)
+© 2017, Child Mind Institute, Apache v2.0 License
 
 @author: jon.clucas
 """
