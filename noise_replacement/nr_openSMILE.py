@@ -3,9 +3,9 @@
 """
 nr_openSMILE.py
 
-Run selected openSMILE scripts on files with noises replaced by various methods
-(see `openSMILE_preprocessing/noise_replacement` for noise replacement
-details).
+Script to run selected openSMILE config files on sound files with noises
+replaced by various methods (see `openSMILE_preprocessing/noise_replacement`
+for noise replacement details).
 
 Author:
     – Jon Clucas, 2016–2017 (jon.clucas@childmind.org)
