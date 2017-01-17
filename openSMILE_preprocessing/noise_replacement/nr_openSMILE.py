@@ -29,7 +29,7 @@ import os
 
 
 # change this variable to your openSMILE installation location
-openSMILE = '/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract'
+openSMILEdir = '/home/jclucas/opensmile-2.3.0'
 
 def run_openSMILE(config_file, sound_file):
     """
@@ -56,6 +56,7 @@ def run_openSMILE(config_file, sound_file):
         original location within an `openSMILE_output` directory at the
         relative level of original location
     """
+    openSMILE = os.path.join(openSMILEdir, 'inst', 'bin', 'SMILExtract')
     sub_dir = os.path.split(os.path.dirname(sound_file))
     basename = ''.join([os.path.basename(sound_file).strip('.wav').strip(
                '.WAV'), '.csv'])
@@ -63,8 +64,8 @@ def run_openSMILE(config_file, sound_file):
     if not os.path.exists(out_path):
         os.makedirs(out_path, 0755)
     row = None
-    r_oS_args = sound_file, openSMILE, '-I', '-C', '-O', ''.join(['config/',
-                config_file]), '', row, out_path, True
+    r_oS_args = sound_file, openSMILE, '-I', '-C', '-O', ''.join([openSMILEdir,
+                '/config/', config_file]), '', row, out_path, True
     print(' | '.join([sound_file, openSMILE, ''.join(['config/', config_file])]
           ))
     # process the file
