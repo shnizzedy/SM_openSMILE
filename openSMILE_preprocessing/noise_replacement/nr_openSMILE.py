@@ -64,7 +64,7 @@ def run_openSMILE(config_file, sound_file):
         os.makedirs(out_path, 0755)
     row = None
     r_oS_args = sound_file, openSMILE, '-I', '-C', '-O', ''.join(['config/',
-                config_file]), '', row, out_dir, True
+                config_file]), '', row, out_path, True
     print(' '.join(r_oS_args))
     # process the file
     try:
@@ -73,7 +73,7 @@ def run_openSMILE(config_file, sound_file):
     except cComponentException:
         row, table_path = ex.run_openSMILE(sound_file, openSMILE, '-I', '-C',
                           '-csvoutput', ''.join(['config/', config_file]), '',
-                          row, out_dir, True)
+                          row, out_path, True)
 
 def main():
     # replace `top_dir`'s value with your top-level directory
