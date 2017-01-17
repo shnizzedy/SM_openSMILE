@@ -69,7 +69,7 @@ def run_openSMILE(config_file, sound_file):
           ))
     # process the file
     try:
-        row, table_path = ex.run_openSMILE(r_oS_args)
+        row, table_path = ex.run_openSMILE(*r_oS_args)
     except Exception as e:
         print(e)
 
