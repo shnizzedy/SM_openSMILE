@@ -23,8 +23,8 @@ Institute, Apache v2.0 License
 
 """
 
-from ..openSMILE_runSM.mhealthx.mhealthx import extract as ex
-from .. import iterate_ursis as iu
+from ...openSMILE_runSM.mhealthx.mhealthx import extract as ex
+from ... import iterate_ursis as iu
 import os
 
 
