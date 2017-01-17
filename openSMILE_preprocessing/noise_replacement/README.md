@@ -59,6 +59,14 @@ Function to create a clone mask from an ambient clip.
 ## replace_silence(original, mask, rate)
 Function to create a clip in which silences are replaced by masks.
 
+# nr_openSMILE
+Script to run selected openSMILE config files on sound files with noises
+replaced by various methods (see [`openSMILE_preprocessing/noise_replacement`](https://github.com/shnizzedy/SM_openSMILE/tree/master/openSMILE_preprocessing/noise_replacement "noise_replacement") for noise replacement details).
+
+## run_openSMILE(config_file, sound_file)
+Function to run the openSMILE with a specified config_file on a specified
+sound file and save the results.
+
 # Method used to determine appropriate noise masking method
 
 ## Data
