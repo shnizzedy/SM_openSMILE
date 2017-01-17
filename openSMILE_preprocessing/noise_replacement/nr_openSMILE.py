@@ -23,17 +23,10 @@ Institute, Apache v2.0 License
 
 """
 
-try:
-    import SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract as ex
-    import SM_openSMILE.iterate_ursis as iu, os
-except ImportError:
-    import os, sys
-    path_to_SMo = os.path.dirname(os.path.dirname(os.path.dirname(
-                  os.path.realpath(__file__))))
-    print(path_to_SMo)
-    sys.path.append(path_to_SMo)
-    from SM_openSMILE import openSMILE_runSM.mhealthx.mhealthx.extract as ex
-    from SM_openSMILE import iterate_ursis as iu
+from ... import openSMILE_runSM.mhealthx.mhealthx.extract as ex
+from ... import iterate_ursis as iu
+import os
+
 
 # change this variable to your openSMILE installation location
 openSMILE = '/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract'
