@@ -21,7 +21,7 @@ Copyright 2015,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
 # ( http://sage-bionetworks.github.io/mhealthx/ ).
 # os is Python's operating system library.
 # pandas is Python data analysis library.
-import mhealthx.mhealthx.extract as ex, mhealthx.mhealthx.utilities, os, pandas as pd
+import mhealthx.mhealthx.extract as ex, os
 
 """
 Run from openSMILE home directory.
@@ -31,10 +31,11 @@ all wav files in "./all_audio_files/*".
 """
 def runSM():
     """
-    Function to run the same openSMILE configuration file on a batch of waveform files.
+    Function to run the same openSMILE configuration file on a batch of
+    waveform files.
 
-    This script needs to be housed one level below the openSMILE home directory.
-    Waveforms are expected to be under openSMILE home directory in all_audio_files/[URSI]/recorded_audio_files .
+    Waveforms are expected to be under openSMILE home directory in
+    all_audio_files/[URSI]/recorded_audio_files .
 
     Parameters
     ----------
@@ -59,33 +60,43 @@ def runSM():
             # ex.run_openSMILE(audio_file, command, flag1, flags, flagn,
             #           args, closing, row, table_stem, save_rows)
             row = None
-            for proot, pdirs, pfiles in os.walk(os.path.join(root,participant)):
+            for proot, pdirs, pfiles in os.walk(os.path.join(root,
+                                                participant)):
                 # get each audio file
                 for wav in pfiles:
                     # include only files with waveform extension
                     if wav.endswith('.wav'):
-                        # check if all_audio_files/[URSI]/[config] exists for participant;
-                        # if not, create that folder.
-                        participant_home_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.join(proot,wav))))
-                        out_dir = os.path.join(participant_home_dir,'openSMILE_outputs',config_file.strip('.conf'))
+                        # check if all_audio_files/[URSI]/[config] exists for
+                        # participant; if not, create that folder.
+                        participant_home_dir = os.path.dirname(os.path.dirname(
+                                               os.path.abspath(os.path.join(
+                                               proot,wav))))
+                        out_dir = os.path.join(participant_home_dir,
+                                  'openSMILE_outputs', config_file.strip(
+                                  '.conf'))
                         if not os.path.exists(out_dir):
-                            os.makedirs(out_dir,755)
-                        # run openSMILE and send results to all_audio_files/[URSI]/[config]
+                            os.makedirs(out_dir, 755)
+                        # run openSMILE and send results to
+                        # all_audio_files/[URSI]/[config]
                         try:
                             # tell which file is being processed
                             print(wav)
                             # process the file
                             try:
-                                row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
-                                           '-I','-C','-O',
-                                           ''.join(['config/',config_file]),'',row,
-                                           out_dir,True)
+                                row, table_path = ex.run_openSMILE(
+                                     os.path.abspath(os.path.join(proot, wav)),
+                                     ''.join(['/home/jclucas/opensmile-2.3.0/',
+                                     'inst/bin/SMILExtract']), '-I', '-C',
+                                     '-O', ''.join(['config/',config_file]),
+                                     '', row, out_dir, True)
                             # if necessary, specify csvoutput
                             except cComponentException:
-                                row, table_path = ex.run_openSMILE(os.path.abspath(os.path.join(proot,wav)),'/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract',
-                                           '-I','-C','-csvoutput',
-                                           ''.join(['config/',config_file]),'',row,
-                                           out_dir,True)
+                                row, table_path = ex.run_openSMILE(
+                                     os.path.abspath(os.path.join(proot, wav)),
+                                     ''.join(['/home/jclucas/opensmile-2.3.0/',
+                                     'inst/bin/SMILExtract']), '-I', '-C',
+                                     '-csvoutput', ''.join(['config/',
+                                      config_file]), '', row, out_dir, True)
                         # keep going if openSMILE throws any other error
                         except:
                             pass
