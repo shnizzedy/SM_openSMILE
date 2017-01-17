@@ -65,7 +65,7 @@ def run_openSMILE(config_file, sound_file):
     row = None
     r_oS_args = sound_file, openSMILE, '-I', '-C', '-O', ''.join(['config/',
                 config_file]), '', row, out_path, True
-    print(' '.join(r_oS_args))
+    print(' | '.join(sound_file, openSMILE, ''.join(['config/', config_file])))
     # process the file
     try:
         row, table_path = ex.run_openSMILE(r_oS_args)
