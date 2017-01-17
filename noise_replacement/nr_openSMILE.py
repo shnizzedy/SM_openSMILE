@@ -93,5 +93,6 @@ def main():
             run_openSMILE(config, sound_file)
 
 # ============================================================================
-if __name__ == '__main__':
+if __name__ == '__main__' and __package__ is None:
+    __package__ = "expected.package.name"
     main()
