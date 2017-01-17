@@ -45,7 +45,8 @@ def runSM():
     -------
     feature_row : pandas Series
          row combining the original row with a row of openSMILE feature values
-        feature_table : string
+
+    feature_table : string
              output table file (full path)
     """
     # get config filename from user.
@@ -75,7 +76,7 @@ def runSM():
                                   'openSMILE_outputs', config_file.strip(
                                   '.conf'))
                         if not os.path.exists(out_dir):
-                            os.makedirs(out_dir, 755)
+                            os.makedirs(out_dir, 0755)
                         # run openSMILE and send results to
                         # all_audio_files/[URSI]/[config]
                         try:
