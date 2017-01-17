@@ -32,8 +32,8 @@ except ImportError:
                   os.path.realpath(__file__))))
     print(path_to_SMo)
     sys.path.append(path_to_SMo)
-    import SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract as ex
-    import SM_openSMILE.iterate_ursis as iu
+    from SM_openSMILE import openSMILE_runSM.mhealthx.mhealthx.extract as ex
+    from SM_openSMILE import iterate_ursis as iu
 
 # change this variable to your openSMILE installation location
 openSMILE = '/home/jclucas/opensmile-2.3.0/inst/bin/SMILExtract'
