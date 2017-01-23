@@ -72,6 +72,9 @@ def main():
     dataframes = iterate_through()
     list_of_dataframes = []
     for dataframe in dataframes:
+        # export dataframe to csv
+        dataframe[1].to_csv(os.path.join(op_path, ".".join([dataframe[0],
+                            "csv"])))
         # tell which config_file+condition is being processed
         print(dataframe[0])
         # get mean absolute deviation for each column

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 """
-import json, os, subprocess
+import argparse, json, os, subprocess
 
 def google_speech(in_file):
     with open("/Users/jon.clucas/Documents/recorder_test/"
@@ -10,7 +10,7 @@ def google_speech(in_file):
         cred = json.load(google_credentials)
     url = (''.join(["https://www.google.com/speech-api/v2/recognize?output="
             "json&lang=en-US&&pfilter=2&key=", cred["api_key"]]))
-    out_base = os.path.basename(in_file.strip('.flac').strip('.FLAC'))
+    out_base = os.path.basename(in_file.rstrip('.flac').rstrip('.FLAC'))
     out_file = os.path.join(os.path.dirname(in_file), ''.join([out_base,
                '_(Google).json']))
     out_i = 0
@@ -31,7 +31,7 @@ def watson_speech(in_file):
     with open("/Users/jon.clucas/Documents/recorder_test/watson-cred.json"
               ) as watson_credentials:
         cred = json.load(watson_credentials)
-    out_base = os.path.basename(in_file.strip('.flac').strip('.FLAC'))
+    out_base = os.path.basename(in_file.rstrip('.flac').rstrip('.FLAC'))
     out_file = os.path.join(os.path.dirname(in_file), ''.join([out_base,
                '_(Watson).json']))
     out_i = 0
@@ -48,10 +48,16 @@ def watson_speech(in_file):
                       "continuous=true > '", out_file, "'"]))
     print(command_string)
     subprocess.call(command_string, shell = True)
-          
+
 def main():
-    google_speech("/Users/jon.clucas/Documents/recorder_test/"
-                  "12_seconds.flac")
+    parser = argparse.ArgumentParser(description='get directory')
+    parser.add_argument('in_dir', metavar='in_dir', type=str)
+    arg = parser.parse_args()
+    for root, dirs, files in os.walk(arg.in_dir):
+        for file in files:
+                if file.casefold().endswith(".flac".casefold()):
+                    google_speech(os.path.join(root,file))
+                    watson_speech(os.path.join(root,file))
 
 # ============================================================================
 if __name__ == '__main__':
