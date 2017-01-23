@@ -27,7 +27,7 @@ def mxf_to_wav(in_file):
                    str(out_i), '.wav']))
         out_i = out_i + 1
     # do the conversion verbosely
-    to_convert = ''.join(["ffmpeg -i ", in_file, " -ac 2 -acodec pcm_s32le ",
+    to_convert = ''.join(["ffmpeg -i ", in_file, " -ac 2 -acodec pcm_s16le ",
                  out_file])
     print(''.join(["Converting ", in_file, " to ", out_file]))
     subprocess.call(to_convert, shell = True)
