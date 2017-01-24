@@ -3,7 +3,7 @@
 """
 mxf_to_wav.py
 
-Script to quickly convert an mp3 file to a waveform file.
+Script to quickly convert an mxf file to a waveform file.
 
 Author:
         – Jon Clucas, 2016 (jon.clucas@childmind.org)
