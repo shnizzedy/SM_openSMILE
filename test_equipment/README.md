@@ -10,21 +10,22 @@ Comparing low-level features few had poor parity between the four possible combi
 ![Worst parity: PMAV ComParE_2016](https://github.com/shnizzedy/SM_openSMILE/blob/master/test_equipment/PMAV/ComParE_2016/collected/boxplot.png)
 ### transcription (Watson)
 The results of transcription were predictable.
-| ""                 | "close_screen_off_(Watson).json" | "close_screen_on_(Watson).json" | "far_screen_off_(Watson).json" | "far_screen_on_(Watson).json" | "Key"     | 
+
+|             | close_screen_off_(Watson).json | close_screen_on_(Watson).json | far_screen_off_(Watson).json | far_screen_on_(Watson).json | Key     | 
 |--------------------|----------------------------------|---------------------------------|--------------------------------|-------------------------------|-----------| 
-| ""                 | "Peter"                          | "Peter"                         | "Peter"                        | "Peter"                       | "Peter"   | 
-| ""                 | "Piper"                          | "Piper"                         | "Piper"                        | "Piper"                       | "Piper"   | 
-| ""                 | "picked"                         | "picked"                        | "picked"                       | "picked"                      | "picked"  | 
-| ""                 | "a"                              | "a"                             | "up"                           | "a"                           | "a"       | 
-| ""                 | "Peck"                           | "Peck"                          | "but"                          | "pack"                        | "peck"    | 
-| ""                 | "of"                             | "of"                            | "first"                        | "of"                          | "of"      | 
-| ""                 | "pickled"                        | "pickled"                       | "thinking"                     | "pickled"                     | "pickled" | 
-| ""                 | "peppers"                        | "peppers"                       | "about"                        | "peppers"                     | "peppers" | 
-| ""                 | "Peggy"                          | "Peggy"                         | "I"                            | "piggyback"                   | "Peggy"   | 
-| ""                 | "Babcock"                        | "Babcock"                       | "think"                        | "because"                     | "Babcock" | 
-| ""                 | "piggy"                          | "Peggy"                         | "he"                           | "picking"                     | "Peggy"   | 
-| ""                 | "back"                           | "that"                          | ""                             | "out"                         | "Babcock" | 
-| "hamming distance" | "3"                              | "2"                             | "9"                            | "5"                           | "0"       | 
+|                  | Peter                          | Peter                         | Peter                        | Peter                       | Peter   | 
+|                  | Piper                          | Piper                         | Piper                        | Piper                       | Piper   | 
+|                  | picked                         | picked                        | picked                       | picked                      | picked  | 
+|                  | a                              | a                             | up                           | a                           | a       | 
+|                  | Peck                           | Peck                          | but                          | pack                        | peck    | 
+|                  | of                             | of                            | first                        | of                          | of      | 
+|                  | pickled                        | pickled                       | thinking                     | pickled                     | pickled | 
+|                  | peppers                        | peppers                       | about                        | peppers                     | peppers | 
+|                  | Peggy                          | Peggy                         | I                            | piggyback                   | Peggy   | 
+|                  | Babcock                        | Babcock                       | think                        | because                     | Babcock | 
+|                  | piggy                          | Peggy                         | he                           | picking                     | Peggy   | 
+|                  | back                           | that                          |                              | out                         | Babcock | 
+| hamming distance | 3                              | 2                             | 9                            | 5                           | 0       | 
 
 
 ## Recorder tests
