@@ -1,0 +1,32 @@
+{
+   "results": [
+      {
+         "alternatives": [
+            {
+               "confidence": 0.724, 
+               "transcript": "Peter Piper picked "
+            }
+         ], 
+         "final": true
+      }, 
+      {
+         "alternatives": [
+            {
+               "confidence": 0.577, 
+               "transcript": "a pack of pickled peppers piggyback because "
+            }
+         ], 
+         "final": true
+      }, 
+      {
+         "alternatives": [
+            {
+               "confidence": 0.304, 
+               "transcript": "picking out "
+            }
+         ], 
+         "final": true
+      }
+   ], 
+   "result_index": 0
+}

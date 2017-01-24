@@ -1,0 +1,3 @@
+,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
+emobase > word_list > ArnoD > PONE__Canon,0.0,0.0,0.0,1,1,1
+emobase > word_list > ArnoD > Sony,1957.0,1.9989785495403474,2.0,2,2,2
