@@ -14,7 +14,7 @@ Author:
 © 2017, Child Mind Institute, Apache v2.0 License
 """
 
-import argparse, csv, os, pandas as pd, scipy.spatial, subprocess
+import argparse, csv, os, pandas as pd, subprocess
 
 def oS_csv_reformat(oS_csv, first):
     """
