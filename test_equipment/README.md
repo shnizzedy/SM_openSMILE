@@ -31,6 +31,8 @@ The results of transcription were predictable.
 ## Recorder tests
 Comparing low-level features, few had poor parity between the Sony recorder and the PØNE → Canon recording set-up. Out of thousands of features analyzed, below are boxplots of the features with the worst parity sorted from worst to best. Within each box are all participants recorded in the given task with the specified recording set-up. The tasks were recorded with both set-ups simultaneously.
 
+### low-level features (openSMILE)
+
 ![Worst parity: sentences/emobase](https://raw.githubusercontent.com/shnizzedy/SM_openSMILE/master/test_equipment/recorder_test/sentences/emobase/collected/boxplot.png)
 
 ![Worst parity: sentences/ComParE_2016](https://raw.githubusercontent.com/shnizzedy/SM_openSMILE/master/test_equipment/recorder_test/sentences/ComParE_2016/collected/boxplot.png)
@@ -38,3 +40,27 @@ Comparing low-level features, few had poor parity between the Sony recorder and 
 ![Worst parity: word_list/emobase](https://raw.githubusercontent.com/shnizzedy/SM_openSMILE/master/test_equipment/recorder_test/word_list/emobase/collected/boxplot.png)
 
 ![Worst parity: word_list/ComParE_2016](https://raw.githubusercontent.com/shnizzedy/SM_openSMILE/master/test_equipment/recorder_test/word_list/ComParE_2016/collected/boxplot.png)
+
+### transcription (Watson)
+The results of transcription showed few differences across participants. These numbers are the hamming distance between transcripts of each of the two recording set-ups of a single recording
+
+| Sentences       | Hamming Distance           |
+| ------------- |:-------------:| 
+|      | 3 |
+|      | 1     | 
+|  | 0      | 
+|      | 3 |
+|      | 6      | 
+
+| Word List        | Hamming Distance           |
+| ------------- |:-------------:| 
+|      | 0 |
+|      | 0      | 
+|  | 0      | 
+|      | 0 |
+|      | 0      | 
+|  | 4      | 
+|      | 1 |
+|      | 4     | 
+|  | 1     | 
+|  | 1     | 
