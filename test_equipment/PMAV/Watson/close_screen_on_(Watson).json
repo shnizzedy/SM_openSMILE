@@ -1,0 +1,23 @@
+{
+   "results": [
+      {
+         "alternatives": [
+            {
+               "confidence": 0.777, 
+               "transcript": "Peter Piper picked a Peck of pickled peppers Peggy Babcock "
+            }
+         ], 
+         "final": true
+      }, 
+      {
+         "alternatives": [
+            {
+               "confidence": 0.628, 
+               "transcript": "Peggy that "
+            }
+         ], 
+         "final": true
+      }
+   ], 
+   "result_index": 0
+}
