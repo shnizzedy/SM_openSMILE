@@ -23,3 +23,15 @@ function to iterate through openSMILE configuration files and noise conditions
 
 ## mean_absolute_deviation_rank(dataframe)
 function to calculate the number of full mean average deviations each value is across each config_file+condition.
+
+# [`make_long_soundfiles.py`](https://github.com/shnizzedy/SM_openSMILE/blob/master/make_long_soundfiles.py)
+Create mylist.txt and run ffmpeg -f concat for each (particpant + condition).
+
+## make_long_wav(ursi_dir, mylist_txt)
+Function to run "ffmpeg -f concat" on mylist_txt.
+
+## make_file_list(topdir, ursi, condition)
+Function to make a *.txt file for each (ursi + condtion)
+
+## create_long_soundfiles()
+Function to take 3" sound files and splice them back together.
