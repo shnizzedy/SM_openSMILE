@@ -1,0 +1,3 @@
+,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
+ComParE_2016 > word_list > ArnoU > PONE__Canon,0.0,0.0,0.0,1,1,1
+ComParE_2016 > word_list > ArnoU > Sony,12455.0,2.000160590974787,2.0,2,2,2
