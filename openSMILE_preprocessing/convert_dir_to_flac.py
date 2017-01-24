@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-convert_dir_to_wav.py
+convert_dir_to_flac.py
 Script to quickly convert all mp3 and mxf files in a directory to
-waveform files.
+flac files.
 Author:
         – Jon Clucas, 2016 (jon.clucas@childmind.org)
 © 2016, Child Mind Institute, Apache v2.0 License

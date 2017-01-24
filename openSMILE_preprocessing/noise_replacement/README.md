@@ -1,3 +1,6 @@
+# noise_replacement
+Scripts to replace unwanted noise with reasonable ambient replacement noise.
+
 # fftnoise
 
 Matlab script written by Aslak Grinsted. Ported to Python by Frank Zalkow.
