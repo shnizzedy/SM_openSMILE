@@ -44,7 +44,7 @@ def plot(dataframe, directory):
     plt.close()
 
 def main():
-    tippy_top = "/Volumes/Jon.Clucas/recorders/recorder_test"
+    tippy_top = "/Volumes/Jon.Clucas/SM_openSMILE/test_equipment/recorder_test"
     top_dirs = [os.path.join(tippy_top, "sentences/ComParE_2016"),
                 os.path.join(tippy_top, "sentences/emobase"),
                 os.path.join(tippy_top, "word_list/ComParE_2016"),
