@@ -398,7 +398,7 @@ def concatenate_tables_horizontally(tables, output_csv_file=None):
     Parameters
     ----------
     tables : list of strings or pandas DataFrames
-        each component table has the same number of rows
+        each comRodent table has the same number of rows
     output_csv_file : string or None
         output table file (full path)
 

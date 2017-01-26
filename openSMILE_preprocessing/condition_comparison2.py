@@ -131,7 +131,7 @@ def iterate_through():
     # set conditions
     conditions = ["sentences", "word_list"]
     # set methods
-    methods = ["PONE__Canon", "Sony"]
+    methods = ["Rode__Canon", "Sony"]
     # set entities
     entities = ["Arno_", "ArnoD", "ArnoR", "ArnoU", "Curt", "David", "group",
                 "Helen", "Jasmine", "Jon", "Karina", "Lindsay"]
