@@ -127,7 +127,7 @@ def iterate_through():
         config_file+condition ([0]) and pandas dataframe ([1])
     """
     # set working directory
-    wd = "/Volumes/Jon.Clucas/recorders/recorder_test"
+    wd = "/Volumes/Jon.Clucas/SM_openSMILE/test_equipment/recorder_test"
     # set conditions
     conditions = ["sentences", "word_list"]
     # set methods
