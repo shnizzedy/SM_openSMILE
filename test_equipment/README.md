@@ -29,7 +29,7 @@ The results of transcription were predictable.
 
 
 ## Recorder tests
-Comparing low-level features, few had poor parity between the Sony recorder and the PØNE → Canon recording set-up. Out of thousands of features analyzed, below are boxplots of the features with the worst parity sorted from worst to best. Within each box are all participants recorded in the given task with the specified recording set-up. The tasks were recorded with both set-ups simultaneously.
+Comparing low-level features, few had poor parity between the Sony recorder and the RØDE → Canon recording set-up. Out of thousands of features analyzed, below are boxplots of the features with the worst parity sorted from worst to best. Within each box are all participants recorded in the given task with the specified recording set-up. The tasks were recorded with both set-ups simultaneously.
 
 ### low-level features (openSMILE)
 
