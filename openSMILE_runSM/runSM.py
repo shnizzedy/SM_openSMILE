@@ -91,7 +91,7 @@ def runSM():
                                      '-O', ''.join(['config/',config_file]),
                                      '', row, out_dir, True)
                             # if necessary, specify csvoutput
-                            except cComRodentException:
+                            except cComponentException:
                                 row, table_path = ex.run_openSMILE(
                                      os.path.abspath(os.path.join(proot, wav)),
                                      ''.join(['/home/jclucas/opensmile-2.3.0/',
