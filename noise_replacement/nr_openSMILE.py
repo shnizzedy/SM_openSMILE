@@ -22,10 +22,11 @@ Copyright 2015–2017,  Sage Bionetworks (http://sagebase.org) & Child Mind
 Institute, Apache v2.0 License
 
 """
-
+import os, sys
+top_path = os.path.abspath(os.path.dirname(os.path.dirname(os.getcwd)))
+sys.path.append(os.path.join(top_path))
 from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx import extract as ex
 from SM_openSMILE.utilities import iterate_ursis as iu
-import os
 
 # change this variable to your openSMILE installation location
 openSMILEdir = '/home/jclucas/opensmile-2.3.0'
