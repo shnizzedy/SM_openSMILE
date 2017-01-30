@@ -15,6 +15,11 @@ import openSMILE_dir_to_csv as odtc, os, pandas as pd, matplotlib.pyplot as \
        plt, seaborn as sns, subprocess
 
 def plot(dataframe, directory):
+    cmi_colors = ["#0067a0", "#919d9d", "#00c1d5", "#b5bd00", "#a31c3f",
+                  "#ea234b", "#eeae30", "#f2cd32", "#4db789", "#90d9b9",
+                  "#404341", "#e4e4e4", "#090e3c", "#242a6a", "#97e2ef",
+                  "#f9e28a", "#d3da5f"]
+    sns.set_palette(cmi_colors)
     dataframe = dataframe.drop(['mean', 'median', 'std', 'mad'], axis=1)
     dataframe = dataframe.T
     indices = list(dataframe.index)
