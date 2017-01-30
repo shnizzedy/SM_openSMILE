@@ -41,7 +41,7 @@ def make_row_table(file_path, table_stem, save_rows, row, row_data,
     import os
     import pandas as pd
 
-    from mhealthx.xio import row_to_table
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.xio import row_to_table
 
     if not feature_row:
         if isinstance(row, pd.Series) and not row.empty:
@@ -121,7 +121,7 @@ def run_openSMILE(audio_file, command, flag1, flags, flagn, args, closing,
     >>> # openSMILE setup, with examples below:
     >>>
     >>> import os
-    >>> from mhealthx.extract import run_openSMILE
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import run_openSMILE
     >>> command = 'SMILExtract'
     >>> flag1 = '-I'
     >>> flags = '-C'
@@ -150,8 +150,8 @@ def run_openSMILE(audio_file, command, flag1, flags, flagn, args, closing,
     >>>
     >>> # Example: phonation data
     >>>
-    >>> from mhealthx.xio import get_convert_audio
-    >>> from mhealthx.xio import extract_synapse_rows, read_file_from_synapse_table
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.xio import get_convert_audio
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.xio import extract_synapse_rows, read_file_from_synapse_table
     >>> import synapseclient
     >>> syn = synapseclient.Synapse()
     >>> syn.login()
@@ -186,8 +186,8 @@ def run_openSMILE(audio_file, command, flag1, flags, flagn, args, closing,
     import os
     import pandas as pd
 
-    from mhealthx.utilities import run_command
-    from mhealthx.extract import make_row_table
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.utilities import run_command
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import make_row_table
 
     # Run openSMILE's SMILExtract audio feature extraction command.
     feature_row = None
@@ -265,9 +265,9 @@ def run_pyGait(data, t, sample_rate, duration, threshold, order, cutoff,
     Examples
     --------
     >>> import pandas as pd
-    >>> from mhealthx.xio import read_accel_json
-    >>> from mhealthx.extract import run_pyGait
-    >>> from mhealthx.extractors.pyGait import project_on_walking_direction
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.xio import read_accel_json
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import run_pyGait
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extractors.pyGait import project_on_walking_direction
     >>> input_file = '/Users/arno/DriveWork/mhealthx/mpower_sample_data/accel_walking_outbound.json.items-6dc4a144-55c3-4e6d-982c-19c7a701ca243282023468470322798.tmp'
     >>> start = 150
     >>> device_motion = False
@@ -289,8 +289,8 @@ def run_pyGait(data, t, sample_rate, duration, threshold, order, cutoff,
     """
     import pandas as pd
 
-    from mhealthx.extractors.pyGait import heel_strikes, gait
-    from mhealthx.extract import make_row_table
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extractors.pyGait import heel_strikes, gait
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import make_row_table
 
     # Extract features from data:
     strikes, strike_indices = heel_strikes(data, sample_rate, threshold,
@@ -352,8 +352,8 @@ def run_signal_features(data, row, file_path, table_stem, save_rows=False):
     Examples
     --------
     >>> import pandas as pd
-    >>> from mhealthx.xio import read_accel_json
-    >>> from mhealthx.extract import run_signal_features
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.xio import read_accel_json
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import run_signal_features
     >>> input_file = '/Users/arno/DriveWork/mhealthx/mpower_sample_data/accel_walking_outbound.json.items-6dc4a144-55c3-4e6d-982c-19c7a701ca243282023468470322798.tmp'
     >>> start = 150
     >>> device_motion = False
@@ -368,8 +368,8 @@ def run_signal_features(data, row, file_path, table_stem, save_rows=False):
     """
     import pandas as pd
 
-    from mhealthx.signals import signal_features
-    from mhealthx.extract import make_row_table
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.signals import signal_features
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import make_row_table
 
     # Extract different features from the data:
     num, min, max, rng, avg, std, med, mad, kurt, skew, cvar, lower25, \
@@ -422,8 +422,8 @@ def run_sdf_features(data, number_of_symbols, row, file_path, table_stem, save_r
     Examples
     --------
     >>> import pandas as pd
-    >>> from mhealthx.xio import read_accel_json
-    >>> from mhealthx.extract import run_sdf_features
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.xio import read_accel_json
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import run_sdf_features
     >>> input_file = '/Users/arno/DriveWork/mhealthx/mpower_sample_data/accel_walking_outbound.json.items-6dc4a144-55c3-4e6d-982c-19c7a701ca243282023468470322798.tmp'
     >>> start = 150
     >>> device_motion = False
@@ -439,8 +439,8 @@ def run_sdf_features(data, number_of_symbols, row, file_path, table_stem, save_r
     """
     import pandas as pd
 
-    from mhealthx.extract import make_row_table
-    from mhealthx.extractors.symbolic_dynamic_filtering import sdf_features
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import make_row_table
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extractors.symbolic_dynamic_filtering import sdf_features
 
     sdf = sdf_features(data, number_of_symbols, pi_matrix_flag=False)
 
@@ -494,7 +494,7 @@ def run_tap_features(xtaps, ytaps, t, threshold,
     --------
     >>> import numpy as np
     >>> import pandas as pd
-    >>> from mhealthx.extract import run_tap_features
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import run_tap_features
     >>> xtaps = np.round(200 * np.random.random(100))
     >>> ytaps = np.round(300 * np.random.random(100))
     >>> t = np.linspace(1, 100, 100) / 30.0
@@ -508,8 +508,8 @@ def run_tap_features(xtaps, ytaps, t, threshold,
     """
     import pandas as pd
 
-    from mhealthx.extractors.tapping import compute_tap_features
-    from mhealthx.extract import make_row_table
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extractors.tapping import compute_tap_features
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import make_row_table
 
     # Extract different features from the data:
     T = compute_tap_features(xtaps, ytaps, t, threshold)
@@ -645,8 +645,8 @@ def run_quality(gx, gy, gz, row, file_path, table_stem, save_rows=False):
     Examples
     --------
     >>> import pandas as pd
-    >>> from mhealthx.xio import read_accel_json
-    >>> from mhealthx.extract import run_quality
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.xio import read_accel_json
+    >>> from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import run_quality
     >>> input_file = '/Users/arno/DriveWork/mhealthx/mpower_sample_data/deviceMotion_walking_outbound.json.items-a2ab9333-6d63-4676-977a-08591a5d837f5221783798792869048.tmp'
     >>> device_motion = True
     >>> start = 150
@@ -664,8 +664,8 @@ def run_quality(gx, gy, gz, row, file_path, table_stem, save_rows=False):
     """
     import pandas as pd
 
-    from mhealthx.signals import accelerometer_signal_quality
-    from mhealthx.extract import make_row_table
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.signals import accelerometer_signal_quality
+    from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract import make_row_table
 
     # Compute different quality measures from the data:
     min_mse, vertical = accelerometer_signal_quality(gx, gy, gz)
