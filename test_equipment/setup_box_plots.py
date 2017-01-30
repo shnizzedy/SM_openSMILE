@@ -15,6 +15,11 @@ import openSMILE_dir_to_csv as odtc, os, pandas as pd, matplotlib.pyplot as \
        plt, seaborn as sns, subprocess
 
 def plot(dataframe, directory):
+    cmi_colors = ["#0067a0", "#919d9d", "#00c1d5", "#b5bd00", "#a31c3f",
+                  "#ea234b", "#eeae30", "#f2cd32", "#4db789", "#90d9b9",
+                  "#404341", "#e4e4e4", "#090e3c", "#242a6a", "#97e2ef",
+                  "#f9e28a", "#d3da5f"]
+    sns.set_palette(cmi_colors)
     dataframe = dataframe.drop(['mean', 'median', 'std', 'mad'], axis=1)
     dataframe = dataframe.T
     indices = list(dataframe.index)
@@ -35,7 +40,7 @@ def plot(dataframe, directory):
     plt.figsize=(22,17)
     plt.dpi=200
     g = sns.boxplot(x="features", y="openSMILE outputs", data=
-        df_long.head(n=280))
+        df_long.head(n=140), palette=cmi_colors)
     plt.title(''.join(["Worst parity: ", os.path.basename(directory)]))
     plt.tight_layout()
     fig = g.get_figure()
@@ -43,7 +48,7 @@ def plot(dataframe, directory):
     plt.close()
 
 def main():
-    tippy_top = "/Users/jon.clucas/PMAV"
+    tippy_top = "PMAV"
     top_dirs = [os.path.join(tippy_top, "ComParE_2016"),
                 os.path.join(tippy_top, "emobase")]
     for directory in top_dirs:
@@ -55,4 +60,4 @@ def main():
         plot(odtc.oS_dir_to_csv(directory), directory)
 # ============================================================================
 if __name__ == '__main__':
-        main()
+    main()
