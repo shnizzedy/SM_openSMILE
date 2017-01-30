@@ -64,7 +64,7 @@ def run_command(command, flag1='', arg1='', flags='', args=[],
 
     # Join flags with args:
     if type(flags) == list and type(args) == list:
-        flag_arg_tuples = list(zip(flags, args))
+        flag_arg_tuples = zip(flags, args)
         flags_args = ''
         for flag_arg_tuple in flag_arg_tuples:
             flags_args = ' '.join([flags_args, ' '.join(flag_arg_tuple)])
@@ -85,7 +85,7 @@ def run_command(command, flag1='', arg1='', flags='', args=[],
         cli.run()
     except:
         import traceback; traceback.print_exc()
-        print(("'{0}' unsuccessful".format(command_line)))
+        print("'{0}' unsuccessful".format(command_line))
 
     return command_line, args, arg1, argn
 
@@ -276,6 +276,6 @@ def create_directory(path):
     import os
     if not os.path.exists(path):
         os.makedirs(path)
-        print("Created directory: ", path)
+        print "Created directory: ", path
 
 
