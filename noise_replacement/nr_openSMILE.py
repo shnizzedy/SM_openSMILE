@@ -70,7 +70,7 @@ def run_openSMILE(config_file, sound_file):
     # process the file
     try:
         row, table_path = ex.run_openSMILE(*r_oS_args)
-    except cConfigException:
+    except:
         row, table_path = ex.run_openSMILE(sound_file, openSMILE, '-I', '-C',
                           '-csvoutput', ''.join(['config/', config_file]), '',
                           row, out_path, True)
