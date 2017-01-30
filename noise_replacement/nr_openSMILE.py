@@ -23,10 +23,9 @@ Institute, Apache v2.0 License
 
 """
 
-from ..openSMILE_runSM.mhealthx.mhealthx import extract as ex
-from ..utilities import iterate_ursis as iu
+from ...openSMILE_runSM.mhealthx.mhealthx import extract as ex
+from ...utilities import iterate_ursis as iu
 import os
-
 
 # change this variable to your openSMILE installation location
 openSMILEdir = '/home/jclucas/opensmile-2.3.0'
