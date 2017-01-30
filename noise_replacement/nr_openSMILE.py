@@ -58,11 +58,10 @@ def run_openSMILE(config_file, sound_file):
     """
     openSMILE = os.path.join(openSMILEdir, 'inst', 'bin', 'SMILExtract')
     sub_dir = os.path.split(os.path.dirname(sound_file))
-    basename = ''.join([os.path.basename(sound_file).strip('.wav').strip(
-               '.WAV'), '.csv'])
-    out_path = os.path.join(sub_dir[0], 'openSMILE_output', sub_dir[1])
+    out_path = os.path.join(sub_dir[0], 'openSMILE_output', config_file,
+                            sub_dir[1])
     if not os.path.exists(out_path):
-        os.makedirs(out_path, 0755)
+        os.makedirs(out_path, 0o755)
     row = None
     r_oS_args = sound_file, openSMILE, '-I', '-C', '-O', ''.join([openSMILEdir,
                 '/config/', config_file]), '', row, out_path, True
