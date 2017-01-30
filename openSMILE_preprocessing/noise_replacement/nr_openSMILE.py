@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-
 """
 nr_openSMILE.py
@@ -65,8 +65,8 @@ def run_openSMILE(config_file, sound_file):
     row = None
     r_oS_args = sound_file, openSMILE, '-I', '-C', '-O', ''.join([openSMILEdir,
                 '/config/', config_file]), '', row, out_path, True
-    print(' | '.join([sound_file, openSMILE, ''.join(['config/', config_file])]
-          ))
+    print((' | '.join([sound_file, openSMILE, ''.join(['config/', config_file])]
+          )))
     # process the file
     try:
         row, table_path = ex.run_openSMILE(*r_oS_args)
