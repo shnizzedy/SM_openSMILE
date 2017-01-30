@@ -23,7 +23,7 @@ Institute, Apache v2.0 License
 
 """
 import os, sys
-top_path = os.dirname(os.dirname(os.getcwd))
+top_path = os.path.dirname(os.getcwd())
 sys.path.append(os.path.join(top_path))
 from SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx import extract as ex
 from SM_openSMILE.utilities import iterate_ursis as iu
