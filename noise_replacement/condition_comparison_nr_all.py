@@ -111,7 +111,7 @@ def build_dataframe(URSI, methods, config_file, csv_files):
     # convert numeric strings to numeric data
     d = d.apply(pd.to_numeric, errors='ignore')
     return(d)
-            
+    # TODO: "BadLayout: Invalid layout of the ARFF file, at line 1."     
         
     """
     if condition == 'only_ambient_noise':
