@@ -22,7 +22,7 @@ def main():
     # set path
     op_path = ("/Volumes/Jon.Clucas/openSMILE/SM_openSMILE/"
                "openSMILE_preprocessing/noise_replacement/"
-               "replacement_test_outputs")
+               "replacement_test_outputs/initial_test/")
     dataframes = iterate_through()
     list_of_dataframes = []
     for dataframe in dataframes:
