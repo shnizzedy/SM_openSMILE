@@ -27,19 +27,20 @@ def main():
                "replacement_test_outputs/ambient_clip_replaced"))
     # initialize list of dataframes
     list_of_dataframes = []
+    list_of_analyses = []
     for participant in os.listdir(op_path):
         if participant != ".DS_Store":
             list_of_dataframes.append(iterate_through(os.path.join(op_path,
                                       participant)))
-    for dataframe in list_of_dataframes:
-        # TODO
-        pass
+    for dataframes in list_of_dataframes:
+        for dataframe in dataframes:
+            # tell which config_file+condition is being processed
+            print(''.join(['Analysing ', dataframe[0], '\n']))
+            # TODO
+        
     """
-    dataframes = iterate_through()
-    list_of_dataframes = []
     for dataframe in dataframes:
-        # tell which config_file+condition is being processed
-        print(dataframe[0])
+
         # get mean absolute deviation for each column
         mad_ranks = mean_absolute_deviation_rank(dataframe[1])
         # output results to csv file
@@ -169,6 +170,8 @@ def iterate_through(URSI):
     """
     # set working directory
     wd = os.path.join(URSI, "openSMILE_outputs")
+    # extract URSI from path
+    URSI = os.path.basename(URSI)
     # set methods
     methods = ["no_beeps", "clone_fill", "sample_silenced", "timeshifted"]
     # set config files
@@ -181,8 +184,8 @@ def iterate_through(URSI):
             method_dir = os.path.join(wd, config_file, method)
             for csv_file in os.listdir(method_dir):
                 URSI_files.append(os.path.join(method_dir, csv_file))
-        dataframes.append(build_dataframe(URSI, methods, config_file,
-                          URSI_files))
+        dataframes.append(["_".join([URSI, config_file]), build_dataframe(URSI,
+                          methods, config_file, URSI_files)])
     return dataframes
     """
     for config_file in config_files:

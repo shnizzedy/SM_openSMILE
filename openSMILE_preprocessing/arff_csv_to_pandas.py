@@ -133,13 +133,13 @@ def get_oS_data(csvpath, method, config_file, condition):
     oS_series : pandas series
     """
     try:
-        print(csvpath)
+        print(''.join(["Loading ", csvpath, '\n']))
         oS_data = arff.load(open(csvpath))
     except arff.BadLayout:
         # remove index column
         temp_data = ""
         with open(csvpath, 'r') as csvfile:
-            print(''.join(["Loading ", csvpath]))
+            print(''.join(["Loading ", csvpath, '\n']))
             csv_reader = csv.reader(csvfile)
             temp_i = 0
             temp_label = ''
