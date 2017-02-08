@@ -28,9 +28,12 @@ def main():
     # initialize list of dataframes
     list_of_dataframes = []
     for participant in os.listdir(op_path):
-        list_of_dataframes.append(iterate_through(os.path.join(op_path,
-                                  participant)))
-    print(list_of_dataframes)
+        if participant != ".DS_Store":
+            list_of_dataframes.append(iterate_through(os.path.join(op_path,
+                                      participant)))
+    for dataframe in list_of_dataframes:
+        # TODO
+        pass
     """
     dataframes = iterate_through()
     list_of_dataframes = []
@@ -96,22 +99,25 @@ def build_dataframe(URSI, methods, config_file, csv_files):
     """
     first = True
     for csv_file in csv_files:
-        s = actp.get_oS_data(csv_file, os.path.dirname(csv_file), config_file,
-                             "ambient")
-        try:
-            if first:
-                d = s.to_frame()
-                first = False
-            else:
-                d.join(s.to_frame())
-        except FileNotFoundError as e404:
-            print(''.join("Not found: ", csv_file))
+        if os.path.basename(csv_file) != ".DS_Store":
+            s = actp.get_oS_data(csv_file, os.path.dirname(csv_file),
+                                 config_file, "ambient")
+            try:
+                if first:
+                    d = s.to_frame()
+                    first = False
+                else:
+                    try:
+                        d.join(s.to_frame())
+                    except ValueError:
+                        d.merge(s.to_frame())
+            except FileNotFoundError as e404:
+                print(''.join("Not found: ", csv_file))
     # transpose dataframe
     d = d.T
     # convert numeric strings to numeric data
     d = d.apply(pd.to_numeric, errors='ignore')
-    return(d)
-    # TODO: "BadLayout: Invalid layout of the ARFF file, at line 1."     
+    return(d) 
         
     """
     if condition == 'only_ambient_noise':
@@ -162,11 +168,11 @@ def iterate_through(URSI):
         list of config_files ([0]) and pandas dataframes ([1])
     """
     # set working directory
-    wd = os.path.join(URSI, "openSMILE_output")
+    wd = os.path.join(URSI, "openSMILE_outputs")
     # set methods
     methods = ["no_beeps", "clone_fill", "sample_silenced", "timeshifted"]
     # set config files
-    config_files = ["emobase.conf", "ComParE_2016.conf"]
+    config_files = ["emobase", "ComParE_2016"]
     # initialize dataframes, URSI_files
     dataframes = []
     URSI_files = []
