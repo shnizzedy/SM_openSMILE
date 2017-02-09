@@ -44,8 +44,6 @@ def main():
             # print(''.join(['Analysing ', dataframe[0], '\n']))
             # get mean absolute deviation for each column
             mad_ranks = mean_absolute_deviation_rank(dataframe[1])
-            # print(mad_ranks)
-            """
             # output results to csv file
             mad_ranks.to_csv(os.path.join(out_path, "".join([dataframe[0],
                              "_mad_rank.csv"])))
@@ -75,14 +73,12 @@ def main():
             mad_ranks_summary = mad_ranks_summary.sort_values(by=
                                 'rank(sum(MAD))', ascending=True)
             # output results to csv file
-            mad_ranks_summary.to_csv(os.path.join(op_path, URSI, config_file, 
-                                     "mad_ranks", "".join([dataframe[0],
-                                     "_mad_rank_summary.csv"])))
+            mad_ranks_summary.to_csv(os.path.join(out_path, "".join([dataframe[
+                                     0], "_mad_rank_summary.csv"])))
             list_of_analyses.append(mad_ranks_summary)
         all_analyses = pd.concat(list_of_analyses)
         # output all results to a single csv file
         all_analyses.to_csv(os.path.join(out_path, "mad_rank_summary_all.csv"))
-        """
 
 def build_dataframe(URSI, methods, config_file, csv_files):
     """
@@ -128,6 +124,7 @@ def build_dataframe(URSI, methods, config_file, csv_files):
     d = d.T
     # convert numeric strings to numeric data
     d = d.apply(pd.to_numeric, errors='ignore')
+
     return(d) 
 
 def iterate_through(URSI):
@@ -180,15 +177,12 @@ def mean_absolute_deviation_rank(dataframe):
     dataframe : pandas dataframe
         dataframe containing mean average deviation counts
     """
-    return
-    """
     mad_series = pd.Series(index = dataframe.columns)
     mad_rank = pd.DataFrame(index = dataframe.index, columns =
                             dataframe.columns)
     dataframe = dataframe.apply(pd.to_numeric, errors = 'coerce')
     for column in dataframe.columns:
         mad_series[column] = dataframe[column].mad()
-        print(dataframe[column].mad())
     i = None
     for index in dataframe.index:
         if i is None:
@@ -202,7 +196,6 @@ def mean_absolute_deviation_rank(dataframe):
             except:
                 mad_rank.set_value(index, column, np.nan)
     return mad_rank
-    """
 
 # ============================================================================
 if __name__ == '__main__':
