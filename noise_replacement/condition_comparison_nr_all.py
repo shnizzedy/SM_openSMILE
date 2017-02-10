@@ -28,10 +28,8 @@ def main():
     # initialize list of dataframes
     list_of_dataframes = []
     list_of_analyses = []
-    trigger = True ###
     for participant in os.listdir(op_path):
-        if participant != ".DS_Store" and trigger:
-            trigger = False ###
+        if participant != ".DS_Store":
             list_of_dataframes.append(iterate_through(os.path.join(op_path,
                                       participant)))
     for dataframes in list_of_dataframes:
