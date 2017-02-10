@@ -1,0 +1,17 @@
+,sum(MAD),mean(MAD),median(MAD),rank(sum(MAD)),rank(mean(MAD)),rank(median(MAD))
+emobase > M00492191_button_no_long_no_beep > no_beeps,0.0,0.0,0.0,1,1,1
+emobase > M00492191_button_no_long_no_beep > clone_fill,383.0,0.39484536082474225,0.0,2,2,1
+emobase > M00492191_button_no_long_no_beep > timeshifted,421.0,0.43402061855670104,0.0,3,3,1
+emobase > M00492191_button_no_long_no_beep > sample_silenced,573.0,0.5907216494845361,0.0,4,4,1
+emobase > M00492191_button_w_long_no_beep > timeshifted,1226.0,1.2639175257731958,1.0,5,5,5
+emobase > M00492191_button_w_long_no_beep > no_beeps,1234.0,1.2721649484536082,1.0,6,6,5
+emobase > M00492191_button_w_long_no_beep > clone_fill,1237.0,1.2752577319587628,1.0,7,7,5
+emobase > M00492191_button_w_long_no_beep > sample_silenced,1304.0,1.3443298969072166,1.0,8,8,5
+emobase > M00492191_vocal_no_long_no_beep > sample_silenced,1446.0,1.4907216494845361,1.0,9,9,5
+emobase > M00492191_vocal_no_long_no_beep > timeshifted,1456.0,1.5010309278350515,1.0,10,10,5
+emobase > M00492191_vocal_no_long_no_beep > clone_fill,1468.0,1.51340206185567,1.0,11,11,5
+emobase > M00492191_vocal_no_long_no_beep > no_beeps,1479.0,1.524742268041237,1.0,12,12,5
+emobase > M00492191_vocal_w_long_no_beep > clone_fill,1592.0,1.6412371134020618,2.0,13,13,13
+emobase > M00492191_vocal_w_long_no_beep > no_beeps,1599.0,1.6484536082474226,2.0,14,14,13
+emobase > M00492191_vocal_w_long_no_beep > sample_silenced,1607.0,1.6567010309278352,2.0,15,15,13
+emobase > M00492191_vocal_w_long_no_beep > timeshifted,1607.0,1.6567010309278352,2.0,15,15,13
