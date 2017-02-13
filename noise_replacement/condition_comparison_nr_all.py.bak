@@ -28,20 +28,25 @@ def main():
     # initialize list of dataframes
     list_of_dataframes = []
     list_of_analyses = []
+    trigger = True ###
     for participant in os.listdir(op_path):
-        if participant != ".DS_Store":
+        if participant != ".DS_Store" and trigger:
+            trigger = False ###
             list_of_dataframes.append(iterate_through(os.path.join(op_path,
                                       participant)))
     for dataframes in list_of_dataframes:
         for dataframe in dataframes:
-            URSI, config_file = dataframe[0].split('_', maxsplit=1)
+            print(dataframe)
+            URSI, config_file = dataframe[0].split('_')
             out_path = os.path.join(op_path, URSI, 'mad_ranks', config_file)
             if not os.path.exists(out_path):
                 os.makedirs(out_path)
             # tell which config_file+condition is being processed
-            # print(''.join(['Analysing ', dataframe[0], '\n']))
+            print(''.join(['Analysing ', dataframe[0], '\n']))
             # get mean absolute deviation for each column
             mad_ranks = mean_absolute_deviation_rank(dataframe[1])
+            # print(mad_ranks)
+            """
             # output results to csv file
             mad_ranks.to_csv(os.path.join(out_path, "".join([dataframe[0],
                              "_mad_rank.csv"])))
@@ -71,12 +76,14 @@ def main():
             mad_ranks_summary = mad_ranks_summary.sort_values(by=
                                 'rank(sum(MAD))', ascending=True)
             # output results to csv file
-            mad_ranks_summary.to_csv(os.path.join(out_path, "".join([dataframe[
-                                     0], "_mad_rank_summary.csv"])))
+            mad_ranks_summary.to_csv(os.path.join(op_path, URSI, config_file, 
+                                     "mad_ranks", "".join([dataframe[0],
+                                     "_mad_rank_summary.csv"])))
             list_of_analyses.append(mad_ranks_summary)
-    all_analyses = pd.concat(list_of_analyses)
-    # output all results to a single csv file
-    all_analyses.to_csv(os.path.join(op_path, "mad_rank_summary_all.csv"))
+        all_analyses = pd.concat(list_of_analyses)
+        # output all results to a single csv file
+        all_analyses.to_csv(os.path.join(out_path, "mad_rank_summary_all.csv"))
+        """
 
 def build_dataframe(URSI, methods, config_file, csv_files):
     """
@@ -102,28 +109,26 @@ def build_dataframe(URSI, methods, config_file, csv_files):
         a dataframe for the relevant set of files and features
     """
     first = True
-    for method in methods:
-        for csv_file in csv_files:
-            print(''.join(["Loading ", csv_file]))
-            if (os.path.basename(csv_file) != ".DS_Store" and method in
-                os.path.dirname(csv_file)):
-                s = actp.get_oS_data(csv_file, method,
-                                     config_file, os.path.basename(csv_file
-                                     ).rstrip('.csv'))
+    for csv_file in csv_files:
+        if os.path.basename(csv_file) != ".DS_Store":
+            for method in methods:
+                s = actp.get_oS_data(csv_file, URSI,
+                                     config_file, method)
                 try:
                     if first:
                         d = s.to_frame()
                         first = False
                     else:
-                        d = d.merge(s.to_frame(), left_index=True,
-                            right_index=True)
+                        try:
+                            d.join(s.to_frame())
+                        except ValueError:
+                            d.merge(s.to_frame())
                 except FileNotFoundError as e404:
                     print(''.join("Not found: ", csv_file))
     # transpose dataframe
     d = d.T
     # convert numeric strings to numeric data
     d = d.apply(pd.to_numeric, errors='ignore')
-
     return(d) 
 
 def iterate_through(URSI):
@@ -145,28 +150,20 @@ def iterate_through(URSI):
     wd = os.path.join(URSI, "openSMILE_outputs")
     # extract URSI from path
     URSI = os.path.basename(URSI)
-    # set conditions
-    conditions = ["_button_no_", "_button_w_", "_vocal_no_", "_vocal_w_"]
     # set methods
     methods = ["no_beeps", "clone_fill", "sample_silenced", "timeshifted"]
     # set config files
     config_files = ["emobase", "ComParE_2016"]
     # initialize dataframes, URSI_files
     dataframes = []
-    for condition in conditions:
-        for config_file in config_files:
-            URSI_files = []
-            for method in methods:
-                method_dir = os.path.join(wd, config_file, method)
-                for csv_file in os.listdir(method_dir):
-                    if condition in csv_file:
-                        URSI_files.append(os.path.join(method_dir, csv_file))
-            if len(URSI_files) > 0:
-                print(''.join(["Processing ", URSI, ", ", condition, " : ",
-                      config_file]))
-                dataframes.append(["_".join([URSI, config_file]),
-                                  build_dataframe(URSI, methods, config_file,
-                                  URSI_files)])
+    URSI_files = []
+    for config_file in config_files:
+        for method in methods:
+            method_dir = os.path.join(wd, config_file, method)
+            for csv_file in os.listdir(method_dir):
+                URSI_files.append(os.path.join(method_dir, csv_file))
+        dataframes.append(["_".join([URSI, config_file]), build_dataframe(URSI,
+                          methods, config_file, URSI_files)])
     return dataframes
 
 def mean_absolute_deviation_rank(dataframe):
@@ -184,12 +181,15 @@ def mean_absolute_deviation_rank(dataframe):
     dataframe : pandas dataframe
         dataframe containing mean average deviation counts
     """
+    print(type(dataframe))
+    """
     mad_series = pd.Series(index = dataframe.columns)
     mad_rank = pd.DataFrame(index = dataframe.index, columns =
                             dataframe.columns)
     dataframe = dataframe.apply(pd.to_numeric, errors = 'coerce')
     for column in dataframe.columns:
         mad_series[column] = dataframe[column].mad()
+        print(dataframe[column].mad())
     i = None
     for index in dataframe.index:
         if i is None:
@@ -203,6 +203,7 @@ def mean_absolute_deviation_rank(dataframe):
             except:
                 mad_rank.set_value(index, column, np.nan)
     return mad_rank
+    """
 
 # ============================================================================
 if __name__ == '__main__':
