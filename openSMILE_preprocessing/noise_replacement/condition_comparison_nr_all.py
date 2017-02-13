@@ -74,9 +74,9 @@ def main():
             mad_ranks_summary.to_csv(os.path.join(out_path, "".join([dataframe[
                                      0], "_mad_rank_summary.csv"])))
             list_of_analyses.append(mad_ranks_summary)
-        all_analyses = pd.concat(list_of_analyses)
-        # output all results to a single csv file
-        all_analyses.to_csv(os.path.join(out_path, "mad_rank_summary_all.csv"))
+    all_analyses = pd.concat(list_of_analyses)
+    # output all results to a single csv file
+    all_analyses.to_csv(os.path.join(op_path, "mad_rank_summary_all.csv"))
 
 def build_dataframe(URSI, methods, config_file, csv_files):
     """
@@ -104,6 +104,7 @@ def build_dataframe(URSI, methods, config_file, csv_files):
     first = True
     for method in methods:
         for csv_file in csv_files:
+            print(''.join(["Loading ", csv_file]))
             if (os.path.basename(csv_file) != ".DS_Store" and method in
                 os.path.dirname(csv_file)):
                 s = actp.get_oS_data(csv_file, method,
@@ -144,20 +145,28 @@ def iterate_through(URSI):
     wd = os.path.join(URSI, "openSMILE_outputs")
     # extract URSI from path
     URSI = os.path.basename(URSI)
+    # set conditions
+    conditions = ["_button_no_", "_button_w_", "_vocal_no_", "_vocal_w_"]
     # set methods
     methods = ["no_beeps", "clone_fill", "sample_silenced", "timeshifted"]
     # set config files
     config_files = ["emobase", "ComParE_2016"]
     # initialize dataframes, URSI_files
     dataframes = []
-    for config_file in config_files:
-        URSI_files = []
-        for method in methods:
-            method_dir = os.path.join(wd, config_file, method)
-            for csv_file in os.listdir(method_dir):
-                URSI_files.append(os.path.join(method_dir, csv_file))
-        dataframes.append(["_".join([URSI, config_file]), build_dataframe(URSI,
-                          methods, config_file, URSI_files)])
+    for condition in conditions:
+        for config_file in config_files:
+            URSI_files = []
+            for method in methods:
+                method_dir = os.path.join(wd, config_file, method)
+                for csv_file in os.listdir(method_dir):
+                    if condition in csv_file:
+                        URSI_files.append(os.path.join(method_dir, csv_file))
+            if len(URSI_files) > 0:
+                print(''.join(["Processing ", URSI, ", ", condition, " : ",
+                      config_file]))
+                dataframes.append(["_".join([URSI, config_file]),
+                                  build_dataframe(URSI, methods, config_file,
+                                  URSI_files)])
     return dataframes
 
 def mean_absolute_deviation_rank(dataframe):
