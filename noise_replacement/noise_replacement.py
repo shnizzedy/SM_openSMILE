@@ -338,7 +338,7 @@ def replace_silence(original, mask, rate):
     return new_sound
 
 def main():
-    pass
+    return
 
 # ============================================================================
 if __name__ == '__main__':

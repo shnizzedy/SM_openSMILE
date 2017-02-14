@@ -11,8 +11,8 @@ Author:
 
 © 2017, Child Mind Institute, Apache v2.0 License
 """
-import openSMILE_dir_to_csv as odtc, os, pandas as pd, matplotlib.pyplot as \
-       plt, seaborn as sns, subprocess
+import numpy as np, openSMILE_dir_to_csv as odtc, os, pandas as pd, \
+       matplotlib.pyplot as plt, seaborn as sns, subprocess
 
 def plot(dataframe, directory):
     cmi_colors = ["#0067a0", "#919d9d", "#00c1d5", "#b5bd00", "#a31c3f",
@@ -41,15 +41,28 @@ def plot(dataframe, directory):
     plt.dpi=200
     g = sns.boxplot(x="features", y="openSMILE outputs", hue="recorder", data=
                     df_long.head(n=280))
+    """
     plt.title(''.join(["Worst parity: ", os.path.basename(os.path.dirname(
               directory)), "/", os.path.basename(directory)]))
+    """
     plt.tight_layout()
     fig = g.get_figure()
     fig.savefig(os.path.join(directory, "collected/boxplot.png"), dpi=300)
     plt.close()
+    h = sns.boxplot(x="openSMILE outputs", y="features", hue="recorder", data=
+                    df_long)
+    plt.yticks(np.arange(len(df_long['features'].unique())), df_long['features'
+               ].unique())
+    # plt.tight_layout()
+    fig_h = h.get_figure()
+    fig_h.savefig(os.path.join(directory, "collected/horizontal_boxplot.png"), 
+                  dpi=300)
+    plt.close()
+    
+    
 
 def main():
-    tippy_top = "/Volumes/Jon.Clucas/SM_openSMILE/test_equipment/recorder_test"
+    tippy_top = "/Users/jon.clucas/SM_openSMILE/test_equipment/recorder_test"
     top_dirs = [os.path.join(tippy_top, "sentences/ComParE_2016"),
                 os.path.join(tippy_top, "sentences/emobase"),
                 os.path.join(tippy_top, "word_list/ComParE_2016"),
