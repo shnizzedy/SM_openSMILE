@@ -158,9 +158,10 @@ def iterate_through(URSI):
             URSI_files = []
             for method in methods:
                 method_dir = os.path.join(wd, config_file, method)
-                for csv_file in os.listdir(method_dir):
-                    if condition in csv_file:
-                        URSI_files.append(os.path.join(method_dir, csv_file))
+                if os.path.isdir(method_dir):
+                    for csv_file in os.listdir(method_dir):
+                        if condition in csv_file:
+                            URSI_files.append(os.path.join(method_dir, csv_file))
             if len(URSI_files) > 0:
                 print(''.join(["Processing ", URSI, ", ", condition, " : ",
                       config_file]))
