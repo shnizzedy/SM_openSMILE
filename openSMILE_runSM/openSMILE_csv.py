@@ -99,8 +99,11 @@ def get_dx_dictionary():
     # initialize diagnosis dictionary
     dx_dictionary = {}
     # absolute path to 2 column *.csv file with 'URSI' and 'Dx?' column headers
+    dictionary_csv = input("Diagnosis dictionary filepath: ")
+    """
     dictionary_csv = ('/Volumes/data/Research/CDB/SM_Sound_Analysis/'
                       'SM_DX_summary_status_dx.csv')
+    """
     # read file into dictionary with URSI keys and Dx values
     with open(dictionary_csv, 'r') as f:
         reader = csv.DictReader(f)
@@ -131,8 +134,11 @@ def create_sample_row(ursi, condition, config_file):
     sample_row_short = []
     sample_row_long = []
     # set absolute top directory for input *.csv files
+    topdir = input("Top directory for input *.csv files: ")
+    """
     topdir = ('/Volumes/data/Research/CDB/SM_Sound_Analysis/all_audio_files/'
               'NEW/')
+    """
     # get diagnosis dictionary
     dx_dict = get_dx_dictionary()
     # find participant directory
@@ -194,8 +200,11 @@ def create_samples(config_file):
         sample_short[condition] = []
         sample_long[condition] = []
     # set absolute path of top directory
+    topdir = input("Top directory for *.csv files: ")
+    """
     topdir = ('/Volumes/data/Research/CDB/SM_Sound_Analysis/all_audio_files/'
               'NEW/')
+    """
     for dirs in os.listdir(topdir):
         # do not include hidden files or directories
         # only take URSI directories
@@ -212,7 +221,8 @@ def create_samples(config_file):
                     # tell if something is missing
                     print (dirs + ' ' + condition)
     # set absolute path of output directory
-    out_top_dir = '/Volumes/data/Research/CDB/SM_Sound_Analysis/openSMILE/'
+    out_top_dir = input("Top directory for output files: ")
+    # out_top_dir = '/Volumes/data/Research/CDB/SM_Sound_Analysis/openSMILE/'
     # set path for subdirectory for config_file
     csv_path = os.path.join(out_top_dir,config_file)
     for condition in conditions:

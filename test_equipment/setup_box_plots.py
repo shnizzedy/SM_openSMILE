@@ -11,15 +11,16 @@ Author:
 
 © 2017, Child Mind Institute, Apache v2.0 License
 """
-import openSMILE_dir_to_csv as odtc, os, pandas as pd, matplotlib.pyplot as \
-       plt, seaborn as sns, subprocess
+import os, sys
+if os.path.abspath('../..') not in sys.path:
+    sys.path.append(os.path.abspath('../..'))
+from SM_openSMILE.utilities import cmi_color_pallette as ccp
+import openSMILE_dir_to_csv as odtc, pandas as pd, matplotlib.pyplot as plt, \
+       seaborn as sns, subprocess
+
+sns.set_palette(ccp.cmi_colors())
 
 def plot(dataframe, directory):
-    cmi_colors = ["#0067a0", "#919d9d", "#00c1d5", "#b5bd00", "#a31c3f",
-                  "#ea234b", "#eeae30", "#f2cd32", "#4db789", "#90d9b9",
-                  "#404341", "#e4e4e4", "#090e3c", "#242a6a", "#97e2ef",
-                  "#f9e28a", "#d3da5f"]
-    sns.set_palette(cmi_colors)
     dataframe = dataframe.drop(['mean', 'median', 'std', 'mad'], axis=1)
     dataframe = dataframe.T
     indices = list(dataframe.index)
@@ -48,7 +49,8 @@ def plot(dataframe, directory):
     plt.close()
 
 def main():
-    tippy_top = "PMAV"
+    tippy_top = input("Top directory for recorder setup test: ")
+    # tippy_top = "PMAV"
     top_dirs = [os.path.join(tippy_top, "ComParE_2016"),
                 os.path.join(tippy_top, "emobase")]
     for directory in top_dirs:
