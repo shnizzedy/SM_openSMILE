@@ -11,15 +11,16 @@ Author:
 
 © 2017, Child Mind Institute, Apache v2.0 License
 """
-import numpy as np, openSMILE_dir_to_csv as odtc, os, pandas as pd, \
-       matplotlib.pyplot as plt, seaborn as sns, subprocess
+import os, sys
+if os.path.abspath('../..') not in sys.path:
+    sys.path.append(os.path.abspath('../..'))
+from SM_openSMILE.utilities import cmi_color_pallette as ccp
+import openSMILE_dir_to_csv as odtc, pandas as pd, matplotlib.pyplot as plt, \
+       seaborn as sns, subprocess
+
+sns.set_palette(ccp.cmi_colors())
 
 def plot(dataframe, directory):
-    cmi_colors = ["#0067a0", "#919d9d", "#00c1d5", "#b5bd00", "#a31c3f",
-                  "#ea234b", "#eeae30", "#f2cd32", "#4db789", "#90d9b9",
-                  "#404341", "#e4e4e4", "#090e3c", "#242a6a", "#97e2ef",
-                  "#f9e28a", "#d3da5f"]
-    sns.set_palette(cmi_colors)
     dataframe = dataframe.drop(['mean', 'median', 'std', 'mad'], axis=1)
     dataframe = dataframe.T
     indices = list(dataframe.index)
@@ -51,8 +52,9 @@ def plot(dataframe, directory):
     plt.close()
     h = sns.boxplot(x="openSMILE outputs", y="features", hue="recorder", data=
                     df_long)
-    plt.yticks(np.arange(len(df_long['features'].unique())), df_long['features'
-               ].unique())
+    h.set_aspect(28/len(df_long['features'].unique()))
+    # plt.yticks(np.arange(len(df_long['features'].unique())), df_long['features'
+    #           ].unique())
     # plt.tight_layout()
     fig_h = h.get_figure()
     fig_h.savefig(os.path.join(directory, "collected/horizontal_boxplot.png"), 
@@ -62,7 +64,8 @@ def plot(dataframe, directory):
     
 
 def main():
-    tippy_top = "/Users/jon.clucas/SM_openSMILE/test_equipment/recorder_test"
+    tippy_top = input("Top directory for recorder test: ")
+    # tippy_top = "/Users/jon.clucas/SM_openSMILE/test_equipment/recorder_test"
     top_dirs = [os.path.join(tippy_top, "sentences/ComParE_2016"),
                 os.path.join(tippy_top, "sentences/emobase"),
                 os.path.join(tippy_top, "word_list/ComParE_2016"),

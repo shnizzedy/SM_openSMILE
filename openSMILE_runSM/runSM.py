@@ -22,7 +22,8 @@ Copyright 2015,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
 # os is Python's operating system library.
 # pandas is Python data analysis library.
 import os, sys
-sys.path.append(os.path.abspath('../..'))
+if os.path.abspath('../..') not in sys.path:
+    sys.path.append(os.path.abspath('../..'))
 import SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract as ex
 
 """
@@ -51,7 +52,8 @@ def runSM():
     feature_table : string
              output table file (full path)
     """
-    oS_directory = '/home/jclucas/opensmile-2.3.0/'
+    oS_directory = raw_input('openSMILE SMILExtract directory: ')
+    # oS_directory = '/home/jclucas/opensmile-2.3.0/'
     # get config filename from user.
     config_file = raw_input('config file filename: ')
     while not os.path.exists(os.path.join(oS_directory, "config",
