@@ -3,8 +3,6 @@
 """
 noise_replacement.py
 
-* in progress *
-
 Script to replace silenced noises in data sound files.
 
 Author:
@@ -329,16 +327,56 @@ def replace_silence(original, mask, rate):
     -------
     new_sound : pydub audio segment
         the original sound with silence replaced from the specified mask
+        
+    silence_borders : list
+        a list of start and stop times, in milliseconds, of silent segments
     """
     silence_borders = pydub.silence.detect_silence(original, min_silence_len=1,
                                                    silence_thresh = -60)
     print("build new sound")
     print(borders_ms_to_frames(silence_borders, rate))
     new_sound = build_new_soundfile(original, rate, mask, silence_borders)
-    return new_sound
+    return new_sound, silence_borders
+
+def check_conditions(directory, conditions):
+    """
+    Function to check if a condition is known and accounted for.
+    
+    Parameters
+    ----------
+    directory : string
+        the name of a directory that is the condition to check for
+        
+    conditions : list of strings
+        a list of known and accounted for conditions
+        
+    Returns
+    -------
+    directory : string or None
+        either returns an unaccounted-for condition or returns None.
+    """
+    for condition in conditions:
+        if condition in directory:
+            return None
+    return directory
 
 def main():
-    return
+    necessaries = ["adults_removed", "adults_replaced_pink", "no_beeps"]
+    unnecessaries = ["ambient_clip", "clone_fill", "openSMILE_outputs",
+                     "recorded_audio_files", "sample_silenced", "garbage",
+                     "seawave_results", "timeshifted", ".DS_Store"]
+    top_dir = input("Top directory: ")
+    # top_dir = "/Volumes/Data/Research/CDB/openSMILE/audio_files/"
+    for URSI in os.listdir(top_dir):
+        if URSI != ".DS_Store":
+            for subdirectory in os.listdir(os.path.join(top_dir, URSI)):
+                if os.path.isdir(os.path.join(top_dir, URSI, subdirectory)):
+                    if subdirectory in necessaries:
+                        pass
+                    elif check_conditions(subdirectory, unnecessaries):
+                        print(''.join["Unaccounted for condition: ",
+                              subdirectory])
+                            
 
 # ============================================================================
 if __name__ == '__main__':
