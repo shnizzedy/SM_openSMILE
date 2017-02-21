@@ -12,7 +12,7 @@ Author:
 
 Created on Mon Dec 19 17:00:00 2016
 """
-import fftnoise, math, numpy as np, os, pydub, random
+import fftnoise, math, numpy as np, os, pandas as pd, pydub, random
 from scipy import signal
 from scipy.io import wavfile
 
@@ -360,22 +360,54 @@ def check_conditions(directory, conditions):
             return None
     return directory
 
+def build_adultTalk_dataframe(adults_removed_dict):
+    """
+    Function to build a dataframe specifying which conditions included an
+    audibly speaking adult.
+    
+    Parameters
+    ----------
+    adults_removed_dict : dictionary
+        a dictionary of {URSI, list of string} pairs in which each string is
+        the name of a file in which an adult was audible
+    
+    Returns
+    -------
+    adults_removed_df : pandas data frame
+        a dataframe with one row per URSI and one column per condition
+        indicating whether an adult spoke during that condition
+    """
+    adults_removed_df = pd.DataFrame(columns=["button no", "button w",
+                        "vocal no", "vocal w"])
+    # TODO: build dataframe
+    print(adults_removed_df)
+
 def main():
     necessaries = ["adults_removed", "adults_replaced_pink", "no_beeps"]
     unnecessaries = ["ambient_clip", "clone_fill", "openSMILE_outputs",
                      "recorded_audio_files", "sample_silenced", "garbage",
                      "seawave_results", "timeshifted", ".DS_Store"]
+    # tasks = ["button", "vocal"]
+    # stranger = ["w", "no"]
     top_dir = input("Top directory: ")
+    adults_speak = {}
     # top_dir = "/Volumes/Data/Research/CDB/openSMILE/audio_files/"
     for URSI in os.listdir(top_dir):
-        if URSI != ".DS_Store":
+        if URSI not in [".DS_Store", "nobeeps"]:
+            adults_speak[URSI] = []
             for subdirectory in os.listdir(os.path.join(top_dir, URSI)):
                 if os.path.isdir(os.path.join(top_dir, URSI, subdirectory)):
                     if subdirectory in necessaries:
-                        pass
+                        if subdirectory == "adults_removed":
+                            for wav_file in os.listdir(os.path.join(top_dir,
+                                            URSI, subdirectory)):
+                                if wav_file.endswith('.wav'):
+                                    adults_speak[URSI] = adults_speak[URSI
+                                                         ] + [wav_file]
                     elif check_conditions(subdirectory, unnecessaries):
                         print(''.join["Unaccounted for condition: ",
                               subdirectory])
+    build_adultTalk_dataframe(adults_speak)
                             
 
 # ============================================================================
