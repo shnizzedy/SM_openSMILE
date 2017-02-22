@@ -12,7 +12,7 @@ Author:
 
 Created on Mon Dec 19 17:00:00 2016
 """
-import fftnoise, math, numpy as np, os, pandas as pd, pydub, random
+import csv, fftnoise, math, numpy as np, os, pandas as pd, pydub, random
 from scipy import signal
 from scipy.io import wavfile
 
@@ -38,6 +38,7 @@ def analyze_and_generate(path):
     audio_r = input_data[1][:, 1]
     rate = input_data[0]
     ambience = get_ambient_clips(path)
+    silence_table(path, ambience)
 
     for start, stop in ambience:
         try:
@@ -250,8 +251,6 @@ def get_ambient_clips(path):
         print(''.join(['    !!! ', path,
               ' : insufficient permission to read']))
         return []
-    # TODO: figure out why this is hanging when called from
-    # TODO: generate_sample.create_sample
     input_data = wavfile.read(path)
     print('    read')
     # get numpy array of amplitude values
@@ -338,6 +337,12 @@ def replace_silence(original, mask, rate):
     new_sound = build_new_soundfile(original, rate, mask, silence_borders)
     return new_sound, silence_borders
 
+def silence_table(top_dir, silence_borders):
+    out_path = os.path.join(top_dir, "adults_removed", "silences.csv")
+    with open(out_path, "w") as f:
+        writer = csv.writer(f)
+        writer.writerows(silence_borders)
+
 def check_conditions(directory, conditions):
     """
     Function to check if a condition is known and accounted for.
@@ -392,18 +397,32 @@ def build_adultTalk_dataframe(adults_removed_dict):
                 row[3] = True
         adults_removed_df = adults_removed_df.append(pd.Series(row, name=
                             participant, index=conditions))
+    print(adults_removed_df.apply(pd.value_counts))
+    print('\n')
     return adults_removed_df
 
-def main():
+def get_adults_table(top_dir):
+    """
+    Function to build a dataframe of participant audio files that have had at
+    least one adult vocalization removed from them. Also notifies of any
+    unaccounted-for conditions.
+    
+    Parameters
+    ----------
+    top_dir : string
+        path to the top directory
+        
+    Returns
+    -------
+    adults_speak_df : pandas dataframe
+        a dataframe with boolean values for whether an "adults removed" file
+        for each condition for each participant
+    """
     necessaries = ["adults_removed", "adults_replaced_pink", "no_beeps"]
     unnecessaries = ["ambient_clip", "clone_fill", "openSMILE_outputs",
                      "recorded_audio_files", "sample_silenced", "garbage",
                      "seawave_results", "timeshifted", ".DS_Store"]
-    # tasks = ["button", "vocal"]
-    # stranger = ["w", "no"]
-    top_dir = input("Top directory: ")
     adults_speak = {}
-    # top_dir = "/Volumes/Data/Research/CDB/openSMILE/audio_files/"
     for URSI in os.listdir(top_dir):
         if URSI not in [".DS_Store", "nobeeps"]:
             adults_speak[URSI] = []
@@ -419,8 +438,22 @@ def main():
                     elif check_conditions(subdirectory, unnecessaries):
                         print(''.join["Unaccounted for condition: ",
                               subdirectory])
-    print(build_adultTalk_dataframe(adults_speak))
-                            
+    return build_adultTalk_dataframe(adults_speak)
+
+def main():
+    # tasks = ["button", "vocal"]
+    # stranger = ["w", "no"]
+    top_dir = input("Top directory: ")
+    # top_dir = "/Volumes/Data/Research/CDB/openSMILE/audio_files/"
+    # adults = get_adults_table(top_dir)
+    for URSI in os.listdir(top_dir):
+        if URSI not in [".DS_Store", "nobeeps"]:
+            ar_path = os.path.join(top_dir, URSI, 'adults_removed')
+            if os.path.isdir(ar_path):
+                for wav_file in os.listdir(ar_path):
+                    if wav_file.endswith('.wav'):
+                        analyze_and_generate(os.path.join(ar_path,wav_file))
+    
 
 # ============================================================================
 if __name__ == '__main__':
