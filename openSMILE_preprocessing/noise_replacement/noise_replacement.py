@@ -377,10 +377,22 @@ def build_adultTalk_dataframe(adults_removed_dict):
         a dataframe with one row per URSI and one column per condition
         indicating whether an adult spoke during that condition
     """
-    adults_removed_df = pd.DataFrame(columns=["button no", "button w",
-                        "vocal no", "vocal w"])
-    # TODO: build dataframe
-    print(adults_removed_df)
+    conditions = ["button no", "button w", "vocal no", "vocal w"]
+    adults_removed_df = pd.DataFrame(columns=conditions)
+    for participant in adults_removed_dict:
+        row = [False, False, False, False]
+        for item in adults_removed_dict[participant]:
+            if "button_no" in item:
+                row[0] = True
+            if "button_w" in item:
+                row[1] = True
+            if "vocal_no" in item:
+                row[2] = True
+            if "vocal_w" in item:
+                row[3] = True
+        adults_removed_df = adults_removed_df.append(pd.Series(row, name=
+                            participant, index=conditions))
+    return adults_removed_df
 
 def main():
     necessaries = ["adults_removed", "adults_replaced_pink", "no_beeps"]
@@ -407,7 +419,7 @@ def main():
                     elif check_conditions(subdirectory, unnecessaries):
                         print(''.join["Unaccounted for condition: ",
                               subdirectory])
-    build_adultTalk_dataframe(adults_speak)
+    print(build_adultTalk_dataframe(adults_speak))
                             
 
 # ============================================================================
