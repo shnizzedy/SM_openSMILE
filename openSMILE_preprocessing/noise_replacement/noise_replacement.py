@@ -338,7 +338,7 @@ def replace_silence(original, mask, rate):
     return new_sound, silence_borders
 
 def silence_table(top_dir, silence_borders):
-    out_path = os.path.join(top_dir, "adults_removed", "silences.csv")
+    out_path = '_'.join([top_dir.strip('.wav'), "silences.csv"])
     with open(out_path, "w") as f:
         writer = csv.writer(f)
         writer.writerows(silence_borders)
@@ -452,7 +452,7 @@ def main():
             if os.path.isdir(ar_path):
                 for wav_file in os.listdir(ar_path):
                     if wav_file.endswith('.wav'):
-                        analyze_and_generate(os.path.join(ar_path,wav_file))
+                        # nope analyze_and_generate(os.path.join(ar_path,wav_file))
     
 
 # ============================================================================
