@@ -12,9 +12,16 @@ Author:
 
 Created on Mon Dec 19 17:00:00 2016
 """
-import csv, fftnoise, math, numpy as np, os, pandas as pd, pydub, random
+import os, sys
+if os.path.abspath('../../..') not in sys.path:
+    sys.path.append(os.path.abspath('../../..'))
+import csv, fftnoise, math, numpy as np, pandas as pd, pydub, random
+from xml.etree import ElementTree as ET
 from scipy import signal
 from scipy.io import wavfile
+from SM_openSMILE.openSMILE_preprocessing.noise_replacement import \
+     generate_sample as gs
+from SM_openSMILE.openSMILE_runSM import openSMILE_csv as oS_c
 
 def analyze_and_generate(path):
     """
@@ -157,9 +164,11 @@ def build_new_soundfile(with_silence, rate, mask, borders):
     seg_start = 0
     if(borders[0][0] == 0):
         seg_stop = borders[0][1]
+        """
         print(''.join(["initial building with segment [0:",
               str(seg_stop), "] out of ", str(len(with_silence) * rate)]))
         segmented_sound.append(with_silence.get_sample_slice(0, seg_stop))
+        """
         seg_start = seg_stop
     for pair in borders:
         if(pair[0] > 0):
@@ -383,9 +392,12 @@ def build_adultTalk_dataframe(adults_removed_dict):
         indicating whether an adult spoke during that condition
     """
     conditions = ["button no", "button w", "vocal no", "vocal w"]
-    adults_removed_df = pd.DataFrame(columns=conditions)
+    dx = oS_c.get_dx_dictionary()
+    # /Volumes/Data/Research/CDB/SM_Sound_Analysis/SM_DX_summary_status_dx.csv
+    adults_removed_df = pd.DataFrame(columns=conditions.append("SM dx"),
+                        dtype=bool)
     for participant in adults_removed_dict:
-        row = [False, False, False, False]
+        row = [False, False, False, False, False]
         for item in adults_removed_dict[participant]:
             if "button_no" in item:
                 row[0] = True
@@ -395,10 +407,11 @@ def build_adultTalk_dataframe(adults_removed_dict):
                 row[2] = True
             if "vocal_w" in item:
                 row[3] = True
+        if dx[participant] == "SM":
+            row[4] = True
         adults_removed_df = adults_removed_df.append(pd.Series(row, name=
                             participant, index=conditions))
-    print(adults_removed_df.apply(pd.value_counts))
-    print('\n')
+    adults_removed_df = adults_removed_df.astype(bool)
     return adults_removed_df
 
 def get_adults_table(top_dir):
@@ -440,20 +453,253 @@ def get_adults_table(top_dir):
                               subdirectory])
     return build_adultTalk_dataframe(adults_speak)
 
+def check_xml_for_silence(sbf):
+    """
+    Function to determine if a section marked in an Audacity xml file contains
+    silence or sound.
+    
+    Parameters
+    ----------
+    sbf : dictionary
+        `<simpleblockfile>` tag parsed from Audacity xml file
+        
+    Returns
+    -------
+    silence: boolean
+        True if silence, False if sound
+    """
+    if float(sbf['min']) == 0.0 and float(sbf['max']) == 0.0 and float(sbf[
+             'rms']) == 0.0:
+        return True
+    else:
+        return False
+
+def parse_audacity_file(ar_filepath):
+    """
+    Function to parse Audacity xml file to find marked silences.
+    
+    Parameters
+    ----------
+    ar_filepath : string
+        path to wav_file with audacity file saved in same directory with same
+        basenameinitial
+        
+    Returns
+    -------
+    list_of_silences : list of tuples
+        list of (start_time, stop_time) tuples of marked silences in
+        milliseconds
+        
+    list_of_normality : list of tuples
+        list of (start_time, stop_time) tuples of marked non-silent segments in
+        milliseconds
+    """
+    list_of_silences = []
+    list_of_normality = []
+    xml_filepath = ''.join([ar_filepath.strip('.wav'), '.aup'])
+    aud = ET.parse(xml_filepath)
+    root = aud.getroot()
+    for child in root:
+        # our tracks are stereo, but our edits are binaural, so we only need to
+        # check one channel. We're using left.
+        if (child.tag.endswith("wavetrack") and int(child.attrib['channel']) ==
+            0):
+            for wavetrack in child:
+                time1 = float(wavetrack.attrib['offset']) * float(root.attrib[
+                        'rate'])
+                if wavetrack.tag.endswith("waveclip"):
+                    for waveclip in wavetrack:
+                        if waveclip.tag.endswith("sequence"):
+                            time2 = float(waveclip.attrib['numsamples'])
+                            for sequence in waveclip:
+                                if sequence.tag.endswith('waveblock'):
+                                    for waveblock in sequence:
+                                        if waveblock.tag.endswith(
+                                           'silentblockfile'):
+                                            time_tuple = (round(time1), round(
+                                                         time1 + time2))
+                                            if (time_tuple not in
+                                                    list_of_silences):
+                                                        list_of_silences \
+                                                        .append(time_tuple)
+                                        if waveblock.tag.endswith(
+                                           'simpleblockfile'):
+                                            time_tuple = (round(time1), round(
+                                                         time1 + time2))
+                                            if check_xml_for_silence(
+                                              waveblock.attrib):
+                                                if (time_tuple not in
+                                                    list_of_silences):
+                                                        list_of_silences \
+                                                        .append(time_tuple)
+                                            else:
+                                                if (time_tuple not in
+                                                    list_of_normality):
+                                                        list_of_normality \
+                                                        .append(time_tuple)
+    return(borders_frames_to_ms(list_of_silences, 44.1), borders_frames_to_ms(
+            list_of_normality, 44.1))
+
+def concat_adults(adult_path, segmentation):
+    """
+    Function to concatenate segments of adult sounds.
+    
+    Parameters
+    ----------
+    adult_path : string
+        path to original file
+    
+    segmentation : list of tuples
+        a list of (start_time, stop_time) tuples of adult sounds to concatenate
+        
+    Returns
+    -------
+    None
+    
+    Outputs
+    -------
+    wav_file
+        a waveform of the concatenated file in an "adults" directory at the
+        same depth as the original parent directory with the same basename as
+        the original file
+    """
+    out_path = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
+               adult_path))), "adults", os.path.basename(adult_path))
+    if not os.path.exists(os.path.dirname(out_path)):
+        os.makedirs(os.path.dirname(out_path))
+    adult = pydub.AudioSegment.from_wav(adult_path)
+    print(''.join(["Building ", out_path, " from ", adult_path]))
+    concatenated = build_new_soundfile(adult, 44.1, None, segmentation)
+    concatenated.export(out_path, format="wav")
+    
+def choose_mask(original, ambience):
+    """
+    Function to choose a segment of ambience from which to build our clone mask
+    
+    Parameters
+    ----------
+    original : string
+        path to the original sound
+        
+    ambience : list of tuples
+        a list of starts and stops of ambient segments in frames
+        
+    Returns
+    -------
+    mask : pydub audio segment
+        a clip of just ambience
+        
+    Outputs
+    -------
+    waveform file
+        a waveform of the segment of ambeint noise used as a clone mask, saved
+        in a "clone_masks" directory at the same depth as the original filepath
+        with the same basename as the original file
+    """
+    out_path = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
+               original))), "clone_masks", os.path.basename(original))
+    if not os.path.exists(os.path.dirname(out_path)):
+        os.makedirs(os.path.dirname(out_path))
+    # how many ambient clips?
+    print(''.join([str(len(ambience)), " ambient clips"]))
+    remaining_options = []
+    # start by looking for clips 2.5 seconds or longer
+    desired_duration = 110250
+    while len(remaining_options) == 0:
+        remaining_options = gs.check_clip_len(ambience, desired_duration)
+        # reduce desired duration by .25 seconds
+        desired_duration = desired_duration - 11025
+    num_options = len(remaining_options)
+    print(''.join([str(num_options), " ≥ ", str(round(desired_duration /
+          44100, 2)), " seconds"]))
+    # choose a clip to extract
+    chosen_one = []
+    chosen_one.append(remaining_options[random.randrange(0, num_options)])
+    print(chosen_one)
+    # store length of chosen_one
+    chosen_one_l = chosen_one[0][1] - chosen_one[0][0]
+    print(''.join(['chosen clip : ', str(chosen_one[0][0]), ":",
+          str(chosen_one[0][1]), " (~", str(round(chosen_one_l /
+               44100, 2)), " seconds)"]))
+    # import original sound
+    print(''.join(["Loading original file into pydub"]))
+    original_sound = pydub.AudioSegment.from_wav(original)
+
+    # save copy of ambient clip
+    clip = original_sound.get_sample_slice(chosen_one[0][0], chosen_one[0][1])
+    gs.build_sample(out_path, clip, None, None)
+    return clip
+
+def replace_adults(path, borders, mask, rate):
+    """
+    Function to replace all marked adult segments.
+    
+    Parameters
+    ----------
+    path : string
+        path to original file
+    
+    borders : list of tuples
+        list of (start_time, stop_time) tuples of segments to replace
+        
+    mask : pydub audio segment
+        the mask with which to replace the adults
+        
+    rate : float
+        the frame rate in milliseconds
+        
+    Returns
+    -------
+    replaced : pydub audio segment
+        the sound with the adults replaced
+        
+    Output
+    ------
+    waveform file
+        a waveform of the segment of ambeint noise used as a clone mask, saved
+        in an "adults_replaced_clone" directory at the same depth as the
+        original filepath with the same basename as the original file
+    """
+    out_path = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
+               path))), "adults_replaced_clone", os.path.basename(path))
+    if not os.path.exists(os.path.dirname(out_path)):
+        os.makedirs(os.path.dirname(out_path))
+    original = pydub.AudioSegment.from_wav(path)
+    replaced = build_new_soundfile(original, rate, mask, borders)
+    print(''.join(["Saving ", out_path]))
+    replaced.export(out_path, format="wav")
+    return(replaced)
+
 def main():
     # tasks = ["button", "vocal"]
     # stranger = ["w", "no"]
     top_dir = input("Top directory: ")
     # top_dir = "/Volumes/Data/Research/CDB/openSMILE/audio_files/"
-    # adults = get_adults_table(top_dir)
+    as_dir = os.path.join(os.path.dirname(os.path.dirname(top_dir)),
+             'adults_speak')
+    as_path = os.path.join(as_dir, 'adults_speak.csv')
+    if not os.path.exists(os.path.dirname(as_dir)):
+        os.makedirs(os.path.dirname(as_dir))
+    if not os.path.exists(as_path):
+        adults = get_adults_table(top_dir)
+        adults.to_csv(as_path)
+        adults.apply(pd.value_counts).to_csv(os.path.join(as_dir,
+                     'counts.csv'))
+    print('\n')
     for URSI in os.listdir(top_dir):
         if URSI not in [".DS_Store", "nobeeps"]:
             ar_path = os.path.join(top_dir, URSI, 'adults_removed')
             if os.path.isdir(ar_path):
                 for wav_file in os.listdir(ar_path):
                     if wav_file.endswith('.wav'):
-                        # nope analyze_and_generate(os.path.join(ar_path,wav_file))
-    
+                        full_path = os.path.join(ar_path, wav_file)
+                        silences, sounds = parse_audacity_file(full_path)
+                        print(silences, sounds)
+                        concat_adults(os.path.join(top_dir, URSI, "no_beeps",
+                                      os.path.basename(wav_file)), sounds)
+                        ambience = get_ambient_clips(full_path)
+                        mask = choose_mask(full_path, ambience)
+                        replace_adults(full_path, silences, mask, 44.1)
 
 # ============================================================================
 if __name__ == '__main__':
