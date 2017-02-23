@@ -17,12 +17,13 @@ Created on Wed Dec 21 16:34:37 2016
 """
 # workaround for local installation : adjust these paths to local installation
 #     directories
-import sys
-sys.path.append("/Volumes/Jon.Clucas/openSMILE/SM_openSMILE")
-sys.path.append("/Library/Frameworks/Python.framework/Versions/2.7/lib/"
-                "python2.7/site-packages")
+import os, sys
+if os.path.abspath('../../..') not in sys.path:
+    sys.path.append(os.path.abspath('../../..'))
 
-import iterate_ursis as iu, noise_replacement as nr, os, pydub, random
+import SM_openSMILE.utilities.iterate_ursis as iu, \
+  SM_openSMILE.openSMILE_preprocessing.noise_replacement.noise_replacement as \
+  nr, pydub, random
 
 def build_sample(path, original, chosen_one, mask):
     """
