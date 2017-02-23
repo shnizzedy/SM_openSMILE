@@ -670,6 +670,17 @@ def replace_adults(path, borders, mask, rate):
     replaced.export(out_path, format="wav")
     return(replaced)
 
+def save_list(in_path, condition, keep_list):
+    """
+    TODO: document
+    """
+    with open(''.join([in_path.strip('.wav'), '_', condition, '.csv']), 'w') \
+              as out_path:
+        csv_out = csv.writer(out_path)
+        csv_out.writerow(['start_time', 'stop_time'])
+        for row in keep_list:
+            csv_out.writerow(row)
+
 def main():
     # tasks = ["button", "vocal"]
     # stranger = ["w", "no"]
@@ -693,13 +704,15 @@ def main():
                 for wav_file in os.listdir(ar_path):
                     if wav_file.endswith('.wav'):
                         full_path = os.path.join(ar_path, wav_file)
+                        original_path = os.path.join(top_dir, URSI, "no_beeps",
+                                        os.path.basename(wav_file))
                         silences, sounds = parse_audacity_file(full_path)
-                        print(silences, sounds)
-                        concat_adults(os.path.join(top_dir, URSI, "no_beeps",
-                                      os.path.basename(wav_file)), sounds)
-                        ambience = get_ambient_clips(full_path)
-                        mask = choose_mask(full_path, ambience)
-                        replace_adults(full_path, silences, mask, 44.1)
+                        save_list(full_path, "adults", silences)
+                        save_list(full_path, "no_adults", sounds)
+                        concat_adults(original_path, sounds)
+                        ambience = get_ambient_clips(original_path)
+                        mask = choose_mask(original_path, ambience)
+                        replace_adults(original_path, silences, mask, 44.1)
 
 # ============================================================================
 if __name__ == '__main__':
