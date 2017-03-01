@@ -6,9 +6,9 @@ noise_replacement.py
 Script to replace silenced noises in data sound files.
 
 Author:
-        – Jon Clucas, 2016–2017 (jon.clucas@childmind.org)
+        – Jon Clucas, 2016 (jon.clucas@childmind.org)
 
-© 2016–2017, Child Mind Institute, Apache v2.0 License
+© 2016, Child Mind Institute, Apache v2.0 License
 
 Created on Mon Dec 19 17:00:00 2016
 """
@@ -670,43 +670,6 @@ def replace_adults(path, borders, mask, rate):
     replaced.export(out_path, format="wav")
     return(replaced)
 
-def timeshift_adults(path, borders, rate):
-    """
-    Function to replace all marked adult segments.
-    
-    Parameters
-    ----------
-    path : string
-        path to original file
-    
-    borders : list of tuples
-        list of (start_time, stop_time) tuples of segments to replace
-        
-    rate : float
-        the frame rate in milliseconds
-        
-    Returns
-    -------
-    timeshifted : pydub audio segment
-        the sound with the adults timeshifted out
-        
-    Output
-    ------
-    waveform file
-        a waveform of the segment of ambeint noise used as a clone mask, saved
-        in an "adults_replaced_clone" directory at the same depth as the
-        original filepath with the same basename as the original file
-    """
-    out_path = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
-               path))), "adults_timeshifted", os.path.basename(path))
-    if not os.path.exists(os.path.dirname(out_path)):
-        os.makedirs(os.path.dirname(out_path))
-    original = pydub.AudioSegment.from_wav(path)
-    timeshifted = build_new_soundfile(original, rate, None, borders)
-    print(''.join(["Saving ", out_path]))
-    timeshifted.export(out_path, format="wav")
-    return(timeshifted)
-
 def save_list(in_path, condition, keep_list):
     """
     TODO: document
@@ -735,7 +698,7 @@ def main():
                      'counts.csv'))
     print('\n')
     for URSI in os.listdir(top_dir):
-        if URSI not in [".DS_Store", "nobeeps"]:
+        if URSI not in [".DS_Store", "nobeeps"] and URSI > "M00456481":
             ar_path = os.path.join(top_dir, URSI, 'adults_removed')
             if os.path.isdir(ar_path):
                 for wav_file in os.listdir(ar_path):
@@ -750,7 +713,6 @@ def main():
                         ambience = get_ambient_clips(original_path)
                         mask = choose_mask(original_path, ambience)
                         replace_adults(original_path, silences, mask, 44.1)
-                        timeshift_adults(original_path, silences, 44.1)
 
 # ============================================================================
 if __name__ == '__main__':

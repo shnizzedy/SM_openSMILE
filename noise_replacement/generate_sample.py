@@ -8,9 +8,9 @@ Script to find a 2.5 second clip of ambient noise and silence that clip.
 *in progress*
 
 Author:
-        – Jon Clucas, 2016 (jon.clucas@childmind.org)
+        – Jon Clucas, 2016–2017 (jon.clucas@childmind.org)
 
-© 2016, Child Mind Institute, Apache v2.0 License
+© 2016–2017, Child Mind Institute, Apache v2.0 License
 Created on Wed Dec 21 16:34:37 2016
 
 @author: jon.clucas
