@@ -85,8 +85,8 @@ def runSM():
                               'openSMILE_outputs', config_file.strip(
                               '.conf'), replacement)
                     print(out_dir)
-                    if not os.path.exists(out_dir):
-                        os.makedirs(out_dir, 0o755)
+                    if not os.path.exists(os.path.dirname(out_dir)):
+                        os.makedirs(os.path.dirname(out_dir), 0o755)
                     # run openSMILE and send results to
                     # all_audio_files/[URSI]/[config]
                     try:
