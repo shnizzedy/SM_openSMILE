@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+a#!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-
 """
 Batch process SM dataset with user-entered openSMILE configuration file.
@@ -22,8 +22,8 @@ Copyright 2015,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
 # os is Python's operating system library.
 # pandas is Python data analysis library.
 import os, sys
-if os.path.abspath('../..') not in sys.path:
-    sys.path.append(os.path.abspath('../..'))
+if os.path.abspath('../../..') not in sys.path:
+    sys.path.append(os.path.abspath('../../..'))
 import SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract as ex
 
 """
