@@ -24,6 +24,7 @@ Copyright 2015,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
 import os, sys
 if os.path.abspath('../..') not in sys.path:
     sys.path.append(os.path.abspath('../..'))
+    print(os.path.abspath('../..'))
 import SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract as ex
 
 """
