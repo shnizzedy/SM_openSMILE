@@ -23,8 +23,12 @@ Copyright 2015,  Sage Bionetworks (http://sagebase.org), Apache v2.0 License
 # pandas is Python data analysis library.
 import os, sys
 if os.path.abspath('../..') not in sys.path:
-    sys.path.append(os.path.abspath('../..'))
-    print(os.path.abspath('../..'))
+    if os.path.isdir(os.path.join(os.path.abspath('../..'), 'SM_openSMILE')):
+        sys.path.append(os.path.abspath('../..'))
+    elif os.path.isdir(os.path.join(os.path.abspath('..'), 'SM_openSMILE')):
+        sys.path.append(os.path.abspath('..'))
+    elif os.path.isdir('SM_openSMILE'):
+        sys.path.append(os.path.abspath('.'))
 import SM_openSMILE.openSMILE_runSM.mhealthx.mhealthx.extract as ex
 
 """
