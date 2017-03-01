@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-
 """
 Batch process SM dataset with user-entered openSMILE configuration file.
@@ -52,15 +52,15 @@ def runSM():
     feature_table : string
              output table file (full path)
     """
-    oS_directory = raw_input('openSMILE SMILExtract directory: ')
+    oS_directory = input('openSMILE SMILExtract directory: ')
     # oS_directory = '/home/jclucas/opensmile-2.3.0/'
     # get config filename from user.
-    config_file = raw_input('config file filename: ')
+    config_file = input('config file filename: ')
     while not os.path.exists(os.path.join(oS_directory, "config",
                              config_file)):
-        config_file = raw_input('config file filename: ')
+        config_file = input('config file filename: ')
     # get subdirectories of "./all_audio_files/*".
-    root = raw_input('path to directory with URSI subdirectories: ')
+    root = input('path to directory with URSI subdirectories: ')
     for participant in os.listdir(os.path.join(oS_directory, root)):
         participant_home_dir = os.path.join(root, participant)
         # declare row to pass to
