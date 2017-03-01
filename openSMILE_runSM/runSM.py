@@ -60,55 +60,55 @@ def runSM():
                              config_file)):
         config_file = raw_input('config file filename: ')
     # get subdirectories of "./all_audio_files/*".
-    root = os.path.join(oS_directory, 'test', 'noise_replacement_efficacy')
+    root = raw_input('path to directory with URSI subdirectories: ')
     for participant in os.listdir(os.path.join(oS_directory, root)):
-		participant_home_dir = os.path.join(root, participant)
-		# declare row to pass to
-		# ex.run_openSMILE(audio_file, command, flag1, flags, flagn,
-		#           args, closing, row, table_stem, save_rows)
-		row, table_path = None, None
-		for replacement in os.listdir(os.path.join(participant_home_dir)):
-			# get each audio file
-			for wav in os.listdir(os.path.join(participant_home_dir,
+        participant_home_dir = os.path.join(root, participant)
+        # declare row to pass to
+        # ex.run_openSMILE(audio_file, command, flag1, flags, flagn,
+        #           args, closing, row, table_stem, save_rows)
+        row, table_path = None, None
+        for replacement in os.listdir(os.path.join(participant_home_dir)):
+            # get each audio file
+            for wav in os.listdir(os.path.join(participant_home_dir,
                               replacement)):
-				# include only files with waveform extension
-				if wav.endswith('.wav'):
-					# check if all_audio_files/[URSI]/[config] exists for
-					# participant; if not, create that folder.
-					
-					out_dir = os.path.join(participant_home_dir,
-							  'openSMILE_outputs', config_file.strip(
-							  '.conf'), replacement)
-					print(out_dir)
-					if not os.path.exists(out_dir):
-						os.makedirs(out_dir, 0o755)
-					# run openSMILE and send results to
-					# all_audio_files/[URSI]/[config]
-					try:
-						# tell which file is being processed
-						print(wav)
-						# process the file
-						try:
-							row, table_path = ex.run_openSMILE(
-								 os.path.join(participant_home_dir,
-								 replacement, wav),
-								 ''.join([oS_directory,
-								 'inst/bin/SMILExtract']), '-I', '-C',
-								 '-O', os.path.join(oS_directory, "config",
-								 config_file), '', row, out_dir, True)
-						# if necessary, specify csvoutput
-						except Exception as e:
-							row, table_path = ex.run_openSMILE(
-								 os.path.join(participant_home_dir,
-								 replacement, wav),
-								 ''.join([oS_directory,
-								 'inst/bin/SMILExtract']), '-I', '-C',
-								 '-csvoutput', os.path.join(oS_directory,
-								 "config", config_file), '', row, out_dir,
-								 True)
-					# keep going if openSMILE throws any other error
-					except Exception as e:
-						print(e)
+                # include only files with waveform extension
+                if wav.endswith('.wav'):
+                    # check if all_audio_files/[URSI]/[config] exists for
+                    # participant; if not, create that folder.
+                    
+                    out_dir = os.path.join(participant_home_dir,
+                              'openSMILE_outputs', config_file.strip(
+                              '.conf'), replacement)
+                    print(out_dir)
+                    if not os.path.exists(out_dir):
+                        os.makedirs(out_dir, 0o755)
+                    # run openSMILE and send results to
+                    # all_audio_files/[URSI]/[config]
+                    try:
+                        # tell which file is being processed
+                        print(wav)
+                        # process the file
+                        try:
+                            row, table_path = ex.run_openSMILE(
+                                 os.path.join(participant_home_dir,
+                                 replacement, wav),
+                                 ''.join([oS_directory,
+                                 'inst/bin/SMILExtract']), '-I', '-C',
+                                 '-O', os.path.join(oS_directory, "config",
+                                 config_file), '', row, out_dir, True)
+                        # if necessary, specify csvoutput
+                        except Exception as e:
+                            row, table_path = ex.run_openSMILE(
+                                 os.path.join(participant_home_dir,
+                                 replacement, wav),
+                                 ''.join([oS_directory,
+                                 'inst/bin/SMILExtract']), '-I', '-C',
+                                 '-csvoutput', os.path.join(oS_directory,
+                                 "config", config_file), '', row, out_dir,
+                                 True)
+                    # keep going if openSMILE throws any other error
+                    except Exception as e:
+                        print(e)
     return row, table_path
 
 # ============================================================================
