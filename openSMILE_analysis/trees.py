@@ -90,8 +90,6 @@ def make_forest(replacement, condition, config):
                                 n_features = n_features + 1
                         y_trees.append(column[1])
                         n_samples = n_samples + 1
-    print(str(np.array(x_trees).shape))
-    print(str(np.array(y_trees).shape))
     return (np.array(x_trees).reshape(n_samples, n_features),
             np.array(y_trees).reshape(n_samples))
 
@@ -276,6 +274,7 @@ def main(replacement, condition, config, ltd=False):
     feature_ranking_csv.close()
     feature_ranking_gtp01.close()
     feature_ranking_top15.close()
+    """
     # plot the feature importances of the forest
     fig, ax = plt.subplots()
     plt.title("Feature importances")
@@ -292,8 +291,6 @@ def main(replacement, condition, config, ltd=False):
     plt.ylabel("Features")
     plt.savefig(os.path.join(csv_path,(csv_filename + '.svg')),
                 dpi=300, transparent=True)
-    """
-    # plot the feature importances of the forest
     plt.figure()
     plt.title("Feature importances")
     plt.bar(range(x.shape[1]), abs(importances[indices]),
@@ -303,7 +300,7 @@ def main(replacement, condition, config, ltd=False):
     plt.xlab("Features")
     plt.ylab("Feature importance")
     plt.savefig(os.path.join(csv_path,(csv_filename + '.png')))
-
+ 
     plt.figure()
     plt.title("Feature importances")
     plt.bar(range(15), importances[indices],
