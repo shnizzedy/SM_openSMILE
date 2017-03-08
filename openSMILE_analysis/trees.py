@@ -152,6 +152,71 @@ def make_ltd_forest(replacement, condition, config):
                         n_samples = n_samples + 1
     return (np.array(x_trees).reshape(n_samples, n_features),
             np.array(y_trees).reshape(n_samples))
+    
+def make_original_forest(condition, config):
+    """
+    Function to get training and target data, filling in unaltered rows when no
+    altered row exists
+
+    Parameters
+    ----------
+    condition : string
+        experimental condition
+        
+    config : string
+        basename of openSMILE config file
+
+    Returns
+    -------
+    x_trees : numpy array
+        array of [n_participants × n_features] size
+        filled with training data (features)
+
+    y_trees : numpy array
+        array of [n_participants] size
+        filled with target data (diagnoses)
+    """
+    x_trees = []
+    y_trees = []
+    n_samples = 0
+    n_features = 0
+    rpath = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
+            'noise_replacement/replacement_test_outputs/adults_replaced/'
+            'summary'), config, ''.join(['adults', condition,
+            'feature_data.csv']))
+    opath = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
+            'noise_replacement/replacement_test_outputs/adults_replaced/'
+            'summary'), config, ''.join(['original', condition,
+            'feature_data.csv']))
+    if(os.path.exists(rpath)):
+        # fill in unaltered rows when no altered row exists
+        with open(rpath, 'r') as rf, open(opath, 'r') as of:
+            rreader = csv.reader(rf)
+            oreader = csv.reader(of)
+            for rrow, orow in zip_longest(rreader, oreader):
+                if rrow:
+                    if len(rrow) > 0:
+                        row = ''
+                        next
+                else:
+                    row = orow
+                for column in row:
+                    column = ast.literal_eval(column)
+                    if (column[1] != "['unknown']"):
+                        enc = LabelEncoder()
+                        enc.fit(np.array(column[0]))
+                        for feature in list(column[0]):
+                            try:
+                                feature = float(feature)
+                            except:
+                                feature = enc.transform(np.array([feature]))[0]
+                            x_trees.append(feature)
+                            if n_samples == 0:
+                                n_features = n_features + 1
+                        y_trees.append(column[1])
+                        n_samples = n_samples + 1
+    return (np.array(x_trees).reshape(n_samples, n_features),
+            np.array(y_trees).reshape(n_samples))
 
 def get_feature_dictionary(config):
     """
@@ -213,10 +278,13 @@ def main(replacement, condition, config, ltd=False):
         feature ranking top 15 CSV for replacement + condition
     """
     # get data
-    if ltd:
-        x, y = make_ltd_forest(replacement, condition, config)
+    if replacement == 'unmodified':
+        x, y = make_original_forest(condition, config)
     else:
-        x, y = make_forest(replacement, condition, config)
+        if ltd:
+            x, y = make_ltd_forest(replacement, condition, config)
+        else:
+            x, y = make_forest(replacement, condition, config)
     # random forest classification
     clf = RandomForestClassifier(n_estimators=2000, oob_score = True)
     clf = clf.fit(x, y)
@@ -231,14 +299,22 @@ def main(replacement, condition, config, ltd=False):
 
     # output feature rankings
     file_index = 0
-    if ltd:
+    if replacement == 'unmodified':
         csv_path = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
                    'noise_replacement/replacement_test_outputs/'
-                   'adults_replaced/summary'), config, 'random_forests/ltd')
+                   'adults_replaced/summary'), config, 'random_forests/'
+                   'unmodified')
     else:
-        csv_path = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
-                   'noise_replacement/replacement_test_outputs/'
-                   'adults_replaced/summary'), config, 'random_forests')
+        if ltd:
+            csv_path = os.path.join(os.path.abspath('../'
+                       'openSMILE_preprocessing/noise_replacement/'
+                       'replacement_test_outputs/adults_replaced/summary'),
+                       config, 'random_forests/ltd')
+        else:
+            csv_path = os.path.join(os.path.abspath('../'
+                       'openSMILE_preprocessing/noise_replacement/'
+                       'replacement_test_outputs/adults_replaced/summary'),
+                       config, 'random_forests')
     if not os.path.exists(csv_path):
         os.makedirs(csv_path)
     csv_filename = replacement + condition + 'feature_ranking'
@@ -321,6 +397,10 @@ if __name__ == '__main__':
     replacements = ['adults_removed', 'adults_replaced_clone',
                    'adults_replaced_pink', 'adults_timeshifted']
     configs = ['emobase', 'ComParE_2016']
+    for condition in conditions:
+        for config in configs:
+            print(' \u219D '.join(['unmodified', condition, config]))
+            main('unmodified', condition, config)
     for replacement in replacements:
         for condition in conditions:
             for config in configs:
