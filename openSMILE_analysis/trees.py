@@ -133,6 +133,7 @@ def make_ltd_forest(replacement, condition, config):
                 if len(rrow) > 0:
                     row = rrow
                 else:
+                    row = ''
                     next
                 for column in row:
                     column = ast.literal_eval(column)
