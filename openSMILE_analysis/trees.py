@@ -20,9 +20,8 @@ if os.path.abspath('../../') not in sys.path:
         sys.path.append(os.path.abspath('..'))
     elif os.path.isdir('SM_openSMILE'):
         sys.path.append(os.path.abspath('.'))
-from SM_openSMILE.utilities.cmi_color_pallette import cmi_colors
 from itertools import zip_longest
-import ast, csv, numpy as np, os, matplotlib.pyplot as plt
+import ast, csv, numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 
