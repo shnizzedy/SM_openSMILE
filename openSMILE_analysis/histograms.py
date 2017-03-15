@@ -41,19 +41,20 @@ def main():
         build_histogram(get_features(dfs))
 
 def build_histogram(df):
-    for feature, sdf in df.groupby(level=0):
+    conditions = ['button_w', 'button_no', 'vocal_w', 'vocal_no']
+    for condition in conditions:
+        sdf = df.xs(condition, axis=1)
         dim = round(math.log(sdf.T.shape[1])**(2+(1/3)))
         dim = (dim, dim)
-        axes = pd.DataFrame.hist(sdf.T, figsize=(dim), color=
-                     cmi_colors()[0])
-        axes[0][0].set_title(feature)
-        axes[0][0].legend()
-        axes[0][0].show()
-            
+        sdf.plot.bar(figsize=dim, color=cmi_colors(), stacked=True)
+    """
+    axes = pd.DataFrame.hist(df.T, figsize=(dim), color=cmi_colors()[0])
+    print(len(axes))
+    """
 
 def get_features(dfs):
     """
-    Function to cross-tabulate feature dataframes and count by features.
+    Function to cross-tabulate feature dataframes and sum by features.
 
     Parameters
     ----------
@@ -70,10 +71,10 @@ def get_features(dfs):
         'summary_type'] × ['replacement' × 'condition'] predictive counts
     """
     df = pd.concat(dfs)
-    conditions = ['button_w', 'button_n', 'vocal_w', 'vocal_no']
+    conditions = ['button_w', 'button_no', 'vocal_w', 'vocal_no']
     features = ['base_feature', 'coefficient', 'summary_type']
     return pd.pivot_table(df, values=conditions, index=features,
-          columns=['replacement'], aggfunc='count', fill_value=0)
+          columns=['replacement'], aggfunc='sum', fill_value=0)
     
 
 def get_df_from_file(filepath, replacement="unmodified"):
