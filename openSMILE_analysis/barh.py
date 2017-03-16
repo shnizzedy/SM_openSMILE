@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-histograms.py
+barh.py
 
-Histograms to explore weighted feature rankings produced by random forests in
-trees.py
+Script to build horizontal bar charts to explore weighted feature rankings
+produced by random forests in trees.py
 
 Authors:
 	– Jon Clucas, 2017 (jon.clucas@childmind.org)
@@ -20,7 +20,7 @@ if os.path.abspath('../../') not in sys.path:
     elif os.path.isdir('SM_openSMILE'):
         sys.path.append(os.path.abspath('.'))
 from SM_openSMILE.utilities.cmi_color_pallette import cmi_colors
-import matplotlib.pyplot as plt, pandas as pd, numpy as np, math
+import matplotlib.pyplot as plt, pandas as pd, math
 
 def main():
     configs = ['emobase', 'ComParE_2016']
@@ -29,28 +29,66 @@ def main():
     for i, replacement in enumerate(replacements):
         replacements[i] = '_'.join(['adults', replacement])
     for config in configs:
-        dfs = []
+        dfs, ltd_dfs, adults_dfs = [], [], []
         for replacement in replacements:
             dfs.append(get_df_from_file(get_filepath(config, replacement),
                        replacement))
-        for replacement in [*replacements, 'adults', 'original']:
-            dfs.append(get_df_from_file(get_filepath(config, replacement, 'ltd'
-                       ), '/'.join(['ltd', replacement])))
-        dfs.append(get_df_from_file(get_filepath(config, 'unmodified',
-                   'unmodified'), 'unmodified'))
-        build_histogram(get_features(dfs))
+        for replacement in replacements:
+            ltd_dfs.append(get_df_from_file(get_filepath(config, replacement,
+                           'ltd'), '/'.join(['ltd', replacement])))
+        unmod = get_df_from_file(get_filepath(config, 'unmodified',
+                   'unmodified'), 'unmodified')
+        adults_dfs.append(get_df_from_file(get_filepath(config, 'adults',
+                          'ltd'), '/'.join(['ltd', 'adults'])))
+        for dlist in [dfs, ltd_dfs, adults_dfs]:
+            dlist.append(unmod)
+        build_barh(get_features(dfs), config, replacements)
+        build_barh(get_features(ltd_dfs), config, replacements, 'ltd')
+        build_barh(get_features(adults_dfs), config, ['adults', 'unmodified'],
+                   'adults')
 
-def build_histogram(df):
+def build_barh(df, config, replacements, special=None):
     conditions = ['button_w', 'button_no', 'vocal_w', 'vocal_no']
     for condition in conditions:
         sdf = df.xs(condition, axis=1)
-        dim = round(math.log(sdf.T.shape[1])**(2+(1/3)))
-        dim = (dim, dim)
-        sdf.plot.bar(figsize=dim, color=cmi_colors(), stacked=True)
-    """
-    axes = pd.DataFrame.hist(df.T, figsize=(dim), color=cmi_colors()[0])
-    print(len(axes))
-    """
+        if special:
+            out_path = os.path.join(topdir, config, 'feature_summary', special,
+                       ''.join([condition, '.png']))
+        else:
+            out_path = os.path.join(topdir, config, 'feature_summary', ''.join(
+                    [condition, '.png']))
+        if not os.path.exists(os.path.dirname(out_path)):
+            os.makedirs(os.path.dirname(out_path))
+        title = " :\n".join(["weighted random forest values", config, condition]
+                )
+        plot_barh(sdf, title, out_path)
+    if special:
+        for i, replacement in enumerate(replacements):
+            if replacement != 'unmodified':
+                replacements[i] = '/'.join(['ltd', replacement])
+    for replacement in replacements:
+        sdf = df.xs(replacement, axis=1, level=1)
+        if special:
+            out_path = os.path.join(topdir, config, 'feature_summary', special,
+                       ''.join([condition, '.png']))
+        else:
+            out_path = os.path.join(topdir, config, 'feature_summary', ''.join(
+                    [condition, '.png']))
+        if not os.path.exists(os.path.dirname(out_path)):
+            os.makedirs(os.path.dirname(out_path))
+        title = " : ".join(["weighted random forest values", config, condition]
+                )
+        plot_barh(sdf, title, out_path)
+        
+def plot_barh(sdf, title, out_path):
+    dim = (math.log(sdf.shape[1])**3, math.log(sdf.shape[0])**3)
+    fig = plt.figure()
+    ax = sdf.plot.barh(figsize=dim, color=cmi_colors(), stacked=True, title=
+                       title)
+    ax.legend(loc=2, fancybox=True, shadow=True, bbox_to_anchor=(0.5, -0.1))
+    
+    fig.savefig(out_path, bbox_inches="tight")
+    
 
 def get_features(dfs):
     """
@@ -126,12 +164,13 @@ def get_filepath(config, replacement, special=None):
     filepath : string
         absolute path to the weighted dataframe csv
     """
-    if not special:
-        return os.path.join(topdir, config, 'feature_summary', '_'.join([
-               replacement, 'weighted.csv']))
-    else:
-        return os.path.join(topdir, config, 'feature_summary', special, 
-               '_'.join([replacement, 'weighted.csv']))
+    if special:
+        special_path = os.path.join(topdir, config, 'feature_summary', special, 
+                       '_'.join([replacement, 'weighted.csv']))
+        if os.path.exists(special_path):
+            return special_path
+    return os.path.join(topdir, config, 'feature_summary', '_'.join([
+           replacement, 'weighted.csv']))
 
 # ============================================================================
 if __name__ == '__main__':
