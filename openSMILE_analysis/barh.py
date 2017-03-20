@@ -49,46 +49,95 @@ def main():
 
 def build_barh(df, config, replacements, special=None):
     conditions = ['button_w', 'button_no', 'vocal_w', 'vocal_no']
+    # plot each condition with replacements as colors
     for condition in conditions:
         sdf = df.xs(condition, axis=1)
         if special:
             out_path = os.path.join(topdir, config, 'feature_summary', special,
-                       ''.join([condition, '.png']))
+                       '_'.join([condition, 'complete.png']))
         else:
             out_path = os.path.join(topdir, config, 'feature_summary', ''.join(
                     [condition, '.png']))
         if not os.path.exists(os.path.dirname(out_path)):
             os.makedirs(os.path.dirname(out_path))
-        title = " :\n".join(["weighted random forest values", config, condition]
-                )
+        title = " :\n".join(["weighted random forest values", config, condition
+                ])
         plot_barh(sdf, title, out_path)
+        
+        # plot conditions in which all replacements returned values above the
+        # median
+        top_all = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='any')
+        out_path = ''.join([out_path.strip('.png'), '_top_all.png'])
+        plot_barh(top_all, title, out_path)
+        
+        # plot conditions in which any replacements returned values above the
+        # median
+        top_any = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='all')
+        out_path = ''.join([out_path.strip('.png'), '_top_any.png'])
+        plot_barh(top_any, title, out_path)
+        
     if special:
         for i, replacement in enumerate(replacements):
             if replacement != 'unmodified':
                 replacements[i] = '/'.join(['ltd', replacement])
+                
+    # plot each replacement with conditions as colors
     for replacement in replacements:
         sdf = df.xs(replacement, axis=1, level=1)
         if special:
             out_path = os.path.join(topdir, config, 'feature_summary', special,
-                       ''.join([condition, '.png']))
+                       '_'.join([replacement, 'complete.png']))
         else:
             out_path = os.path.join(topdir, config, 'feature_summary', ''.join(
-                    [condition, '.png']))
+                    [replacement, '.png']))
         if not os.path.exists(os.path.dirname(out_path)):
             os.makedirs(os.path.dirname(out_path))
-        title = " : ".join(["weighted random forest values", config, condition]
-                )
+        title = " :\n".join(["weighted random forest values", config,
+                replacement])
         plot_barh(sdf, title, out_path)
         
+        # plot conditions in which all conditions returned values above the
+        # median
+        top_all = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='any')
+        out_path = ''.join([out_path.strip('.png'), '_top_all.png'])
+        plot_barh(top_all, title, out_path)
+        
+        # plot conditions in which any conditions returned values above the
+        # median
+        top_any = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='all')
+        out_path = ''.join([out_path.strip('.png'), '_top_any.png'])
+        plot_barh(top_any, title, out_path)
+        
+        # plot each replacement and condition combination individually
+        for condition in conditions:
+            tdf = sdf.xs(condition, axis=1)
+            tdf = tdf[tdf > 0]
+            if special:
+                out_path = os.path.join(topdir, config, 'feature_summary',
+                           special, ''.join([replacement, '_', condition,
+                           '.png']))
+            else:
+                out_path = os.path.join(topdir, config, 'feature_summary',
+                           ''.join([replacement, '_', condition, '.png']))
+            if not os.path.exists(os.path.dirname(out_path)):
+                os.makedirs(os.path.dirname(out_path))
+            title = " :\n".join(["weighted random forest values", config, 
+                    replacement, condition])
+            plot_barh(sdf, title, out_path)
+            
+            # plot conditions in which replacement and condition returned
+            # values above the median
+            top_any = tdf[tdf > tdf.median()]
+            out_path = ''.join([out_path.strip('.png'), '_top_any.png'])
+            plot_barh(top_any, title, out_path)
+        
 def plot_barh(sdf, title, out_path):
-    dim = (math.log(sdf.shape[1])**3, math.log(sdf.shape[0])**3)
+    dim = (sdf.max(axis=0).max()*500, math.log(sdf.shape[0])**3)
     fig = plt.figure()
     ax = sdf.plot.barh(figsize=dim, color=cmi_colors(), stacked=True, title=
                        title)
-    ax.legend(loc=2, fancybox=True, shadow=True, bbox_to_anchor=(0.5, -0.1))
-    
+    ax.legend(loc=3, fancybox=True, shadow=True, bbox_to_anchor=(-0.1, -0.1))    
     fig.savefig(out_path, bbox_inches="tight")
-    
 
 def get_features(dfs):
     """
