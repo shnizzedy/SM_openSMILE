@@ -132,11 +132,13 @@ def build_barh(df, config, replacements, special=None):
             plot_barh(top_any, title, out_path)
         
 def plot_barh(sdf, title, out_path):
-    dim = (sdf.max(axis=0).max()*500, math.log(sdf.shape[0])**3)
     fig = plt.figure()
-    ax = sdf.plot.barh(figsize=dim, color=cmi_colors(), stacked=True, title=
-                       title)
-    ax.legend(loc=3, fancybox=True, shadow=True, bbox_to_anchor=(-0.1, -0.1))    
+    if sdf.shape[0] > 0:
+        dim = (sdf.max(axis=0).max()*500, math.log(sdf.shape[0])**3)
+        fig = plt.figure()
+        ax = sdf.plot.barh(figsize=dim, color=cmi_colors(), stacked=True,
+             title=title)
+        ax.legend(loc=3, fancybox=True, shadow=True, bbox_to_anchor=(-0.01, 0))    
     fig.savefig(out_path, bbox_inches="tight")
 
 def get_features(dfs):
