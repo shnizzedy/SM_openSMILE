@@ -109,12 +109,8 @@ def build_barh(df, config, replacements, special=None):
     # plot each replacement with conditions as colors
     for replacement in replacements:
         sdf = df.xs(replacement, axis=1, level=1)
-        if special:
-            out_path = os.path.join(topdir, config, 'feature_summary', special,
-                       '_'.join([replacement, 'complete.svg']))
-        else:
-            out_path = os.path.join(topdir, config, 'feature_summary', ''.join(
-                    [replacement, '.svg']))
+        out_path = os.path.join(topdir, config, 'feature_summary', ''.join(
+                   [replacement, '.svg']))
         if not os.path.exists(os.path.dirname(out_path)):
             os.makedirs(os.path.dirname(out_path))
         title = " :\n".join(["weighted random forest values", config,
@@ -137,18 +133,13 @@ def build_barh(df, config, replacements, special=None):
         for condition in conditions:
             tdf = sdf.xs(condition, axis=1)
             tdf = tdf[tdf > 0]
-            if special:
-                out_path = os.path.join(topdir, config, 'feature_summary',
-                           special, ''.join([replacement, '_', condition,
-                           '.svg']))
-            else:
-                out_path = os.path.join(topdir, config, 'feature_summary',
-                           ''.join([replacement, '_', condition, '.svg']))
+            out_path = os.path.join(topdir, config, 'feature_summary',
+                       ''.join([replacement, '_', condition, '.svg']))
             if not os.path.exists(os.path.dirname(out_path)):
                 os.makedirs(os.path.dirname(out_path))
             title = " :\n".join(["weighted random forest values", config, 
                     replacement, condition])
-            plot_barh(sdf, title, out_path)
+            plot_barh(tdf, title, out_path)
             
             # plot conditions in which replacement and condition returned
             # values above the median
@@ -188,7 +179,7 @@ def plot_barh(sdf, title, out_path):
             # color per condition and/or replacement method
             color = cmi_colors()
             # plot dimensions: f(maximum value) × f(# of features)
-            dim = (abs(sdf.sum(axis=0)).max()*75, math.log(sdf.shape[0])**3)
+            dim = (abs(sdf.sum(axis=0)).max()*25, math.log(sdf.shape[0])**3)
         else:
             # all bars one color
             color = cmi_colors()[0]
