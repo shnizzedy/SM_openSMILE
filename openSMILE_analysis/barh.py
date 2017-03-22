@@ -20,7 +20,7 @@ if os.path.abspath('../../') not in sys.path:
     elif os.path.isdir('SM_openSMILE'):
         sys.path.append(os.path.abspath('.'))
 from SM_openSMILE.utilities.cmi_color_pallette import cmi_colors
-import matplotlib.pyplot as plt, pandas as pd, math
+import math, pandas as pd, matplotlib.pyplot as plt
 
 def main():
     configs = ['emobase', 'ComParE_2016']
@@ -48,16 +48,41 @@ def main():
                    'adults')
 
 def build_barh(df, config, replacements, special=None):
+    """
+    Function to prepare a dataframe for plotting and to send that prepared
+    dataframe to the plot funcion (plot_barh) for plotting and saving in as
+    many forms as is appropriate.
+
+    Parameters
+    ----------
+    df : pandas dataframe
+        dataframe to prepare for plotting
+        
+    config : string
+        openSMILE config file
+        
+    replacements : list
+        noise replacement methods
+        
+    special : string or None
+        'ltd' or None
+   
+    Returns
+    -------
+    None
+    """
     conditions = ['button_w', 'button_no', 'vocal_w', 'vocal_no']
     # plot each condition with replacements as colors
     for condition in conditions:
         sdf = df.xs(condition, axis=1)
+        # get rid of non-predictive features
+        sdf = sdf[sdf > 0].dropna(how='all')
         if special:
             out_path = os.path.join(topdir, config, 'feature_summary', special,
-                       '_'.join([condition, 'complete.png']))
+                       '_'.join([condition, 'complete.svg']))
         else:
             out_path = os.path.join(topdir, config, 'feature_summary', ''.join(
-                    [condition, '.png']))
+                    [condition, '.svg']))
         if not os.path.exists(os.path.dirname(out_path)):
             os.makedirs(os.path.dirname(out_path))
         title = " :\n".join(["weighted random forest values", config, condition
@@ -67,13 +92,13 @@ def build_barh(df, config, replacements, special=None):
         # plot conditions in which all replacements returned values above the
         # median
         top_all = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='any')
-        out_path = ''.join([out_path.strip('.png'), '_top_all.png'])
+        out_path = ''.join([out_path.strip('.svg'), '_top_all.svg'])
         plot_barh(top_all, title, out_path)
         
         # plot conditions in which any replacements returned values above the
         # median
         top_any = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='all')
-        out_path = ''.join([out_path.strip('.png'), '_top_any.png'])
+        out_path = ''.join([out_path.strip('.svg'), '_top_any.svg'])
         plot_barh(top_any, title, out_path)
         
     if special:
@@ -86,10 +111,10 @@ def build_barh(df, config, replacements, special=None):
         sdf = df.xs(replacement, axis=1, level=1)
         if special:
             out_path = os.path.join(topdir, config, 'feature_summary', special,
-                       '_'.join([replacement, 'complete.png']))
+                       '_'.join([replacement, 'complete.svg']))
         else:
             out_path = os.path.join(topdir, config, 'feature_summary', ''.join(
-                    [replacement, '.png']))
+                    [replacement, '.svg']))
         if not os.path.exists(os.path.dirname(out_path)):
             os.makedirs(os.path.dirname(out_path))
         title = " :\n".join(["weighted random forest values", config,
@@ -99,13 +124,13 @@ def build_barh(df, config, replacements, special=None):
         # plot conditions in which all conditions returned values above the
         # median
         top_all = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='any')
-        out_path = ''.join([out_path.strip('.png'), '_top_all.png'])
+        out_path = ''.join([out_path.strip('.svg'), '_top_all.svg'])
         plot_barh(top_all, title, out_path)
         
         # plot conditions in which any conditions returned values above the
         # median
         top_any = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='all')
-        out_path = ''.join([out_path.strip('.png'), '_top_any.png'])
+        out_path = ''.join([out_path.strip('.svg'), '_top_any.svg'])
         plot_barh(top_any, title, out_path)
         
         # plot each replacement and condition combination individually
@@ -115,10 +140,10 @@ def build_barh(df, config, replacements, special=None):
             if special:
                 out_path = os.path.join(topdir, config, 'feature_summary',
                            special, ''.join([replacement, '_', condition,
-                           '.png']))
+                           '.svg']))
             else:
                 out_path = os.path.join(topdir, config, 'feature_summary',
-                           ''.join([replacement, '_', condition, '.png']))
+                           ''.join([replacement, '_', condition, '.svg']))
             if not os.path.exists(os.path.dirname(out_path)):
                 os.makedirs(os.path.dirname(out_path))
             title = " :\n".join(["weighted random forest values", config, 
@@ -128,18 +153,53 @@ def build_barh(df, config, replacements, special=None):
             # plot conditions in which replacement and condition returned
             # values above the median
             top_any = tdf[tdf > tdf.median()]
-            out_path = ''.join([out_path.strip('.png'), '_top_any.png'])
+            out_path = ''.join([out_path.strip('.svg'), '_top_any.svg'])
             plot_barh(top_any, title, out_path)
         
 def plot_barh(sdf, title, out_path):
-    fig = plt.figure()
+    """
+    Function to plot a horizontal barplot and save said plot.
+
+    Parameters
+    ----------
+    sdf : pandas dataframe
+        dataframe to plot
+        
+    title : string
+        plot title
+        
+    out_path : string
+        path of image file save location
+   
+    Returns
+    -------
+    None
+    
+    Output
+    ------
+    out_path : image
+        image file
+    """
+    print(title.replace("\n"," "))
+    print(sdf.shape)
+    plt.figure()
     if sdf.shape[0] > 0:
-        dim = (sdf.max(axis=0).max()*500, math.log(sdf.shape[0])**3)
-        fig = plt.figure()
-        ax = sdf.plot.barh(figsize=dim, color=cmi_colors(), stacked=True,
-             title=title)
-        ax.legend(loc=3, fancybox=True, shadow=True, bbox_to_anchor=(-0.01, 0))    
-    fig.savefig(out_path, bbox_inches="tight")
+        if len(sdf.shape) == 2:
+            # color per condition and/or replacement method
+            color = cmi_colors()
+            # plot dimensions: f(maximum value) × f(# of features)
+            dim = (abs(sdf.sum(axis=0)).max()*75, math.log(sdf.shape[0])**3)
+        else:
+            # all bars one color
+            color = cmi_colors()[0]
+            # plot dimensions: f(maximum value) × f(# of features)
+            dim = (abs(sdf.max())*500, math.log(sdf.shape[0])**3)
+        ax = sdf.plot.barh(figsize=dim, color=color, stacked=True, title=title
+             )
+        ax.legend(loc=3, fancybox=True, shadow=True, bbox_to_anchor=(-0.01,
+                  -0.01))    
+    plt.savefig(out_path, bbox_inches="tight")
+    plt.close()
 
 def get_features(dfs):
     """
