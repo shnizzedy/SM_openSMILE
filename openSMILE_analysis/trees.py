@@ -24,6 +24,7 @@ from itertools import zip_longest
 import ast, csv, numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
+from SM_openSMILE.cfg import oSdir
 
 def make_forest(replacement, condition, config):
     """
@@ -55,14 +56,10 @@ def make_forest(replacement, condition, config):
     y_trees = []
     n_samples = 0
     n_features = 0
-    rpath = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
-            'noise_replacement/replacement_test_outputs/adults_replaced/'
-            'summary'), config, ''.join([replacement, condition,
-            'feature_data.csv']))
-    opath = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
-            'noise_replacement/replacement_test_outputs/adults_replaced/'
-            'summary'), config, ''.join(['original', condition,
-            'feature_data.csv']))
+    rpath = os.path.join(oSdir, config, ''.join([replacement,
+            condition, 'feature_data.csv']))
+    opath = os.path.join(oSdir, config, ''.join(['original',
+            condition, 'feature_data.csv']))
     if(os.path.exists(rpath)):
         # fill in unaltered rows when no altered row exists
         with open(rpath, 'r') as rf, open(opath, 'r') as of:
@@ -121,10 +118,8 @@ def make_ltd_forest(replacement, condition, config):
     y_trees = []
     n_samples = 0
     n_features = 0
-    rpath = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
-            'noise_replacement/replacement_test_outputs/adults_replaced/'
-            'summary'), config, ''.join([replacement, condition,
-            'feature_data.csv']))
+    rpath = os.path.join(oSdir, config, ''.join([replacement,
+            condition, 'feature_data.csv']))
     if(os.path.exists(rpath)):
         with open(rpath, 'r') as rf:
             rreader = csv.reader(rf)
@@ -179,14 +174,10 @@ def make_original_forest(condition, config):
     y_trees = []
     n_samples = 0
     n_features = 0
-    rpath = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
-            'noise_replacement/replacement_test_outputs/adults_replaced/'
-            'summary'), config, ''.join(['adults', condition,
-            'feature_data.csv']))
-    opath = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
-            'noise_replacement/replacement_test_outputs/adults_replaced/'
-            'summary'), config, ''.join(['original', condition,
-            'feature_data.csv']))
+    rpath = os.path.join(oSdir, config, ''.join(['adults',
+            condition, 'feature_data.csv']))
+    opath = os.path.join(oSdir, config, ''.join(['original',
+            condition, 'feature_data.csv']))
     if(os.path.exists(rpath)):
         # fill in unaltered rows when no altered row exists
         with open(rpath, 'r') as rf, open(opath, 'r') as of:
@@ -290,8 +281,8 @@ def main(replacement, condition, config, ltd=False):
     importances = clf.feature_importances_
     for importance in importances:
         importance = abs(importance)
-    std = np.std([tree.feature_importances_ for tree in clf.estimators_],
-             axis=0)
+    # std = np.std([tree.feature_importances_ for tree in clf.estimators_],
+    #          axis=0)
     indices = np.argsort(importances)[::-1]
     print (clf.oob_score_)
     print (clf.oob_decision_function_)
@@ -299,20 +290,14 @@ def main(replacement, condition, config, ltd=False):
     # output feature rankings
     file_index = 0
     if replacement == 'unmodified':
-        csv_path = os.path.join(os.path.abspath('../openSMILE_preprocessing/'
-                   'noise_replacement/replacement_test_outputs/'
-                   'adults_replaced/summary'), config, 'random_forests/'
-                   'unmodified')
+        csv_path = os.path.join(oSdir, config,
+                   'random_forests/unmodified')
     else:
         if ltd:
-            csv_path = os.path.join(os.path.abspath('../'
-                       'openSMILE_preprocessing/noise_replacement/'
-                       'replacement_test_outputs/adults_replaced/summary'),
-                       config, 'random_forests/ltd')
+            csv_path = os.path.join(oSdir, config,
+                       'random_forests/ltd')
         else:
-            csv_path = os.path.join(os.path.abspath('../'
-                       'openSMILE_preprocessing/noise_replacement/'
-                       'replacement_test_outputs/adults_replaced/summary'),
+            csv_path = os.path.join(oSdir,
                        config, 'random_forests')
     if not os.path.exists(csv_path):
         os.makedirs(csv_path)

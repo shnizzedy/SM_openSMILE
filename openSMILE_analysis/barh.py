@@ -21,6 +21,8 @@ if os.path.abspath('../../') not in sys.path:
         sys.path.append(os.path.abspath('.'))
 from SM_openSMILE.utilities.cmi_color_pallette import cmi_colors
 import math, pandas as pd, matplotlib.pyplot as plt
+from SM_openSMILE.cfg import topdir
+
 
 def main():
     configs = ['emobase', 'ComParE_2016']
@@ -305,7 +307,4 @@ def get_filepath(config, replacement, special=None):
 
 # ============================================================================
 if __name__ == '__main__':
-    global topdir
-    topdir = os.path.abspath(os.path.join('../openSMILE_analysis/'
-             'random_forests/predict_SM/long_files/summary'))
     main()

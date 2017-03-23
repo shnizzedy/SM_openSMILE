@@ -11,13 +11,16 @@ Author:
 
 © 2017, Child Mind Institute, Apache v2.0 License
 """
-import csv, os, pandas as pd, matplotlib.pyplot as plt, seaborn as sns
-
-global cmi_colors
-cmi_colors = ["#0067a0", "#919d9d", "#00c1d5", "#b5bd00", "#a31c3f", "#ea234b",
-              "#eeae30", "#f2cd32", "#4db789", "#90d9b9", "#404341", "#e4e4e4",
-              "#090e3c", "#242a6a", "#97e2ef", "#f9e28a", "#d3da5f"]
-sns.set_palette(cmi_colors)
+import csv, os, pandas as pd, matplotlib.pyplot as plt, seaborn as sns, sys
+if os.path.abspath('../../') not in sys.path:
+    if os.path.isdir(os.path.join(os.path.abspath('../..'), 'SM_openSMILE')):
+        sys.path.append(os.path.abspath('../..'))
+    elif os.path.isdir(os.path.join(os.path.abspath('..'), 'SM_openSMILE')):
+        sys.path.append(os.path.abspath('..'))
+    elif os.path.isdir('SM_openSMILE'):
+        sys.path.append(os.path.abspath('.'))
+from SM_openSMILE.utilities.cmi_color_pallette import cmi_colors
+sns.set_palette(cmi_colors())
 
 def plot(dataframe, directory, y="sum(MAD)", hue=""):
     plt.xticks(rotation=300, ha="left")

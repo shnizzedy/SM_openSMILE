@@ -28,11 +28,34 @@ def main():
                "replacement_test_outputs/ambient_clip_replaced"))
     # initialize list of dataframes
     list_of_dataframes = []
-    list_of_analyses = []
     for participant in os.listdir(op_path):
         if participant != ".DS_Store":
             list_of_dataframes.append(iterate_through(os.path.join(op_path,
                                       participant)))
+    mad_rank_analyses(list_of_dataframes, op_path)
+            
+def mad_rank_analyses(list_of_dataframes, op_path):
+    """
+    Function to analyze dataframes of openSMILE outputs
+
+    Parameters
+    ----------
+    list_of_dataframes : list of tuples of (string, pandas dataframe)s
+        openSMILE output dataframes to compare
+        
+    op_path : string
+        path to start from when saving outputs
+
+    Returns
+    -------
+    None
+    
+    Outputs
+    -------
+    csv files
+        csv files to compare openSMILE outputs
+    """
+    list_of_analyses = []
     for dataframes in list_of_dataframes:
         for dataframe in dataframes:
             URSI, config_file = dataframe[0].split('_', maxsplit=1)
@@ -162,7 +185,8 @@ def iterate_through(URSI):
                 if os.path.isdir(method_dir):
                     for csv_file in os.listdir(method_dir):
                         if condition in csv_file:
-                            URSI_files.append(os.path.join(method_dir, csv_file))
+                            URSI_files.append(os.path.join(method_dir, csv_file
+                                              ))
             if len(URSI_files) > 0:
                 print(''.join(["Processing ", URSI, ", ", condition, " : ",
                       config_file]))
