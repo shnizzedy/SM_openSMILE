@@ -29,23 +29,52 @@ def main():
     for i, replacement in enumerate(replacements):
         replacements[i] = '_'.join(['adults', replacement])
     for config in configs:
-        dfs, ltd_dfs, adults_dfs = [], [], []
-        for replacement in replacements:
-            dfs.append(get_df_from_file(get_filepath(config, replacement),
-                       replacement))
-        for replacement in replacements:
-            ltd_dfs.append(get_df_from_file(get_filepath(config, replacement,
-                           'ltd'), '/'.join(['ltd', replacement])))
-        unmod = get_df_from_file(get_filepath(config, 'unmodified',
-                   'unmodified'), 'unmodified')
-        adults_dfs.append(get_df_from_file(get_filepath(config, 'adults',
-                          'ltd'), '/'.join(['ltd', 'adults'])))
+        dfs, ltd_dfs, adults_dfs, unmod = collect_dfs(config, replacements)
         for dlist in [dfs, ltd_dfs, adults_dfs]:
             dlist.append(unmod)
         build_barh(get_features(dfs), config, replacements)
         build_barh(get_features(ltd_dfs), config, replacements, 'ltd')
         build_barh(get_features(adults_dfs), config, ['adults', 'unmodified'],
                    'adults')
+        
+def collect_dfs(config, replacements):
+    """
+    Function to collect dataframes to build relevant plots.
+    
+    Parameters
+    ----------
+    config : string
+        openSMILE config file
+        
+    replacements : list of strings
+        list of replacement methods
+        
+    Returns
+    -------
+    dfs : list of pandas dataframes
+        list of cleaned dataframes
+        
+    ltd_dfs : list of pandas dataframes
+        list of limited dataframes excluding unmodified files
+        
+    adults_dfs : list of pandas dataframes
+        list of dataframes in which only adults speak
+        
+    unmod : pandas dataframe
+        dataframe of unmodified files  
+    """
+    dfs, ltd_dfs, adults_dfs = [], [], []
+    for replacement in replacements:
+        dfs.append(get_df_from_file(get_filepath(config, replacement),
+                   replacement))
+    for replacement in replacements:
+        ltd_dfs.append(get_df_from_file(get_filepath(config, replacement,
+                       'ltd'), '/'.join(['ltd', replacement])))
+    unmod = get_df_from_file(get_filepath(config, 'unmodified','unmodified'),
+            'unmodified')
+    adults_dfs.append(get_df_from_file(get_filepath(config, 'adults','ltd'),
+                      '/'.join(['ltd', 'adults'])))
+    return(dfs, ltd_dfs, adults_dfs, unmod)
 
 def build_barh(df, config, replacements, special=None):
     """
@@ -92,14 +121,14 @@ def build_barh(df, config, replacements, special=None):
         # plot conditions in which all replacements returned values above the
         # median
         top_all = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='any')
-        out_path = ''.join([out_path.strip('.svg'), '_top_all.svg'])
-        plot_barh(top_all, title, out_path)
+        out_path_all = ''.join([out_path.strip('.svg'), '_top_all.svg'])
+        plot_barh(top_all, title, out_path_all)
         
         # plot conditions in which any replacements returned values above the
         # median
         top_any = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='all')
-        out_path = ''.join([out_path.strip('.svg'), '_top_any.svg'])
-        plot_barh(top_any, title, out_path)
+        out_path_any = ''.join([out_path.strip('.svg'), '_top_any.svg'])
+        plot_barh(top_any, title, out_path_any)
         
     if special:
         for i, replacement in enumerate(replacements):
@@ -120,14 +149,14 @@ def build_barh(df, config, replacements, special=None):
         # plot conditions in which all conditions returned values above the
         # median
         top_all = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='any')
-        out_path = ''.join([out_path.strip('.svg'), '_top_all.svg'])
-        plot_barh(top_all, title, out_path)
+        out_path_all = ''.join([out_path.strip('.svg'), '_top_all.svg'])
+        plot_barh(top_all, title, out_path_all)
         
         # plot conditions in which any conditions returned values above the
         # median
         top_any = sdf[sdf > sdf.sum(axis=1).median()].dropna(how='all')
-        out_path = ''.join([out_path.strip('.svg'), '_top_any.svg'])
-        plot_barh(top_any, title, out_path)
+        out_path_any = ''.join([out_path.strip('.svg'), '_top_any.svg'])
+        plot_barh(top_any, title, out_path_any)
         
         # plot each replacement and condition combination individually
         for condition in conditions:
@@ -144,8 +173,8 @@ def build_barh(df, config, replacements, special=None):
             # plot conditions in which replacement and condition returned
             # values above the median
             top_any = tdf[tdf > tdf.median()]
-            out_path = ''.join([out_path.strip('.svg'), '_top_any.svg'])
-            plot_barh(top_any, title, out_path)
+            out_path_any = ''.join([out_path.strip('.svg'), '_top_any.svg'])
+            plot_barh(top_any, title, out_path_any)
         
 def plot_barh(sdf, title, out_path):
     """
