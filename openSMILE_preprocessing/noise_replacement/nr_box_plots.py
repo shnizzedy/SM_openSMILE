@@ -28,14 +28,12 @@ def plot(dataframe, directory, y="sum(MAD)", hue=""):
     plt.dpi=200
     dataframe.loc[:, y] = pd.to_numeric(dataframe.loc[:, y])
     if len(hue) > 0:
-        g = sns.boxplot(x="method", y=y, hue=hue, data=dataframe,
-                        palette=cmi_colors)
+        g = sns.boxplot(x="method", y=y, hue=hue, data=dataframe)
         plt.gca().legend_.remove()
-        out_name = ''.join(['mad_rank_boxplot_', y, '_by_', hue, '.png'])
+        out_name = ''.join(['mad_rank_boxplot_', y, '_by_', hue, '.svg'])
     else:
-        g = sns.boxplot(x="method", y=y, data=dataframe,
-                        palette=cmi_colors)
-        out_name = ''.join(['mad_rank_boxplot_', y, '.png'])
+        g = sns.boxplot(x="method", y=y, data=dataframe)
+        out_name = ''.join(['mad_rank_boxplot_', y, '.svg'])
     plt.tight_layout()
     fig = g.get_figure()
     fig.savefig(os.path.join(directory, out_name), dpi=300)

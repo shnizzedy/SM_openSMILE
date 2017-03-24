@@ -20,3 +20,6 @@ oSdir = os.path.abspath(os.path.join(os.path.dirname(__file__),
 
 # set conditions
 conditions = ["_button_no_", "_button_w_", "_vocal_no_", "_vocal_w_"]
+
+# set configs
+configs = ['emobase', 'ComParE_2016']
