@@ -20,3 +20,8 @@ audio_files
 # utilities #
 #############
 git-mv-with-history
+
+# data & OSF #
+##############
+*.svg
+*.png

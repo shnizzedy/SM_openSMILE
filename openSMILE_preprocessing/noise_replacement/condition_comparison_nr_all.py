@@ -40,7 +40,7 @@ def mad_rank_analyses(list_of_dataframes, op_path):
 
     Parameters
     ----------
-    list_of_dataframes : list of tuples of (string, pandas dataframe)s
+    list_of_dataframes : list of list of tuples of (string, pandas dataframe)s
         openSMILE output dataframes to compare
         
     op_path : string
@@ -129,8 +129,8 @@ def build_dataframe(URSI, methods, config_file, csv_files):
     for method in methods:
         for csv_file in csv_files:
             print(''.join(["Loading ", csv_file]))
-            if (os.path.basename(csv_file) != ".DS_Store" and method in
-                os.path.dirname(csv_file)):
+            if (os.path.basename(csv_file) != ".DS_Store" and method ==
+                os.path.basename(os.path.dirname(csv_file))):
                 s = actp.get_oS_data(csv_file, method,
                                      config_file, os.path.basename(csv_file
                                      ).rstrip('.csv'))
