@@ -15,6 +15,4 @@ Run runSM() to run openSMILE config file on all Waveform files with extension `*
 
 It will ask for config_file. Just give it the filename. The file should live in `[openSMILE home directory]/config`.
 
-## [`test_equimpent`](https://github.com/shnizzedy/SM_openSMILE/tree/master/test_equipment "equipment tests")
-
 ## [`utilities`](https://github.com/shnizzedy/SM_openSMILE/tree/master/utilities "batch process SM dataset with user-entered openSMILE configuration file")
