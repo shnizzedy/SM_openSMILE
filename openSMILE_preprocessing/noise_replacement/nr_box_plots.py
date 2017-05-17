@@ -12,8 +12,11 @@ Author:
 © 2017, Child Mind Institute, Apache v2.0 License
 """
 import csv, os, pandas as pd, matplotlib.pyplot as plt, seaborn as sns, sys
-if os.path.abspath('../../') not in sys.path:
-    if os.path.isdir(os.path.join(os.path.abspath('../..'), 'SM_openSMILE')):
+if os.path.abspath('../../../../') not in sys.path:
+    if os.path.isdir(os.path.join(os.path.abspath('../../..'), 'SM_openSMILE')
+       ):
+        sys.path.append(os.path.abspath('../../..'))
+    elif os.path.isdir(os.path.join(os.path.abspath('../..'), 'SM_openSMILE')):
         sys.path.append(os.path.abspath('../..'))
     elif os.path.isdir(os.path.join(os.path.abspath('..'), 'SM_openSMILE')):
         sys.path.append(os.path.abspath('..'))
